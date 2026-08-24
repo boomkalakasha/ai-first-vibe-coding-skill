@@ -1,0 +1,48 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: publish-release
+    runs-on: ubuntu-latest
+    environment: release
+    env:
+      TAG_NAME: ${{ github.ref_name }}
+    steps:
+      - name: Check out tagged source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.12"
+      - name: Validate tag and metadata version
+        shell: pwsh
+        run: |
+          if ($env:TAG_NAME -notmatch '^v\d+\.\d+\.\d+(?:-(?:alpha|beta|rc)\.\d+)?$') {
+            throw "Unsupported release tag: $env:TAG_NAME"
+          }
+          git fetch origin main --no-tags
+          git merge-base --is-ancestor $env:GITHUB_SHA origin/main
+          if ($LASTEXITCODE -ne 0) { throw "Release tag is not on origin/main" }
+          $tagVersion = $env:TAG_NAME.TrimStart("v")
+          $skillVersion = (Select-String -Path SKILL.md -Pattern '^  version: "(.+)"$').Matches.Groups[1].Value
+          if ($tagVersion -ne $skillVersion) { throw "Tag $tagVersion does not match Skill $skillVersion" }
+      - name: Validate and package
+        shell: pwsh
+        run: |
+          python scripts/validate.py
+          ./scripts/package.ps1 -Version $env:TAG_NAME.TrimStart("v")
+      - name: Create draft GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "${TAG_NAME}" dist/* --verify-tag --generate-notes --draft --title "${TAG_NAME}"
