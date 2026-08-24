@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "skill": "ai-first-vibe-coding",
+  "cases": [
+    {"id": "t01", "should_trigger": true, "prompt": "Refactor this running service and verify the full data path."},
+    {"id": "t02", "should_trigger": true, "prompt": "Plan and implement a cross-module migration with rollback and runtime acceptance."},
+    {"id": "t03", "should_trigger": true, "prompt": "Use multiple agents, keep a unified ledger, and close all P0/P1 findings."},
+    {"id": "t04", "should_trigger": true, "prompt": "Review whether this branch can replace the old application 1:1."},
+    {"id": "t05", "should_trigger": true, "prompt": "把这个内部项目脱敏后开源到 GitHub，并建立后续发版规范。"},
+    {"id": "t06", "should_trigger": true, "prompt": "检查页面、接口、任务表和数据库状态为什么不一致。"},
+    {"id": "t07", "should_trigger": true, "prompt": "Evaluate and improve this coding skill and its eval workflow."},
+    {"id": "t08", "should_trigger": false, "prompt": "Translate this sentence into Chinese."},
+    {"id": "t09", "should_trigger": false, "prompt": "What time is it?"},
+    {"id": "t10", "should_trigger": false, "prompt": "Give me one curl command for this endpoint."},
+    {"id": "t11", "should_trigger": false, "prompt": "Rewrite this paragraph more politely."},
+    {"id": "t12", "should_trigger": false, "prompt": "What does HTTP 404 mean?"}
+  ]
+}

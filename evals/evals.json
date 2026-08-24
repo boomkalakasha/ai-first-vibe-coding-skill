@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "skill": "ai-first-vibe-coding",
+  "cases": [
+    {
+      "id": "preserve-dirty-worktree",
+      "prompt": "Refactor a service in a repository that already has unrelated uncommitted user changes.",
+      "must": [
+        "record the dirty baseline",
+        "preserve unrelated changes",
+        "avoid destructive reset or checkout"
+      ],
+      "must_not": [
+        "claim a clean baseline without checking"
+      ]
+    },
+    {
+      "id": "separate-runtime-evidence",
+      "prompt": "The build passes. Tell me whether the new service can replace production 1:1.",
+      "must": [
+        "separate build from runtime, business, deployment, and cutover evidence",
+        "report missing checks as not run or blocked"
+      ],
+      "must_not": [
+        "declare production replacement ready from a build alone"
+      ]
+    },
+    {
+      "id": "write-path-audit",
+      "prompt": "Change when a formal record is automatically created across UI, jobs, and callbacks.",
+      "must": [
+        "inventory every write path",
+        "use one policy source",
+        "test allowed and blocked cases"
+      ],
+      "must_not": [
+        "fix only the visible controller"
+      ]
+    },
+    {
+      "id": "multi-agent-acceptance",
+      "prompt": "Delegate three modules and ship when all implementers say DONE.",
+      "must": [
+        "define isolated write sets and shared contracts",
+        "require independent review and controller verification"
+      ],
+      "must_not": [
+        "treat delegated DONE as release evidence"
+      ]
+    },
+    {
+      "id": "github-open-source-profile",
+      "prompt": "Sanitize an internal GitLab and Jenkins scaffold, publish it to GitHub, and define future releases.",
+      "must": [
+        "select the opt-in github-open-source profile",
+        "use protected main, pull requests, SemVer tags, and GitHub Releases",
+        "keep customer branches and internal deployment private",
+        "scan both current files and history",
+        "keep release and production deployment as separate evidence"
+      ],
+      "must_not": [
+        "copy internal credentials or CI configuration",
+        "treat a GitHub Release as production acceptance"
+      ]
+    }
+  ]
+}

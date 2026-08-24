@@ -1,0 +1,33 @@
+name: Bug report
+description: Report reproducible incorrect or unsafe Skill behavior
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Do not include credentials, customer data, private URLs, or proprietary prompts.
+  - type: input
+    id: version
+    attributes:
+      label: Version or commit
+    validations:
+      required: true
+  - type: input
+    id: host
+    attributes:
+      label: Agent host and operating system
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Redacted reproduction
+      description: Include the prompt, expected behavior, observed behavior, and evidence level.
+    validations:
+      required: true
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impact and safety boundary
+    validations:
+      required: true
