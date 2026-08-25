@@ -8,7 +8,7 @@ Security fixes are provided for the latest published release. Older versions may
 
 Do not open a public issue for a vulnerability or accidental secret disclosure. Use GitHub's **Report a vulnerability** private reporting feature on the repository Security page. If private reporting is unavailable, contact the repository owner through their GitHub profile and request a private channel without including exploit details in the first message.
 
-Include the affected version, reproduction steps, impact, and any suggested mitigation. You should receive acknowledgment within seven days. Publication timing will be coordinated after a fix or mitigation is available.
+Include the affected version, reproduction steps, impact, and any suggested mitigation. This community repository does not promise a response SLA or publication timeline; maintainers will coordinate disclosure when a fix or mitigation is available.
 
 ## Scope
 

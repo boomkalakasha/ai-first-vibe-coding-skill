@@ -1,10 +1,18 @@
 # AI-first Vibe Coding Skill
 
-[中文说明](README.zh-CN.md) · [Changelog](CHANGELOG.md) · [Contributing](CONTRIBUTING.md) · [Security](SECURITY.md)
+![BOOMKALAKASHA watermark](assets/brand/watermark-dark.svg)
+
+[中文说明](README.zh-CN.md) · [Quick start](docs/quick-start.md) · [Brand](docs/brand.md) · [Changelog](CHANGELOG.md) · [Contributing](CONTRIBUTING.md) · [Support](SUPPORT.md) · [Security](SECURITY.md)
 
 An evidence-led workflow skill for turning fast AI-assisted coding into trustworthy software delivery.
 
 Vibe coding is excellent at creating momentum. This skill keeps that momentum while adding the pieces that production work needs: repository boundaries, fact chains, testable specifications, honest evidence levels, safe Git delivery, multi-agent contracts, and iterative P0/P1 closure.
+
+The published initial release is `v1.0.0`; this v1.1.0 feature branch is a local candidate until its PR, CI, immutable tag, and GitHub Release gates are observed.
+
+## 60-second path
+
+Use the bilingual [install, upgrade, rollback, and uninstall guide](docs/quick-start.md). The package commands create local artifacts and checksums; host discovery or runtime behavior remains `DOCUMENTED_ONLY` unless observed in that host.
 
 ## What makes it useful
 
@@ -27,6 +35,8 @@ git clone https://github.com/boomkalakasha/ai-first-vibe-coding-skill.git "$env:
 ```
 
 Restart or reload your Codex session, then invoke `$ai-first-vibe-coding` or describe a matching repository task.
+
+For a packaged candidate, use `pwsh -NoProfile -File scripts/package.ps1 -Version 1.1.0`, inspect `dist/manifest.json` and `dist/SHA256SUMS.txt`, then follow your host's documented installation path. Do not treat archive creation as proof that Codex or another host installed it.
 
 ### Other agents
 
@@ -56,10 +66,13 @@ scripts/package.ps1         Repeatable distributable archive with SHA-256
 
 ```powershell
 python scripts/validate.py
-pwsh -File scripts/package.ps1
+python scripts/run_evals.py
+pwsh -NoProfile -File scripts/package.ps1 -Version 1.1.0
 ```
 
 The validator checks frontmatter, JSON, relative Markdown links, BOMs, repository-specific private patterns, and required project files. It is a safety net, not a substitute for manual legal/privacy review or a full secret-history scan.
+
+The package stages one source tree and produces `.zip`, `.skill`, `manifest.json`, and `SHA256SUMS.txt`. Its manifest labels a source tree `clean` or `dirty`; only a clean exact-tag package can enter release review.
 
 ## Delivery profiles
 
@@ -70,6 +83,12 @@ The skill does not force one hosting platform:
 - `internal-gitlab`: follow the organization's supplied MR/Jenkins/customer-branch policy.
 
 Public release and production deployment are deliberately separate proof states.
+
+For a full public-repository readiness program, use the optional `icarus-open-source-governance` companion when the host makes it available. This Skill does not claim that the companion is installed or that GitHub settings have been verified.
+
+## Optional brand example
+
+The optional BOOMKALAKASHA watermark and avatar copies are local documentation assets. Optional BOOMKALAKASHA use never asserts project ownership, support, or permission to change a personal GitHub profile. See [brand guidance](docs/brand.md).
 
 ## Status and limitations
 

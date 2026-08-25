@@ -4,6 +4,12 @@ All notable changes are documented here. The project follows Semantic Versioning
 
 ## [Unreleased]
 
+### Planned for 1.1.0
+
+- Canonical staged-tree `.zip` and `.skill` package artifacts with manifest and SHA-256 checksums.
+- Bilingual install/upgrade/rollback/uninstall guidance with explicit host-runtime limits.
+- Runnable documented-only eval rubric, optional brand documentation, and a governed OSS handoff route.
+
 ## [1.0.0] - 2026-08-24
 
 ### Added

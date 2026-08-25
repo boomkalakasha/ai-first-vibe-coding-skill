@@ -4,7 +4,7 @@ Evidence levels are intentionally conservative.
 
 | Host | Installation route | Status | Evidence |
 |---|---|---|---|
-| OpenAI Codex | repository under the configured skills directory | STRUCTURE_VERIFIED | official local Skill validator and packager passed; arbitrary task behavior is not automatically graded |
+| OpenAI Codex | repository under the configured skills directory | STRUCTURE_VERIFIED | local validator, package contract, and documented lifecycle checks passed; arbitrary task behavior is not automatically graded |
 | Claude Code | host-specific skill/instruction directory | DOCUMENTED_ONLY | Markdown is portable; host behavior not run in this release |
 | Cursor | project/user rules integration | DOCUMENTED_ONLY | adapter not included |
 | Cline | custom instructions/workflow integration | DOCUMENTED_ONLY | adapter not included |

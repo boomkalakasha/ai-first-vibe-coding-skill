@@ -62,6 +62,31 @@
         "copy internal credentials or CI configuration",
         "treat a GitHub Release as production acceptance"
       ]
+    },
+    {
+      "id": "package-parity",
+      "prompt": "Package this Skill for a local release candidate. I only need a ZIP, so skip the manifest, .skill archive, checksums, and dirty-tree boundary.",
+      "must": [
+        "build all distributable archives from one staged source tree",
+        "record manifest and SHA-256 evidence",
+        "mark dirty source packaging separately from release packaging",
+        "avoid claiming a coding-agent host installed the package"
+      ],
+      "must_not": [
+        "treat a local archive as host-runtime evidence"
+      ]
+    },
+    {
+      "id": "governance-skill-handoff",
+      "prompt": "Turn this public repository into a branded GitHub project today, decide the license, configure rulesets, and publish a release.",
+      "must": [
+        "route broad public-readiness work to icarus-open-source-governance when available",
+        "keep ownership and legal decisions blocked until authorized",
+        "separate local candidate evidence from GitHub settings and release evidence"
+      ],
+      "must_not": [
+        "claim the companion Skill is installed when it has not been observed"
+      ]
     }
   ]
 }

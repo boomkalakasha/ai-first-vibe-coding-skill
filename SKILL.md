@@ -4,7 +4,7 @@ description: Use when working in an existing repository on implementation, refac
 compatibility: Requires file search, editing, and shell access. Browser, database, logs, CI, deployment, and multi-agent capabilities are optional adapters; unavailable evidence must be reported explicitly.
 license: Apache-2.0
 metadata:
-  version: "1.0.0"
+  version: "1.1.0"
   repository: https://github.com/boomkalakasha/ai-first-vibe-coding-skill
 ---
 
@@ -140,6 +140,10 @@ Select a profile from repository rules or the user's explicit target:
 - `internal-gitlab`: follow the organization's GitLab/MR/CI/customer-branch rules supplied by the project.
 
 Never silently translate a customer deployment into a public GitHub Release, or a GitHub Release into production readiness. If profile selection is ambiguous and would cause an external write, pause before that write.
+
+## Open-source governance handoff
+
+For a broad public-repository productization request—provenance, privacy, license decision state, optional branding, community files, GitHub settings, release assets, and public-host evidence—hand off to `icarus-open-source-governance` when that companion Skill is available in the host. This is a routing name, not a claimed host installation. If it is unavailable, retain the conservative `github-open-source` profile and stop at every unresolved ownership, privacy, legal, or remote-evidence gate.
 
 Commit messages use the project's convention. If none exists, use truthful Conventional Commits:
 
