@@ -4,11 +4,22 @@ All notable changes are documented here. The project follows Semantic Versioning
 
 ## [Unreleased]
 
-### Planned for 1.1.0
+No unreleased changes are recorded yet.
+
+## [1.1.1] - 2026-08-26
+
+### Added
 
 - Canonical staged-tree `.zip` and `.skill` package artifacts with manifest and SHA-256 checksums.
 - Bilingual install/upgrade/rollback/uninstall guidance with explicit host-runtime limits.
 - Runnable documented-only eval rubric, optional brand documentation, and a governed OSS handoff route.
+
+### Fixed
+
+- Restricted GitHub Release uploads to the four reviewed files so the local `dist/stage` directory cannot break publication.
+- Added dynamic cross-window sub-agent concurrency governance and evidence-led controller/reviewer handoff guidance.
+
+`v1.1.0` is retained as the immutable tag that exposed the failed release-upload contract; no GitHub Release was published for that tag.
 
 ## [1.0.0] - 2026-08-24
 
@@ -21,5 +32,6 @@ All notable changes are documented here. The project follows Semantic Versioning
 - Optional GitHub open-source iteration and release profile.
 - Bilingual documentation, public governance files, validation, packaging, and CI.
 
-[Unreleased]: https://github.com/boomkalakasha/ai-first-vibe-coding-skill/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/boomkalakasha/ai-first-vibe-coding-skill/compare/v1.1.1...HEAD
+[1.1.1]: https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases/tag/v1.1.1
 [1.0.0]: https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases/tag/v1.0.0

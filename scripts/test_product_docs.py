@@ -20,11 +20,13 @@ class ProductDocumentationTests(unittest.TestCase):
         self.assertIn("icarus-open-source-governance", skill)
         self.assertIn("not a claimed host installation", skill)
 
-    def test_readmes_mark_v110_as_a_local_candidate_and_brand_as_optional(self):
+    def test_readmes_link_release_status_and_keep_brand_optional(self):
         english = (ROOT / "README.md").read_text(encoding="utf-8")
         chinese = (ROOT / "README.zh-CN.md").read_text(encoding="utf-8")
-        self.assertIn("v1.1.0 feature branch is a local candidate", english)
-        self.assertIn("v1.1.0 功能分支是本地候选", chinese)
+        self.assertIn("GitHub Releases", english)
+        self.assertIn("a tag alone is not proof", english)
+        self.assertIn("GitHub Releases", chinese)
+        self.assertIn("仅创建标签不能证明", chinese)
         self.assertIn("optional BOOMKALAKASHA", english)
         self.assertIn("可选的 BOOMKALAKASHA", chinese)
 

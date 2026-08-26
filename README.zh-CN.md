@@ -6,7 +6,7 @@
 
 一个面向真实软件交付的 AI 研发工作流 Skill：保留 vibe coding 的速度，同时补上事实链、边界、追踪、验证、复盘和发布门禁。
 
-已公开的首个版本是 `v1.0.0`；这个 v1.1.0 功能分支是本地候选，只有 PR、CI、不可变 tag 与 GitHub Release 门禁被实际观察后才可称为公开发布。
+发布状态与下载物料以 [GitHub Releases](https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases) 为准。当前源码线面向 `v1.1.1`；仅创建标签不能证明 Release 门禁已经通过。
 
 ## 60 秒路径
 
@@ -32,7 +32,7 @@ git clone https://github.com/boomkalakasha/ai-first-vibe-coding-skill.git "$env:
 
 重载 Codex 会话后，可显式使用 `$ai-first-vibe-coding`，也可通过匹配的研发任务描述触发。
 
-对于打包候选，执行 `pwsh -NoProfile -File scripts/package.ps1 -Version 1.1.0`，检查 `dist/manifest.json` 和 `dist/SHA256SUMS.txt`，再遵循宿主的安装文档。生成归档不等于 Codex 或其他宿主已经安装它。
+对于打包候选，执行 `pwsh -NoProfile -File scripts/package.ps1 -Version 1.1.1`，检查 `dist/manifest.json` 和 `dist/SHA256SUMS.txt`，再遵循宿主的安装文档。生成归档不等于 Codex 或其他宿主已经安装它。
 
 ### 其他 Agent
 
@@ -50,7 +50,7 @@ git clone https://github.com/boomkalakasha/ai-first-vibe-coding-skill.git "$env:
 ```powershell
 python scripts/validate.py
 python scripts/run_evals.py
-pwsh -NoProfile -File scripts/package.ps1 -Version 1.1.0
+pwsh -NoProfile -File scripts/package.ps1 -Version 1.1.1
 ```
 
 验证器检查 Skill frontmatter、JSON、相对 Markdown 链接、BOM、已知内部信息模式和必要文件。它不能代替人工版权审查、完整历史 secret 扫描或真实运行态验收。

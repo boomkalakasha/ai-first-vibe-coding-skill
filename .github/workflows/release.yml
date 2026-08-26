@@ -48,4 +48,13 @@ jobs:
       - name: Create draft GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create "${TAG_NAME}" dist/* --verify-tag --generate-notes --draft --title "${TAG_NAME}"
+        shell: bash
+        run: |
+          set -euo pipefail
+          version="${TAG_NAME#v}"
+          gh release create "${TAG_NAME}" \
+            "dist/ai-first-vibe-coding-${version}.zip" \
+            dist/ai-first-vibe-coding.skill \
+            dist/manifest.json \
+            dist/SHA256SUMS.txt \
+            --verify-tag --generate-notes --draft --title "${TAG_NAME}"
