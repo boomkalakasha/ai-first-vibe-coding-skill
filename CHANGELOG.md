@@ -2,9 +2,11 @@
 
 All notable changes are documented here. The project follows Semantic Versioning.
 
-## [Unreleased]
+## [1.1.2] - 2026-08-26
 
-No unreleased changes are recorded yet.
+### Fixed
+
+- Added a theme-compatible BOOMKALAKASHA watermark with explicit light/dark fallbacks, and documented the asset choice for current `main` users.
 
 ## [1.1.1] - 2026-08-26
 
@@ -32,6 +34,6 @@ No unreleased changes are recorded yet.
 - Optional GitHub open-source iteration and release profile.
 - Bilingual documentation, public governance files, validation, packaging, and CI.
 
-[Unreleased]: https://github.com/boomkalakasha/ai-first-vibe-coding-skill/compare/v1.1.1...HEAD
+[1.1.2]: https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases/tag/v1.1.2
 [1.1.1]: https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases/tag/v1.1.1
 [1.0.0]: https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases/tag/v1.0.0

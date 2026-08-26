@@ -112,8 +112,8 @@ def validate_json(errors: list[str]) -> None:
 
 def validate_release_contract(errors: list[str]) -> None:
     skill = (ROOT / "SKILL.md").read_text(encoding="utf-8")
-    if 'version: "1.1.1"' not in skill:
-        fail(errors, "SKILL.md must declare the v1.1.1 patch version")
+    if 'version: "1.1.2"' not in skill:
+        fail(errors, "SKILL.md must declare the v1.1.2 patch version")
     if "icarus-open-source-governance" not in skill or "not a claimed host installation" not in skill:
         fail(errors, "SKILL.md must provide a truthful optional governance-skill handoff")
     english = (ROOT / "README.md").read_text(encoding="utf-8")
@@ -123,7 +123,7 @@ def validate_release_contract(errors: list[str]) -> None:
         (chinese, "## 60 秒路径", "仅创建标签不能证明"),
     ):
         if heading not in source or release_boundary not in source or "GitHub Releases" not in source:
-            fail(errors, "README language pair must expose the v1.1.1 release-evidence boundary")
+            fail(errors, "README language pair must expose the v1.1.2 release-evidence boundary")
     security = (ROOT / "SECURITY.md").read_text(encoding="utf-8").lower()
     if "seven days" in security or "does not promise" not in security:
         fail(errors, "SECURITY.md must not invent a response SLA")

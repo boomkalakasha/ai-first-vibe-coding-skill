@@ -8,7 +8,7 @@ An evidence-led workflow skill for turning fast AI-assisted coding into trustwor
 
 Vibe coding is excellent at creating momentum. This skill keeps that momentum while adding the pieces that production work needs: repository boundaries, fact chains, testable specifications, honest evidence levels, safe Git delivery, multi-agent contracts, and iterative P0/P1 closure.
 
-Release status and downloadable artifacts are tracked on [GitHub Releases](https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases). This source line targets `v1.1.1`; a tag alone is not proof that its Release gate passed.
+Release status and downloadable artifacts are tracked on [GitHub Releases](https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases). This source declares `v1.1.2`; use immutable tag assets for reproducible installation, because a tag alone is not proof that its Release gate passed.
 
 ## 60-second path
 
@@ -36,7 +36,7 @@ git clone https://github.com/boomkalakasha/ai-first-vibe-coding-skill.git "$env:
 
 Restart or reload your Codex session, then invoke `$ai-first-vibe-coding` or describe a matching repository task.
 
-For a packaged candidate, use `pwsh -NoProfile -File scripts/package.ps1 -Version 1.1.1`, inspect `dist/manifest.json` and `dist/SHA256SUMS.txt`, then follow your host's documented installation path. Do not treat archive creation as proof that Codex or another host installed it.
+For a packaged candidate, use `pwsh -NoProfile -File scripts/package.ps1 -Version 1.1.2`, inspect `dist/manifest.json` and `dist/SHA256SUMS.txt`, then follow your host's documented installation path. Do not treat archive creation as proof that Codex or another host installed it.
 
 ### Other agents
 
@@ -67,7 +67,7 @@ scripts/package.ps1         Repeatable distributable archive with SHA-256
 ```powershell
 python scripts/validate.py
 python scripts/run_evals.py
-pwsh -NoProfile -File scripts/package.ps1 -Version 1.1.1
+pwsh -NoProfile -File scripts/package.ps1 -Version 1.1.2
 ```
 
 The validator checks frontmatter, JSON, relative Markdown links, BOMs, repository-specific private patterns, and required project files. It is a safety net, not a substitute for manual legal/privacy review or a full secret-history scan.
