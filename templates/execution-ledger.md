@@ -8,6 +8,12 @@
 - P1 gate:
 - Current decision: HOLD
 
+## Concurrency capacity snapshot
+
+| Wave/time | Active root tasks | Local agents incl. controller / children / tree capacity | Reserve slots | Cross-window children visibility | Independent READY work | Review backlog/resource pressure | Target active children / spawn now | Adjustment reason |
+|---|---:|---|---:|---|---:|---|---|---|
+| 1 / | | 1 / 0 / | 1 | UNKNOWN | | | 1 / 1 | Initial conservative dispatch |
+
 ## Work items
 
 | ID | Priority | Owner | Write set | Dependencies | Cases | Candidate result | Review | Controller verification | Status |

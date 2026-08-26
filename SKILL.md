@@ -1,7 +1,6 @@
 ---
 name: ai-first-vibe-coding
 description: Use when working in an existing repository on implementation, refactoring, debugging, optimization, architecture review, data or runtime flows, multi-module changes, multi-agent delivery, or iterative P0/P1 closure. Also use for 中文软件研发中的方案、实现、联调、复盘、验收与发版治理. Skip for simple translation, one-line commands, or purely informational questions.
-compatibility: Requires file search, editing, and shell access. Browser, database, logs, CI, deployment, and multi-agent capabilities are optional adapters; unavailable evidence must be reported explicitly.
 license: Apache-2.0
 metadata:
   version: "1.1.0"
@@ -11,6 +10,8 @@ metadata:
 # AI-first Vibe Coding
 
 Turn a user's goal into a verifiable software outcome. Preserve the speed and creativity of vibe coding while adding evidence, operational boundaries, traceability, and honest release gates.
+
+Tool boundary: file search, editing, and shell access are required. Browser, database, logs, CI, deployment, and multi-agent capabilities are optional adapters; report unavailable evidence explicitly.
 
 ## Start here
 
@@ -125,6 +126,8 @@ Use multiple agents only when work packages are independent enough to reduce lat
 - The controller owns scope, shared contracts, permissions, decisions, and final verification.
 - Implementers receive explicit write sets, dependencies, cases, and stop conditions.
 - Parallel writers require isolated workspaces and non-overlapping ownership.
+- Before spawning, take a live capacity snapshot: current-tree running agents (including the controller/root), running children, tree limit, app-visible active root tasks, independent `READY` work, review backlog, and resource pressure. An unobservable cross-window child count is `UNKNOWN`, never zero.
+- Use staged fan-out: start with one child, keep controller/reviewer capacity in reserve, and grow by at most one only after a healthy wave. With other active windows, unknown global child load, review backlog, failures, or resource pressure, keep at most one child or run serially. A hard cross-window cap requires a platform scheduler or atomic leased semaphore.
 - An agent's `DONE` is candidate evidence, never automatic acceptance.
 - At each wave boundary, re-anchor on the baseline, plan, decision log, ledger, Git state, and runtime facts.
 - If the goal is zero P0/P1, do not stop merely because the requested number of rounds or a token budget is exhausted.

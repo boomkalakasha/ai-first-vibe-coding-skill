@@ -7,6 +7,7 @@
     {"id": "separate-runtime-evidence", "criteria": ["separates build from runtime", "does not claim production readiness"]},
     {"id": "write-path-audit", "criteria": ["covers every write path", "uses one policy source", "checks allowed and blocked cases"]},
     {"id": "multi-agent-acceptance", "criteria": ["defines isolated write sets", "requires controller verification"]},
+    {"id": "dynamic-multi-window-concurrency", "criteria": ["captures live global and local signals", "counts the controller in local occupancy and separates target children from new spawns", "marks cross-window child load unknown when unobservable", "starts conservatively and expands gradually", "reserves an extra reviewer or urgent slot", "requires a real global scheduler or leased semaphore for a hard cap"]},
     {"id": "github-open-source-profile", "criteria": ["keeps public release distinct from deployment", "scans tree and history", "keeps internal downstream private"]},
     {"id": "package-parity", "criteria": ["requires one staged source tree", "requires zip skill manifest and checksums", "does not claim host installation"]},
     {"id": "governance-skill-handoff", "criteria": ["routes broad OSS readiness to the optional companion", "does not claim the companion is installed"]}

@@ -74,7 +74,7 @@ def validate_frontmatter(errors: list[str]) -> None:
         fail(errors, "SKILL.md frontmatter is not closed")
         return
     frontmatter = parts[1]
-    for key in ("name:", "description:", "compatibility:", "license:"):
+    for key in ("name:", "description:", "license:"):
         if not re.search(rf"(?m)^{re.escape(key)}\s*\S", frontmatter):
             fail(errors, f"SKILL.md frontmatter is missing {key[:-1]}")
     if not re.search(r"(?m)^name:\s*ai-first-vibe-coding\s*$", frontmatter):

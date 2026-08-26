@@ -11,3 +11,7 @@ Run `python scripts/run_evals.py` to check that the documented-only rubric cover
 The pre-release internal Skill did not define a named GitHub OSS profile. In a read-only baseline run on 2026-08-24, the evaluator proposed GitHub rules but correctly classified them as inference and explicitly reported that the profile was absent. The current Skill adds an opt-in profile with fork-safe CI, SemVer, release artifacts, private downstream separation, and repository-setting verification.
 
 This record is `MANUAL / DOCUMENTED_ONLY`; raw private-session transcripts and machine paths are intentionally not published.
+
+## Dynamic concurrency RED/GREEN/REFACTOR record
+
+The [2026-08-26 host run](runs/2026-08-26-dynamic-multi-window-concurrency/README.md) records a pressure scenario for multiple active Codex windows, unknown cross-window child load, staged fan-out, reserve slots, and the boundary between conservative observation and a real global scheduler.

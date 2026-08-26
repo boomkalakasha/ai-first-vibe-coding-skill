@@ -49,6 +49,23 @@
       ]
     },
     {
+      "id": "dynamic-multi-window-concurrency",
+      "prompt": "Four Codex root-task windows are active. This task tree can locally fit three children, but other windows' child-agent counts are not observable. Eight independent low-cost implementation packages are ready and the deadline is tight. Decide how many children to start and how to adjust concurrency.",
+      "must": [
+        "inspect app-wide active root tasks and current-tree occupancy before spawning",
+        "count the controller or root in local occupancy and distinguish target active children from newly spawned children",
+        "treat unobservable cross-window child counts as unknown rather than zero",
+        "reserve an additional local slot for reviewer or urgent work when capacity permits",
+        "start with one child and grow by at most one only after a healthy wave",
+        "reduce to one or serial execution on review backlog, failures, contract conflicts, or resource pressure",
+        "require a platform scheduler or atomic leased semaphore for a hard global limit"
+      ],
+      "must_not": [
+        "fill all locally free tree slots while global child load is unknown",
+        "equate active root-task count with total global agent count"
+      ]
+    },
+    {
       "id": "github-open-source-profile",
       "prompt": "Sanitize an internal GitLab and Jenkins scaffold, publish it to GitHub, and define future releases.",
       "must": [
