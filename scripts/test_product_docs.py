@@ -40,8 +40,10 @@ class ProductDocumentationTests(unittest.TestCase):
         english = (ROOT / "README.md").read_text(encoding="utf-8")
         chinese = (ROOT / "README.zh-CN.md").read_text(encoding="utf-8")
         self.assertIn("GitHub Releases", english)
+        self.assertIn("source declares `v1.1.2`", english)
         self.assertIn("a tag alone is not proof", english)
         self.assertIn("GitHub Releases", chinese)
+        self.assertIn("源码声明版本为 `v1.1.2`", chinese)
         self.assertIn("仅创建标签不能证明", chinese)
         self.assertIn("optional BOOMKALAKASHA", english)
         self.assertIn("可选的 BOOMKALAKASHA", chinese)
@@ -55,6 +57,14 @@ class ProductDocumentationTests(unittest.TestCase):
         workflow = (ROOT / ".github" / "workflows" / "release.yml").read_text(encoding="utf-8")
         self.assertIn('$version = $env:TAG_NAME.TrimStart("v")', workflow)
         self.assertIn("-Release -Version $version", workflow)
+
+    def test_changelog_records_the_v112_brand_fix(self):
+        changelog = (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
+        self.assertIn("## [1.1.2] - 2026-08-26", changelog)
+        self.assertIn("theme-compatible BOOMKALAKASHA watermark", changelog)
+
+    def test_skill_declares_the_v112_release_version(self):
+        self.assertIn('version: "1.1.2"', (ROOT / "SKILL.md").read_text(encoding="utf-8"))
 
 
 if __name__ == "__main__":

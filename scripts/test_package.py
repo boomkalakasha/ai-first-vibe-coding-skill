@@ -33,14 +33,14 @@ class PackageContractTests(unittest.TestCase):
         self.assertIn("dist/SHA256SUMS.txt", workflow)
 
     def test_one_staged_tree_produces_manifested_zip_skill_and_checksums(self):
-        result = self.run_package("-Version", "1.1.1")
+        result = self.run_package("-Version", "1.1.2")
         self.assertEqual(0, result.returncode, result.stdout + result.stderr)
         manifest = json.loads((DIST / "manifest.json").read_text(encoding="utf-8"))
-        self.assertEqual("1.1.1", manifest["version"])
+        self.assertEqual("1.1.2", manifest["version"])
         self.assertIn(manifest["sourceTree"], {"clean", "dirty"})
         archives = [DIST / item["name"] for item in manifest["artifacts"]]
         self.assertEqual(
-            {"ai-first-vibe-coding-1.1.1.zip", "ai-first-vibe-coding.skill"},
+            {"ai-first-vibe-coding-1.1.2.zip", "ai-first-vibe-coding.skill"},
             {path.name for path in archives},
         )
         entries = []
@@ -70,7 +70,7 @@ class PackageContractTests(unittest.TestCase):
         probe = ROOT / ".package-release-dirty-probe"
         probe.write_text("test-owned untracked probe\n", encoding="utf-8")
         try:
-            result = self.run_package("-Release", "-Version", "1.1.1")
+            result = self.run_package("-Release", "-Version", "1.1.2")
             self.assertNotEqual(0, result.returncode)
             self.assertIn("clean working tree", result.stdout + result.stderr)
         finally:
