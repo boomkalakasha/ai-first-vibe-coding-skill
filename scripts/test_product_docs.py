@@ -6,6 +6,22 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class ProductDocumentationTests(unittest.TestCase):
+    def test_readmes_and_brand_docs_use_theme_compatible_watermark(self):
+        for name in ("README.md", "README.zh-CN.md"):
+            source = (ROOT / name).read_text(encoding="utf-8")
+            self.assertIn("assets/brand/watermark-auto.svg", source, name)
+            self.assertNotIn("assets/brand/watermark-dark.svg", source, name)
+
+        asset = ROOT / "assets" / "brand" / "watermark-auto.svg"
+        docs_asset = ROOT / "docs" / "assets" / "brand" / "watermark-auto.svg"
+        self.assertTrue(asset.is_file())
+        self.assertTrue(docs_asset.is_file())
+        self.assertEqual(asset.read_bytes(), docs_asset.read_bytes())
+        source = asset.read_text(encoding="utf-8")
+        self.assertIn("@media (prefers-color-scheme: dark)", source)
+        self.assertRegex(source, r'<text[^>]*class="wordmark"[^>]*stroke-width="3"')
+        self.assertIn("watermark-auto.svg", (ROOT / "docs" / "brand.md").read_text(encoding="utf-8"))
+
     def test_bilingual_install_lifecycle_docs_are_present_and_truthful(self):
         english = (ROOT / "docs" / "quick-start.md").read_text(encoding="utf-8")
         chinese = (ROOT / "docs" / "quick-start.zh-CN.md").read_text(encoding="utf-8")

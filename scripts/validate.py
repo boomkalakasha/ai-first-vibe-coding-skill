@@ -33,10 +33,12 @@ REQUIRED = [
     "assets/brand/avatar.png",
     "assets/brand/watermark-dark.svg",
     "assets/brand/watermark-light.svg",
+    "assets/brand/watermark-auto.svg",
     "docs/assets/brand/brand-mark.svg",
     "docs/assets/brand/avatar.png",
     "docs/assets/brand/watermark-dark.svg",
     "docs/assets/brand/watermark-light.svg",
+    "docs/assets/brand/watermark-auto.svg",
 ]
 TEXT_SUFFIXES = {".md", ".json", ".py", ".ps1", ".yml", ".yaml", ".txt", ".svg"}
 MARKDOWN_LINK = re.compile(r"(?<!!)\[[^\]]+\]\(([^)]+)\)")

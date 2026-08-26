@@ -55,6 +55,7 @@ class PackageContractTests(unittest.TestCase):
                 "docs/quick-start.md",
                 "docs/quick-start.zh-CN.md",
                 "assets/brand/watermark-dark.svg",
+                "assets/brand/watermark-auto.svg",
                 "docs/assets/brand/avatar.png",
             }.issubset(set(entries[0]))
         )
