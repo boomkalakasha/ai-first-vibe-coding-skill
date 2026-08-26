@@ -1,6 +1,6 @@
 # AI-first Vibe Coding Skill
 
-![BOOMKALAKASHA 水印](assets/brand/watermark-dark.svg)
+![BOOMKALAKASHA 水印](assets/brand/watermark-auto.svg)
 
 [English](README.md) · [快速开始](docs/quick-start.zh-CN.md) · [品牌](docs/brand.md) · [变更日志](CHANGELOG.md) · [贡献指南](CONTRIBUTING.md) · [支持](SUPPORT.md) · [安全策略](SECURITY.md)
 

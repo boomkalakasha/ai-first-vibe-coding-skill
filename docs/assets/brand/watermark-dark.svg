@@ -18,7 +18,7 @@
     <circle cx="128" cy="128" r="11" fill="#F7F4EC"/>
     <circle cx="128" cy="128" r="5" fill="#FF6B6B"/>
   </g>
-  <text x="210" y="106" fill="#10162F" font-family="Trebuchet MS, Avenir Next, Century Gothic, Segoe UI, sans-serif" font-size="38" font-weight="600" letter-spacing="3">BOOMKALAKASHA</text>
+  <text x="210" y="106" fill="#10162F" stroke="#F7F4EC" stroke-width="3" paint-order="stroke fill" font-family="Trebuchet MS, Avenir Next, Century Gothic, Segoe UI, sans-serif" font-size="38" font-weight="600" letter-spacing="3">BOOMKALAKASHA</text>
   <path d="M211 126h590" stroke="#FF6B6B" stroke-width="3" stroke-dasharray="12 10"/>
   <circle cx="211" cy="126" r="4" fill="#35D6FF" stroke="#10162F" stroke-width="2"/>
 </svg>
