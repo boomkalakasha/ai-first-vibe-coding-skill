@@ -24,8 +24,21 @@ REQUIRED = [
     "references/github-open-source-release-profile.md",
     "evals/evals.json",
     "evals/trigger-evals.json",
+    "evals/rubric.json",
+    "scripts/run_evals.py",
+    "docs/quick-start.md",
+    "docs/quick-start.zh-CN.md",
+    "docs/brand.md",
+    "assets/brand/brand-mark.svg",
+    "assets/brand/avatar.png",
+    "assets/brand/watermark-dark.svg",
+    "assets/brand/watermark-light.svg",
+    "docs/assets/brand/brand-mark.svg",
+    "docs/assets/brand/avatar.png",
+    "docs/assets/brand/watermark-dark.svg",
+    "docs/assets/brand/watermark-light.svg",
 ]
-TEXT_SUFFIXES = {".md", ".json", ".py", ".ps1", ".yml", ".yaml", ".txt"}
+TEXT_SUFFIXES = {".md", ".json", ".py", ".ps1", ".yml", ".yaml", ".txt", ".svg"}
 MARKDOWN_LINK = re.compile(r"(?<!!)\[[^\]]+\]\(([^)]+)\)")
 PRIVATE_PATTERNS = {
     "Windows user path": re.compile(r"[A-Za-z]:\\Users\\[^\\\s]+", re.IGNORECASE),
@@ -61,7 +74,7 @@ def validate_frontmatter(errors: list[str]) -> None:
         fail(errors, "SKILL.md frontmatter is not closed")
         return
     frontmatter = parts[1]
-    for key in ("name:", "description:", "compatibility:", "license:"):
+    for key in ("name:", "description:", "license:"):
         if not re.search(rf"(?m)^{re.escape(key)}\s*\S", frontmatter):
             fail(errors, f"SKILL.md frontmatter is missing {key[:-1]}")
     if not re.search(r"(?m)^name:\s*ai-first-vibe-coding\s*$", frontmatter):
@@ -69,7 +82,7 @@ def validate_frontmatter(errors: list[str]) -> None:
 
 
 def validate_json(errors: list[str]) -> None:
-    for relative in ("evals/evals.json", "evals/trigger-evals.json"):
+    for relative in ("evals/evals.json", "evals/trigger-evals.json", "evals/rubric.json"):
         path = ROOT / relative
         try:
             data = json.loads(path.read_text(encoding="utf-8"))
@@ -86,6 +99,42 @@ def validate_json(errors: list[str]) -> None:
     github_case = next((case for case in behavior["cases"] if case.get("id") == "github-open-source-profile"), None)
     if not github_case:
         fail(errors, "evals/evals.json must cover the GitHub open-source profile")
+    rubric = json.loads((ROOT / "evals/rubric.json").read_text(encoding="utf-8"))
+    if rubric.get("evaluation_mode") != "DOCUMENTED_ONLY":
+        fail(errors, "evals/rubric.json must retain DOCUMENTED_ONLY host evidence")
+    behavior_ids = {case.get("id") for case in behavior.get("cases", []) if isinstance(case, dict)}
+    rubric_ids = {case.get("id") for case in rubric.get("cases", []) if isinstance(case, dict)}
+    if behavior_ids != rubric_ids:
+        fail(errors, "evals/rubric.json case ids must match evals/evals.json")
+
+
+def validate_v110_contract(errors: list[str]) -> None:
+    skill = (ROOT / "SKILL.md").read_text(encoding="utf-8")
+    if 'version: "1.1.0"' not in skill:
+        fail(errors, "SKILL.md must declare the local v1.1.0 candidate version")
+    if "icarus-open-source-governance" not in skill or "not a claimed host installation" not in skill:
+        fail(errors, "SKILL.md must provide a truthful optional governance-skill handoff")
+    english = (ROOT / "README.md").read_text(encoding="utf-8")
+    chinese = (ROOT / "README.zh-CN.md").read_text(encoding="utf-8")
+    for source, heading, candidate in (
+        (english, "## 60-second path", "v1.1.0 feature branch is a local candidate"),
+        (chinese, "## 60 秒路径", "v1.1.0 功能分支是本地候选"),
+    ):
+        if heading not in source or candidate not in source:
+            fail(errors, "README language pair must expose the v1.1 local-candidate lifecycle")
+    security = (ROOT / "SECURITY.md").read_text(encoding="utf-8").lower()
+    if "seven days" in security or "does not promise" not in security:
+        fail(errors, "SECURITY.md must not invent a response SLA")
+    for path in (ROOT / "docs" / "quick-start.md", ROOT / "docs" / "quick-start.zh-CN.md"):
+        if "DOCUMENTED_ONLY" not in path.read_text(encoding="utf-8"):
+            fail(errors, f"{path.relative_to(ROOT)} must state the host-evidence boundary")
+    for workflow in (ROOT / ".github" / "workflows").glob("*.yml"):
+        source = workflow.read_text(encoding="utf-8")
+        if "pull_request_target" in source:
+            fail(errors, f"{workflow.relative_to(ROOT)}: pull_request_target is forbidden")
+        for line in source.splitlines():
+            if "uses:" in line and not re.search(r"uses:\s*[^@\s]+@[0-9a-f]{40}\b", line):
+                fail(errors, f"{workflow.relative_to(ROOT)}: action references must use reviewed commit SHAs")
 
 
 def validate_files(errors: list[str]) -> None:
@@ -122,13 +171,16 @@ def main() -> int:
     validate_files(errors)
     if (ROOT / "SKILL.md").is_file():
         validate_frontmatter(errors)
-    if all((ROOT / relative).is_file() for relative in ("evals/evals.json", "evals/trigger-evals.json")):
+    if all((ROOT / relative).is_file() for relative in ("evals/evals.json", "evals/trigger-evals.json", "evals/rubric.json")):
         validate_json(errors)
+    if all((ROOT / relative).is_file() for relative in REQUIRED):
+        validate_v110_contract(errors)
     if errors:
         print("Validation failed:")
         for error in errors:
             print(f"- {error}")
         return 1
+    print("PASS: v1.1 package, bilingual lifecycle, optional governance handoff, and host-evidence boundary")
     print(f"Validation passed: {len(text_files())} text files checked")
     return 0
 
