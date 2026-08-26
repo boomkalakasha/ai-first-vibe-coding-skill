@@ -4,9 +4,13 @@
 
 [English](README.md) · [快速开始](docs/quick-start.zh-CN.md) · [品牌](docs/brand.md) · [变更日志](CHANGELOG.md) · [贡献指南](CONTRIBUTING.md) · [支持](SUPPORT.md) · [安全策略](SECURITY.md)
 
-一个面向真实软件交付的 AI 研发工作流 Skill：保留 vibe coding 的速度，同时补上事实链、边界、追踪、验证、复盘和发布门禁。
+> **让 AI 自主分工，把交付交给证据验收。**
+>
+> **Let AI divide the work; let evidence earn the release.**
 
-发布状态与下载物料以 [GitHub Releases](https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases) 为准。当前源码声明版本为 `v1.1.2`；可复现安装应使用不可变标签物料，且仅创建标签不能证明 Release 门禁已经通过。
+在明确授权边界内，这个 Skill 会把复杂目标拆成边界清楚的 Agent 工作包，由不同角色独立实现、复核和回测，再根据证据决定是否放行。它适合服务重构、跨仓协作和多轮验收复盘，而不只是生成代码。
+
+发布状态与下载物料以 [GitHub Releases](https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases) 为准。当前源码声明版本为 `v1.1.3`；可复现安装应使用不可变标签物料，且仅创建标签不能证明 Release 门禁已经通过。
 
 ## 60 秒路径
 
@@ -22,6 +26,11 @@
 - 支持可选的 GitHub 开源迭代发版模式，同时兼容项目自行定义的 GitLab/Jenkins/客户分支规则。
 - 不绑定特定模型或 IDE；没有运行证据就主动降级结论。
 
+## 配套项目
+
+- [Icarus AI Spring Scaffold](https://github.com/boomkalakasha/icarus-ai-spring-scaffold)：先生成可审查的 Java 17 多模块服务骨架，再交给 Agent 协作实现。
+- [Icarus 开源治理](https://github.com/boomkalakasha/icarus-open-source-governance-skill)：准备开源时扫描来源与隐私风险，整理双语文档和发布证据。
+
 ## 安装
 
 ### Codex
@@ -32,7 +41,7 @@ git clone https://github.com/boomkalakasha/ai-first-vibe-coding-skill.git "$env:
 
 重载 Codex 会话后，可显式使用 `$ai-first-vibe-coding`，也可通过匹配的研发任务描述触发。
 
-对于打包候选，执行 `pwsh -NoProfile -File scripts/package.ps1 -Version 1.1.2`，检查 `dist/manifest.json` 和 `dist/SHA256SUMS.txt`，再遵循宿主的安装文档。生成归档不等于 Codex 或其他宿主已经安装它。
+对于打包候选，执行 `pwsh -NoProfile -File scripts/package.ps1 -Version 1.1.3`，检查 `dist/manifest.json` 和 `dist/SHA256SUMS.txt`，再遵循宿主的安装文档。生成归档不等于 Codex 或其他宿主已经安装它。
 
 ### 其他 Agent
 
@@ -50,7 +59,7 @@ git clone https://github.com/boomkalakasha/ai-first-vibe-coding-skill.git "$env:
 ```powershell
 python scripts/validate.py
 python scripts/run_evals.py
-pwsh -NoProfile -File scripts/package.ps1 -Version 1.1.2
+pwsh -NoProfile -File scripts/package.ps1 -Version 1.1.3
 ```
 
 验证器检查 Skill frontmatter、JSON、相对 Markdown 链接、BOM、已知内部信息模式和必要文件。它不能代替人工版权审查、完整历史 secret 扫描或真实运行态验收。

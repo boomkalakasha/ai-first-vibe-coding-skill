@@ -4,11 +4,15 @@
 
 [中文说明](README.zh-CN.md) · [Quick start](docs/quick-start.md) · [Brand](docs/brand.md) · [Changelog](CHANGELOG.md) · [Contributing](CONTRIBUTING.md) · [Support](SUPPORT.md) · [Security](SECURITY.md)
 
-An evidence-led workflow skill for turning fast AI-assisted coding into trustworthy software delivery.
+> **让 AI 自主分工，把交付交给证据验收。**
+>
+> **Let AI divide the work; let evidence earn the release.**
+
+Within clear boundaries, this Skill turns a complex goal into bounded agent work, independent review, and an evidence-backed release decision. It is built for refactors, cross-repository delivery, and repeated acceptance loops—not just code generation.
 
 Vibe coding is excellent at creating momentum. This skill keeps that momentum while adding the pieces that production work needs: repository boundaries, fact chains, testable specifications, honest evidence levels, safe Git delivery, multi-agent contracts, and iterative P0/P1 closure.
 
-Release status and downloadable artifacts are tracked on [GitHub Releases](https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases). This source declares `v1.1.2`; use immutable tag assets for reproducible installation, because a tag alone is not proof that its Release gate passed.
+Release status and downloadable artifacts are tracked on [GitHub Releases](https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases). This source declares `v1.1.3`; use immutable tag assets for reproducible installation, because a tag alone is not proof that its Release gate passed.
 
 ## 60-second path
 
@@ -24,6 +28,11 @@ Use the bilingual [install, upgrade, rollback, and uninstall guide](docs/quick-s
 - Includes an opt-in GitHub OSS release profile while respecting project-defined GitLab, Jenkins, and private downstream rules.
 - Works with any coding agent that can read Markdown instructions; compatibility claims remain explicit and evidence-based.
 
+## Companion projects
+
+- [Icarus AI Spring Scaffold](https://github.com/boomkalakasha/icarus-ai-spring-scaffold) — generate a safe, reviewable Java 17 service skeleton before handing implementation to collaborating agents.
+- [Icarus Open-source Governance](https://github.com/boomkalakasha/icarus-open-source-governance-skill) — scan provenance and privacy risks, then package the documentation and release evidence when the project is ready to go public.
+
 ## Installation
 
 ### Codex
@@ -36,7 +45,7 @@ git clone https://github.com/boomkalakasha/ai-first-vibe-coding-skill.git "$env:
 
 Restart or reload your Codex session, then invoke `$ai-first-vibe-coding` or describe a matching repository task.
 
-For a packaged candidate, use `pwsh -NoProfile -File scripts/package.ps1 -Version 1.1.2`, inspect `dist/manifest.json` and `dist/SHA256SUMS.txt`, then follow your host's documented installation path. Do not treat archive creation as proof that Codex or another host installed it.
+For a packaged candidate, use `pwsh -NoProfile -File scripts/package.ps1 -Version 1.1.3`, inspect `dist/manifest.json` and `dist/SHA256SUMS.txt`, then follow your host's documented installation path. Do not treat archive creation as proof that Codex or another host installed it.
 
 ### Other agents
 
@@ -67,7 +76,7 @@ scripts/package.ps1         Repeatable distributable archive with SHA-256
 ```powershell
 python scripts/validate.py
 python scripts/run_evals.py
-pwsh -NoProfile -File scripts/package.ps1 -Version 1.1.2
+pwsh -NoProfile -File scripts/package.ps1 -Version 1.1.3
 ```
 
 The validator checks frontmatter, JSON, relative Markdown links, BOMs, repository-specific private patterns, and required project files. It is a safety net, not a substitute for manual legal/privacy review or a full secret-history scan.

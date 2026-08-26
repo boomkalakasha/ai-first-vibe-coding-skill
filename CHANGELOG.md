@@ -2,6 +2,13 @@
 
 All notable changes are documented here. The project follows Semantic Versioning.
 
+## [1.1.3] - 2026-08-26
+
+### Added
+
+- Added a first-glance bilingual value proposition that explains autonomous agent delegation, independent review, iterative acceptance, and release evidence.
+- Added companion links and short usage scenarios for Icarus Scaffold and Icarus Open-source Governance.
+
 ## [1.1.2] - 2026-08-26
 
 ### Fixed
@@ -34,6 +41,7 @@ All notable changes are documented here. The project follows Semantic Versioning
 - Optional GitHub open-source iteration and release profile.
 - Bilingual documentation, public governance files, validation, packaging, and CI.
 
+[1.1.3]: https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases/tag/v1.1.3
 [1.1.2]: https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases/tag/v1.1.2
 [1.1.1]: https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases/tag/v1.1.1
 [1.0.0]: https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases/tag/v1.0.0
