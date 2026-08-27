@@ -1,0 +1,10 @@
+{
+  "eval_id": 9,
+  "eval_name": "tiered-model-multi-repo-closure",
+  "mode": "manual-subagent-red-green",
+  "model": "capability-tiered-executor",
+  "reasoning_effort": "max",
+  "prompt_source": "evals/evals.json#9",
+  "timing": "NOT_RECORDED",
+  "notes": "Both runs used fresh read-only subagent contexts. The RED run used the previous skill version; the GREEN run used the updated skill."
+}

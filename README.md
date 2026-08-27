@@ -2,21 +2,37 @@
 
 ![BOOMKALAKASHA watermark](assets/brand/watermark-auto.svg)
 
-[中文说明](README.zh-CN.md) · [Quick start](docs/quick-start.md) · [Brand](docs/brand.md) · [Changelog](CHANGELOG.md) · [Contributing](CONTRIBUTING.md) · [Support](SUPPORT.md) · [Security](SECURITY.md)
+[中文说明](README.zh-CN.md) · [Quick start](docs/quick-start.md) · [AI operation guide](docs/ai-operation-guide.md) · [Brand](docs/brand.md) · [Changelog](CHANGELOG.md) · [Contributing](CONTRIBUTING.md) · [Support](SUPPORT.md) · [Security](SECURITY.md)
 
 > **让 AI 自主分工，把交付交给证据验收。**
 >
 > **Let AI divide the work; let evidence earn the release.**
 
-Within clear boundaries, this Skill turns a complex goal into bounded agent work, independent review, and an evidence-backed release decision. It is built for refactors, cross-repository delivery, and repeated acceptance loops—not just code generation.
+Within clear boundaries, this Skill turns a complex goal into bounded agent work, independent review, repeated acceptance loops, and an evidence-backed release decision. It is built for refactors, cross-repository delivery, and long-running engineering work—not just code generation.
 
 Vibe coding is excellent at creating momentum. This skill keeps that momentum while adding the pieces that production work needs: repository boundaries, fact chains, testable specifications, honest evidence levels, safe Git delivery, multi-agent contracts, and iterative P0/P1 closure.
 
-Release status and downloadable artifacts are tracked on [GitHub Releases](https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases). This source declares `v1.1.3`; use immutable tag assets for reproducible installation, because a tag alone is not proof that its Release gate passed.
+Release status and downloadable artifacts are tracked on [GitHub Releases](https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases). The latest public stable release is [`v1.1.3`](https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases/tag/v1.1.3); this source declares local candidate `v1.2.0`. Use immutable tag assets for reproducible installation, because a tag alone is not proof that its Release gate passed.
+
+## At a glance
+
+| If you need to... | This Skill helps you... | You leave with... |
+| --- | --- | --- |
+| Turn a fuzzy goal into an executable plan | Map the outcome, boundaries, contracts, cases and decision points before coding | A task baseline, Spec and traceable acceptance cases |
+| Split a long task across agents | Give each agent a bounded write set, role and stop condition; resize concurrency from live capacity signals | A shared execution ledger instead of scattered “done” messages |
+| Know whether a change is really ready | Separate source, build, runtime, business, release and cutover evidence | A release decision with explicit `P0/P1` gates and honest unknowns |
+| Ship across GitHub, GitLab or Jenkins | Select the repository's delivery profile and keep commits, reviews, tags and deployment proof separate | A reviewable branch/MR/PR path with rollback and evidence boundaries |
+
+It is especially useful for service refactors, cross-repository changes, production-bound data flows and any task where “the tests passed” is only one part of the answer.
 
 ## 60-second path
 
-Use the bilingual [install, upgrade, rollback, and uninstall guide](docs/quick-start.md). The package commands create local artifacts and checksums; host discovery or runtime behavior remains `DOCUMENTED_ONLY` unless observed in that host.
+1. Install or point your agent host at this repository's `SKILL.md`; the [AI operation guide](docs/ai-operation-guide.md) explains the smallest safe operating loop.
+2. For a first task, ask for a baseline, user path, acceptance cases and the smallest safe write set.
+3. For a long-running or multi-agent task, copy the [execution ledger](templates/execution-ledger.md) and [task baseline](templates/task-baseline.md), then re-check capacity at each wave boundary.
+4. Run the bilingual [install, upgrade, rollback, and uninstall guide](docs/quick-start.md) and the local validation commands below. Host discovery or runtime behavior remains `DOCUMENTED_ONLY` unless observed in that host.
+
+If the work is a one-line translation or a purely informational question, skip the full workflow and use the smallest tool that answers it.
 
 ## What makes it useful
 
@@ -40,12 +56,16 @@ Use the bilingual [install, upgrade, rollback, and uninstall guide](docs/quick-s
 Clone the repository into your Codex skills directory:
 
 ```powershell
-git clone https://github.com/boomkalakasha/ai-first-vibe-coding-skill.git "$env:USERPROFILE\.codex\skills\ai-first-vibe-coding"
+git clone --depth 1 https://github.com/boomkalakasha/ai-first-vibe-coding-skill.git "$env:USERPROFILE\.codex\skills\ai-first-vibe-coding"
 ```
 
-Restart or reload your Codex session, then invoke `$ai-first-vibe-coding` or describe a matching repository task.
+This is the shortest supported install path. Restart or reload your Codex
+session, then invoke `$ai-first-vibe-coding` or describe a matching repository
+task. For other hosts, point the host's instruction loader at `SKILL.md` and
+use the [AI operation guide](docs/ai-operation-guide.md) as the provider-neutral
+baseline.
 
-For a packaged candidate, use `pwsh -NoProfile -File scripts/package.ps1 -Version 1.1.3`, inspect `dist/manifest.json` and `dist/SHA256SUMS.txt`, then follow your host's documented installation path. Do not treat archive creation as proof that Codex or another host installed it.
+For a packaged candidate, use `pwsh -NoProfile -File scripts/package.ps1 -Version 1.2.0`, inspect `dist/manifest.json` and `dist/SHA256SUMS.txt`, then follow your host's documented installation path. Do not treat archive creation as proof that Codex or another host installed it.
 
 ### Other agents
 
@@ -76,7 +96,7 @@ scripts/package.ps1         Repeatable distributable archive with SHA-256
 ```powershell
 python scripts/validate.py
 python scripts/run_evals.py
-pwsh -NoProfile -File scripts/package.ps1 -Version 1.1.3
+pwsh -NoProfile -File scripts/package.ps1 -Version 1.2.0
 ```
 
 The validator checks frontmatter, JSON, relative Markdown links, BOMs, repository-specific private patterns, and required project files. It is a safety net, not a substitute for manual legal/privacy review or a full secret-history scan.
@@ -93,7 +113,7 @@ The skill does not force one hosting platform:
 
 Public release and production deployment are deliberately separate proof states.
 
-For a full public-repository readiness program, use the optional `icarus-open-source-governance` companion when the host makes it available. This Skill does not claim that the companion is installed or that GitHub settings have been verified.
+For a full public-repository readiness program, use the optional `icarus-open-source-governance` companion when the host makes it available. This is a routing name, not a claimed host installation; a GitHub Release does not prove that repository settings or production deployment were verified.
 
 ## Optional brand example
 

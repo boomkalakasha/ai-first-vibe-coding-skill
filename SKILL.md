@@ -1,181 +1,219 @@
 ---
 name: ai-first-vibe-coding
-description: Use when working in an existing repository on implementation, refactoring, debugging, optimization, architecture review, data or runtime flows, multi-module changes, multi-agent delivery, or iterative P0/P1 closure. Also use for 中文软件研发中的方案、实现、联调、复盘、验收与发版治理. Skip for simple translation, one-line commands, or purely informational questions.
+description: Use when a repository task needs implementation, refactoring, runtime or data-flow review, multi-agent delivery, or iterative acceptance; also use for 中文软件研发中的方案、实现、联调、复盘、验收、发版和 Skill/eval 沉淀. Skip simple translation, one-line commands, or purely informational questions.
 license: Apache-2.0
 metadata:
-  version: "1.1.3"
+  version: "1.2.0"
   repository: https://github.com/boomkalakasha/ai-first-vibe-coding-skill
 ---
 
 # AI-first Vibe Coding
 
-Turn a user's goal into a verifiable software outcome. Preserve the speed and creativity of vibe coding while adding evidence, operational boundaries, traceability, and honest release gates.
+> **让 AI 自主分工，把交付交给证据验收。**
+>
+> **Let AI divide the work; let evidence earn the release.**
 
-Tool boundary: file search, editing, and shell access are required. Browser, database, logs, CI, deployment, and multi-agent capabilities are optional adapters; report unavailable evidence explicitly.
+Within clear boundaries, this Skill turns a complex goal into bounded agent work, independent review, iterative acceptance, and an evidence-backed release decision. It is built for refactors, cross-repository delivery, and long-running engineering work—not just code generation.
 
-## Start here
+把用户的目标转成可验证的软件结果。这个 skill 的价值不在于固定某个 IDE 命令，而在于让不同 AI coding 工具遵守同一套边界、证据和交付节奏。
 
-1. Read the closest repository instructions (`AGENTS.md`, README, contribution and release rules).
-2. Record the current branch, remote, base commit, dirty files, running services, and authorized side effects.
-3. Classify the task and choose the smallest workflow that covers its risk.
-4. Build a fact chain before changing behavior.
-5. Implement within the authorized write set.
-6. Verify with the strongest available evidence and state what was not verified.
+工具边界：文件搜索、编辑和 shell 是基础能力；浏览器、数据库、热部署日志和多 Agent 都是可选适配器，缺失能力必须降低对应证据等级。
 
-## Non-negotiable principles
+## 何时使用
 
-- Lead with the user's outcome, not a preferred technology.
-- Preserve dirty worktrees and user data. Never reset, overwrite, delete, deploy, or write to production by implication.
-- Treat branch creation, commit, push, PR/MR, tag, release, deployment, database writes, restarts, and cleanup as separate side effects.
-- Do not invent metrics, issue numbers, runtime success, coverage, release state, or business completion.
-- Fix the smallest proven cause. Do not broaden a change merely to make the design look cleaner.
-- A source diff, green build, HTTP 200, visible button, and business closure are different proof states.
-- When runtime or external evidence is unavailable, downgrade the claim instead of filling the gap with confidence.
-- For any formal business-state change, inventory every write path and route all callers through one policy source.
+当任务涉及已有代码库、运行中的服务、页面/接口/数据链路、POC 到生产演进、性能或用户体验时，优先加载本 skill。纯翻译、简单问答和单行命令不需要加载完整流程。
 
-## Task modes
+## 核心原则
 
-Choose one and record its boundaries:
+1. 先理解用户真正要达成的工作结果，再决定改哪些文件。
+2. 先读规则、现状和运行事实；用户说“直接实现”时，在低风险范围内自主决策，不把时间耗在不影响结果的追问上。
+3. 方案文档、实现、运行态验证、用户/测试复盘和文档对照形成闭环。用户只说“先出方案/等我确认”时停在方案；用户同时明确“方案后继续实现”时，写完方案即可继续。
+4. 所有能力标记为 `REAL`、`HYBRID`、`DEMO` 或 `PLANNED`。没有事实依据就不虚构指标、成功率、进度或完成状态。
+5. 发现热部署时优先复用：检查前端 dev server、JRebel license、`target/classes` watcher 和 reload 日志；不自动重启用户已运行的服务。
+6. 保留脏工作区和用户改动；不使用破坏性 reset/checkout；敏感信息只做最小化、脱敏输出。
+7. 复杂业务任务先建应用地图、详细 Spec、用户故事/测试和业务审查，再进入实现；这些文档是实现和回测的共同事实源。
+8. 每个结论都要有证据等级：`RUNTIME_PASS`、`STATIC_PASS_PENDING_RUNTIME`、`OLD_RUNTIME`、`PARTIAL_PASS`、`BLOCKED`、`NOT_RUN` 或 `FAIL`；不能把源码改动、接口 200 或按钮可点击当成业务完成。
+9. 用需求追踪把“业务问题 → Spec 条款 → 用户故事/Case → 实现 → 回测证据 → 放行状态”串起来；每轮优化只处理已证实的问题，避免范围漂移。
+10. 用户要求“再迭代两遍”时，默认执行三轮闭环：第一轮建立基线，第二、三轮依据上一轮评估和优化方案继续收敛，并保留每轮证据。
+11. 任何改变正式业务状态的动作都必须做全入口、全回调、全任务的写入路径审计，并由唯一业务策略源统一决定允许/阻断；不能只修当前页面或主 Service。
 
-- `READ_ONLY_REVIEW`: inspect and report; no repository or external writes.
-- `PLAN_ONLY`: produce architecture, specification, cases, risks, and plan; no implementation.
-- `IMPLEMENT_AND_VERIFY`: modify only the authorized write set and run proportionate checks.
-- `FULL_ITERATIVE_DELIVERY`: execute a multi-wave plan until the defined gate is met or a real blocker remains.
-- `SKILL_REVIEW`: evaluate a skill, its references, templates, and evals without silently modifying target projects.
+## Git 分支与交付
 
-Record when relevant: `allowedWrites`, `allowedRestarts`, `allowedDatabaseWrites`, `allowedExternalSideEffects`, `requestedIterations`, and `deliveryProfile`.
+只要任务涉及代码修改、提交、推送、CI/CD 或合并请求，先读取 [前后端分支管理规范](references/git-branch-policy.md)。这不是收尾动作：分支、Issue、测试和 MR 是代码可交付性的组成部分。
 
-## Risk levels
+先确定 `deliveryProfile`：已有业务仓库默认 `internal-gitlab`；只有仓库 `AGENTS.md`、公开 remote 或用户明确要求 GitHub 开源迭代发版时，才启用可选 `github-open-source`，并同时读取 [GitHub 开源迭代发版模式](references/github-open-source-release-profile.md)。GitHub profile 不覆盖内部客户分支、Jenkins、现场物料或部署规范；公开 Release 与内部部署/切流必须分别给证据。
 
-- `L0`: one low-risk file, no runtime or business-state impact. Use inspect → edit → focused check.
-- `L1`: one component, page, endpoint, or module. Use baseline → lightweight contract → implementation → affected-path verification.
-- `L2`: cross-module behavior, data state, permissions, integration, or user workflow. Read [the end-to-end workflow](references/end-to-end-workflow.md).
-- `L3`: L2 plus broad audit, multiple repositories, delegated implementation, repeated iterations, or a P0/P1 closure goal. Use an execution ledger and independent review.
+公开仓库产品化可在宿主提供时交给可选的 `icarus-open-source-governance` companion；这是路由提示，不代表该 Skill 已安装，也不代表 GitHub 设置已经核验。This is a routing name, not a claimed host installation.
 
-Do not create ceremony for L0/L1. Do not compress L2/L3 into an unverified suggestion list.
+- `main` 是受保护的稳定分支；不得直接推送或直接合并。实现请求不等于获准绕过 MR。
+- 新功能/修复默认从最新 `main` 创建 `feat-#<Issue编号>-<简短_描述>` 或 `bug_fix-#<Issue编号>-<简短_描述>`；Issue 未提供时不编造编号，记录缺口并请用户或项目负责人补齐。
+- 先记录 `origin/main`、当前分支、脏文件和远端可达性；不要为对齐分支而 reset、checkout 或覆盖用户工作区。
+- 已有脏工作需要隔离时，只有用户明确授权才创建临时 feature 分支保留它；在 MR 前记录偏离原因并补齐 Issue、测试、审核和命名。
+- Commit 主题使用 `<type>(<scope>): <实际变更摘要>`；类型、范围、摘要和复杂提交正文均须如实反映当前工作，按参考规范处理真实 Issue，绝不复制示例或编造编号。
+- 只有用户已分别授权建分支、commit 或 push 时，才在功能分支执行对应动作；实现授权本身不包含 Git 写入。未授权时保留工作树变更、验证证据和建议 commit message。MR、main、标签和生产部署继续作为独立授权。
+- 交付时给出当前分支、基线 main、Issue/MR、提交、测试和未合并原因；不要把“feature 分支已验证”写成“main 已发布”。
 
-## Fact chain before change
+## 执行协议
 
-For affected behavior, trace the smallest complete chain:
+### 0. 任务分级与完整闭环路由
 
-```text
-user intent
-→ UI or public interface
-→ request/event contract
-→ service/policy logic
-→ persistence or external dependency
-→ observable runtime result
-```
+先锁定操作模式和授权边界：
 
-Classify statements as `FACT`, `INFERENCE`, or `NOT_VERIFIED`. If history or documentation conflicts with current code/runtime, current evidence wins and the plan must be updated.
+- `READ_ONLY_REVIEW`：只读审查，禁止文件、数据库和业务状态写入；
+- `PLAN_ONLY`：只产出地图、Spec、Case、审查和计划，不实现；
+- `IMPLEMENT_AND_VERIFY`：允许在授权写集内实现，并按证据等级验证；
+- `FULL_ITERATIVE_DELIVERY`：允许完整执行 L3 流程和用户指定轮次；
+- `SKILL_REVIEW`：评估技能、参考文档、模板和评测，不把建议项目代码当作待修改对象。
 
-## Design and planning
+任务开始时显式记录：`allowedWrites`、`allowedRestart`、`allowedDatabaseWrites`、`allowedExternalSideEffects` 和 `requestedIterations`。用户未授权的重启、写库、创建项目、跟踪、建图、同步、回流、删除和 Git 提交默认禁止。
 
-For L2/L3, produce and maintain:
+先按影响范围判断任务等级：
 
-- system/application map and in-scope boundaries;
-- detailed behavioral contract and non-goals;
-- user stories and positive/negative/error/retry cases;
-- business and operational review;
-- P0/P1/P2 implementation plan;
-- traceability from requirement to implementation and evidence.
+- `L0`：单文件、低风险、无业务状态变化，采用短方案 → 修改 → 最小验证；
+- `L1`：单模块页面/API/组件，采用盘点 → Spec-lite → 实现 → 用户路径验证；
+- `L2`：多页面、多接口、数据状态、角色、对象边界或跨模块链路，执行完整研发闭环；
+- `L3`：任务本身达到 L2 且用户要求全面审查、多轮迭代、自动闭环或明确“再迭代两遍”；单独一句“先出方案”不会把 L0/L1 自动升级为 L3。
 
-Use [task baseline](templates/task-baseline.md), [decision log](templates/decision-log.md), [traceability matrix](templates/traceability-matrix.md), and, for L3, [execution ledger](templates/execution-ledger.md).
-
-When the user asks for a plan only, stop at the plan. When they explicitly ask to plan and implement, document the design and continue without asking ceremonial questions.
-
-## Implementation protocol
-
-1. Reuse existing contracts, components, scripts, and configuration sources.
-2. Add or expose the failing case before changing behavior when practical.
-3. Fix data/API/state semantics before presentation details.
-4. Keep one source of truth for shared state, menus, policy, and public contracts.
-5. Measure before performance optimization: requests, latency, payload, queries, cache, and concurrency.
-6. For migrations or backfills, record scope, identifiers, checkpoints, idempotency, audit, and rollback before writing data.
-7. Update the traceability matrix as the implementation changes; do not wait until handoff.
-
-For formal state changes, inventory user actions, background jobs, callbacks, imports, synchronization, retries, scheduled jobs, and administrative paths. Test both allowed and blocked cases for each entry point.
-
-## Verification and claims
-
-Read [evidence and verification](references/evidence-and-verification.md). Choose checks based on risk:
-
-- static: syntax, types, encoding/BOM, whitespace, secrets, licenses;
-- tests: unit, contract, integration, migration, negative and retry cases;
-- runtime: startup, health, logs, endpoint, UI, console, network;
-- data: source record, transformation, persistence, status and time semantics;
-- operational: configuration, packaging, rollback, observability and recovery;
-- release: exact commit, checks, artifact, checksum/provenance and target state.
-
-Report one of:
-
-- `RUNTIME_PASS`
-- `STATIC_PASS_PENDING_RUNTIME`
-- `PARTIAL_PASS`
-- `OLD_RUNTIME`
-- `BLOCKED`
-- `NOT_RUN`
-- `FAIL`
-
-For UI claims also identify `UI_OBSERVED`, `HTTP_OBSERVED`, `SOURCE_INFERRED`, `DOCUMENTED_ONLY`, or `NOT_EVALUATED`.
-
-## Multi-agent and iterative work
-
-Use multiple agents only when work packages are independent enough to reduce latency or provide a genuinely separate review. Read [multi-agent orchestration](references/multi-agent-orchestration.md) for L3 work.
-
-- The controller owns scope, shared contracts, permissions, decisions, and final verification.
-- Implementers receive explicit write sets, dependencies, cases, and stop conditions.
-- Parallel writers require isolated workspaces and non-overlapping ownership.
-- Before spawning, take a live capacity snapshot: current-tree running agents (including the controller/root), running children, tree limit, app-visible active root tasks, independent `READY` work, review backlog, and resource pressure. An unobservable cross-window child count is `UNKNOWN`, never zero.
-- Use staged fan-out: start with one child, keep controller/reviewer capacity in reserve, and grow by at most one only after a healthy wave. With other active windows, unknown global child load, review backlog, failures, or resource pressure, keep at most one child or run serially. A hard cross-window cap requires a platform scheduler or atomic leased semaphore.
-- An agent's `DONE` is candidate evidence, never automatic acceptance.
-- At each wave boundary, re-anchor on the baseline, plan, decision log, ledger, Git state, and runtime facts.
-- If the goal is zero P0/P1, do not stop merely because the requested number of rounds or a token budget is exhausted.
-
-## Git and delivery profiles
-
-Before branch, commit, push, PR/MR, tag, release, or deployment work, read [Git delivery profiles](references/git-delivery-profiles.md).
-
-Select a profile from repository rules or the user's explicit target:
-
-- `project-defined`: repository policy is authoritative.
-- `github-open-source`: use [the GitHub OSS release profile](references/github-open-source-release-profile.md).
-- `internal-gitlab`: follow the organization's GitLab/MR/CI/customer-branch rules supplied by the project.
-
-Never silently translate a customer deployment into a public GitHub Release, or a GitHub Release into production readiness. If profile selection is ambiguous and would cause an external write, pause before that write.
-
-## Open-source governance handoff
-
-For a broad public-repository productization request—provenance, privacy, license decision state, optional branding, community files, GitHub settings, release assets, and public-host evidence—hand off to `icarus-open-source-governance` when that companion Skill is available in the host. This is a routing name, not a claimed host installation. If it is unavailable, retain the conservative `github-open-source` profile and stop at every unresolved ownership, privacy, legal, or remote-evidence gate.
-
-Commit messages use the project's convention. If none exists, use truthful Conventional Commits:
+当任务是 `L2/L3`，先读取 [完整研发工作流](references/end-to-end-workflow.md)，并依次产出：
 
 ```text
-<type>(<scope>): <summary>
-
-- <why or observable change>
-- <verification or compatibility detail>
+应用地图与业务边界
+→ 详细 Spec
+→ 用户故事与功能测试 Case
+→ 需求业务角度审查
+→ P0/P1/P2 模块实施计划
+→ 分模块实现
+→ 按 Case 运行回测
+→ 交互友好性与业务价值评估
+→ 基于评估、Spec、应用地图的优化方案
+→ 下一轮实现/回测/评估
 ```
 
-Do not copy example text or invent an issue identifier.
+不要为了形式让 L0/L1 任务生成大量文档；也不要把 L2/L3 任务压缩成没有验收证据的建议列表。
 
-## Final review
+### 0.5 主动评估多 Agent 协作
 
-Review from five angles:
+主 Agent 在 L2/L3，或发现两个及以上可分解工作包时，应主动评估多 Agent 是否能隔离上下文噪音、缩短等待或提供独立审核；有明显收益时主动开启，不必等待用户点名。多 Agent 不是数量指标：如果协调成本、依赖或合并风险高于收益，就保持串行。
 
-1. user/business outcome;
-2. data and content semantics;
-3. correctness, security, performance, and maintainability;
-4. interaction, accessibility, and failure recovery;
-5. operations, governance, rollback, and release evidence.
+- 优先考虑“业务/产品审查、代码实现、运行验证/UX 评估”三类视角，再根据任务性质增减或合并角色；这是启发式分工，不是固定编制。
+- 协作方式优先遵循当前主 Agent 的能力、平台预设、更高优先级规则和项目约定。本节及 [完整研发工作流](references/end-to-end-workflow.md) 中的代理契约，只在缺少现成标准时作为参考，不覆盖已有调度、写集、重试或验收机制。
+- 没有现成标准时，可给子 Agent 说明目标、上下文、依赖、预期产物和允许范围。并行写入必须同时满足：写集不重叠、共享契约已稳定、工作区/分支或 worktree 隔离、可独立验证和回滚；不满足时保持串行。
+- 每次准备 spawn 和每个 Wave 收口时先做并发容量快照：当前任务树运行 Agent（包含主 Agent/Controller）、运行中的子 Agent、平台任务树上限、应用内可见的活跃主任务、独立 `READY` 工作包、审核积压和系统资源压力。无法看到其他窗口的子 Agent 数时必须记为 `UNKNOWN`，不能按 0 计算。
+- 采用渐进扩容：默认先开 1 个并保留 Controller/Reviewer 容量；只有上一 Wave 无失败/超时/冲突、审核积压可控、资源正常且仍有独立工作包时才增加 1 个。多窗口活跃、全局子 Agent 负载未知、审核积压或资源压力存在时最多保留 1 个或串行。需要全机硬上限时使用平台全局调度器或带原子租约/TTL 的共享信号量。
+- 主 Agent 继续负责业务边界、结果整合和最终验证。子 Agent 的完成声明是输入，不是自动放行结论；审查深度按任务风险和现有平台能力决定。
+- 子 Agent 无结果、超时或只给建议时，如实反映实际产物，并按当前平台机制决定重派、收缩或由主 Agent 接手；没有平台标准时，优先保持原任务边界，避免为了补偿失败而盲目扩大范围。
 
-For L2/L3, deliver:
+### 0.6 分层模型执行与长上下文防漂移
 
-- outcome and remaining boundary;
-- artifacts and traceability;
-- side effects performed and explicitly not performed;
-- commands, URLs, logs, data, or screenshots used as evidence;
-- evidence level and observation source;
-- P0/P1/P2 findings and the next release gate.
+L3 任务同时满足“跨仓库/长周期、工作包可独立验收、平台有不同能力或成本模型”时，读取 [分层模型多 Agent 闭环](references/multi-model-orchestration.md)，并复制 [主执行台账](templates/execution-ledger.md) 作为唯一进度源。
 
-Read [tool adapters](references/tool-adapters.md) only when mapping this protocol to a specific environment. Tool availability changes the evidence you can collect, not the truth standard.
+- 高判断力 Controller 负责目标、Spec、依赖、授权边界、跨仓契约、P0/P1 和最终放行；高吞吐 Implementer 只处理写集、Case 和停止条件明确的任务。
+- 模型名称不是规则。reasoning 档位不能替代模型能力分层；只有一个模型时仍用新上下文/独立 Agent 隔离实现与审查。
+- 子 Agent 的 DONE 是候选交付，必须依次经过 Spec Review、Quality Review 和主 Agent 当前环境复验，才能把台账推进为 VERIFIED/DONE。
+- 每个 Wave 开始和结束都重读 baseline、plan、decision log、台账、Git/运行事实；现场与文档冲突时先修计划，防止用旧上下文继续实施。
+- 用户要求最终无 P0/P1 时，P0/P1 未清零、BLOCKED 未解除或旧失败 Case 未回归都不得放行。轮数、token 和时间耗尽不等于完成。
+- 并行调度不扩大 Git、Jenkins、部署、数据写入、删除和重启权限；同一外部目标只允许一个执行者。
+
+### 1. 盘点
+
+- 查找并阅读最近作用域内的 `AGENTS.md`、README、方案文档和项目脚本。
+- 用快速搜索定位入口：路由、页面、API、Controller/Service/DTO、数据库表、任务表和测试。
+- L2/L3 先建立任务基线、决策日志、应用地图和边界；记录用户路径、角色、业务对象、状态轴、非目标和不可触碰边界。
+- 先建立运行基线：前端 URL/dev-server、后端 health/API/端口、必要时进程和日志证据；记录当前分支、脏文件和时间戳。
+- 若服务已运行，直接访问用户给出的 URL；收集页面状态、console、网络请求、关键交互和响应时间。服务已运行时禁止自动重启；服务不可用时明确 blocked 或改用静态/日志/接口替代验证。
+- 数据任务优先查询事实表；页面和日志仅用于补充解释。
+- 记录热部署状态和不能触碰的边界；JRebel 需要能追踪 `compile → target/classes → reload/reconfigure`。
+
+### 2. 方案和边界
+
+L2/L3 用户要求“先方案”时，先写一份带日期的 Markdown 文档，至少包括：
+
+- 目标、非目标和用户工作流。
+- 模块/页面/API/数据表边界。
+- REAL/HYBRID/DEMO/PLANNED 状态。
+- 性能、数据质量、权限、安全和热部署策略。
+- 验收矩阵：用户、数据、技术、视觉/交互四个视角。
+- 风险、回滚方式和下一步。
+
+L2/L3 不把一份“技术实现方案”当成完整需求。必须分别形成应用地图/边界、详细 Spec、用户故事/测试 Case 和业务角度审查，并在方案之间维护需求追踪关系。用户要求“再迭代两遍”时，每轮保留上一轮文档和回测，不覆盖历史结论。
+
+L0/L1 只在用户明确要求正式方案文档时落盘；否则在回复中给出短方案后直接实现，不要为了形式阻塞任务。
+
+### 3. 实现
+
+- 先修数据/API 契约和状态，再修 UI；共享目录、菜单、状态和文案应只有一个事实源。
+- 复用已有组件、请求封装、设计 token、数据库脚本和运行脚本，避免另起一套平行实现。
+- 对慢接口先测量：请求数量、重复请求、串行等待、SQL/聚合、返回体大小和缓存命中，再做最小有效优化。
+- 对数据回跑先记录任务 ID、来源、时间范围和旧残留候选；禁止未经确认删除或覆盖数据。
+- 建立 `需求/故事 → Spec → 实现文件/API → Case → 证据 → 状态` 追踪表；先修对象、字段、状态、动作闸门和 API 契约，再修 UI 文案和视觉细节。
+- 实现前必须盘点所有正式业务状态写入路径：用户入口、后台任务、AI 回调、研究保存、地图生成/重建、同步/回流、批处理和定时任务；逐条记录触发者、写入字段、人工确认、权限、幂等、审计和回滚。
+- 同一业务动作只能有一个策略源。页面、任务和回调只能调用统一的允许/阻断判断，不能各自决定是否建项、跟踪、建图、重建、关联、同步或回流；新增入口必须加入写入路径清单和负向 Case。
+
+### 4. 验证
+
+L2/L3 按风险选择并覆盖下列受影响类别；L0/L1 只执行静态检查和与改动直接相关的类别，无关项标记 NOT_APPLICABLE：
+
+- 静态：编码/BOM、乱码、类型/语法、`git diff --check`、敏感信息。
+- 运行：目标 URL、关键页面、空态/加载态/错误态、console 和网络请求。
+- 用户：从首页到目标动作的完整路径、少绕路、状态可理解、下一步明确。
+- 数据：采集、清洗、去重、关联、时间范围、旧残留、统计口径和页面展示一致。
+- 性能：首屏、接口耗时、重复请求、大列表、慢查询或缓存证据。
+- 热部署：确认改动进入编译产物，检查 JRebel reload/reconfigure；明确哪些变化仍需要重启。
+
+运行结果必须区分 `RUNTIME_PASS`、`STATIC_PASS_PENDING_RUNTIME`、`OLD_RUNTIME`、`PARTIAL_PASS`、`BLOCKED`、`NOT_RUN` 和 `FAIL`。如果服务已运行但未重载，源码通过不等于运行通过；如果浏览器不可用，必须说明 UI/视觉/点击路径未验证，并用接口、DOM、日志或人工步骤降级。
+
+交互结论还要标明观察来源：`UI_OBSERVED`（真实浏览器点击/截图/可交互 DOM）、`HTTP_OBSERVED`（接口和页面加载事实）、`SOURCE_INFERRED`（源码推断）、`DOCUMENTED_ONLY`（仅文档定义）或 `NOT_EVALUATED`。没有 `UI_OBSERVED` 时只能说“交互风险初评”，不能写“真实用户体验已通过”。
+
+对数据型页面建立证据矩阵：`页面字段/交互 → API 请求与响应 → Service/Mapper → 数据库/任务表 → 时间戳/状态`。矩阵至少覆盖成功、空数据、加载中、异常、重试/重复提交和权限边界；只拿到页面数字不能证明链路完成。
+
+### 5. 复盘和交付
+
+用五个角度复盘：
+
+1. 用户/业务：是否更贴近日常工作流，是否减少判断和点击成本。
+2. 数据/内容：文字是否准确，中文/英文是否统一，空态/异常/状态是否有业务含义。
+3. 技术/性能：接口、数据库、缓存、异常、权限和热部署是否可靠。
+4. 视觉/交互：风格、层级、响应式、键盘/鼠标、反馈和可达性是否统一。
+5. 运营/治理：数据源是否覆盖，采集→清洗→去重→持久化→关联→AI→页面是否闭环，任务是否可重试、幂等、观测和回滚。
+
+招投标、爬虫和数据回跑任务额外核对：每个来源是否真正执行，raw 数量和字段完整性是否合理，清洗放行/拦截原因是否可解释，重复线索和项目关联是否有证据，任务状态/日志/重试是否与页面一致；不能用“任务成功”替代链路质量验收。
+
+再逐条对照方案文档，标记“完成/部分完成/未完成/新增决策”，并把新增决策写回文档。
+
+L2/L3 额外必须分别评估：
+
+- 交互友好性：对象/上下文是否清楚，状态是否可理解，阻断是否告诉用户原因和下一步，跨页是否串线，保存/重试/重复提交是否有反馈；
+- 业务功能价值：是否减少发现/核验/决策时间，是否提高证据可信度，是否减少误建项/误跟踪/误投标，是否形成可复用的人工闭环；
+- 迭代价值：本轮问题是否来自事实和 Case，优化是否引用 Spec/应用地图，是否通过新的回测证据证明改善。
+
+使用分层模型闭环时，额外交付主执行台账、各 Agent 交付登记、Context Re-anchor 记录、P0/P1 收敛历史和每个外部审批 Gate。完成百分比只作导航，不能替代 Gate。
+
+用户要求多轮时，只有 P0 证据真正闭合才能放行；“轮数完成”不等于“功能完成”。
+
+L2/L3 最终回复使用以下结构；L0/L1 只保留与当前风险相关的最小子集：
+
+```markdown
+结论：是否完成、是否可继续使用
+需求与产物：应用地图、Spec、用户故事/Case、业务审查、每轮回测和优化方案
+授权与写入审计：操作模式、允许/禁止动作、正式状态写入路径、唯一策略源和未执行的副作用 Case
+已完成：文件、接口、页面、数据链路、需求追踪
+验证：URL、命令、日志、数据库或截图证据
+证据等级：RUNTIME_PASS / STATIC_PASS_PENDING_RUNTIME / OLD_RUNTIME / PARTIAL_PASS / BLOCKED / NOT_RUN / FAIL
+交互证据：UI_OBSERVED / HTTP_OBSERVED / SOURCE_INFERRED / DOCUMENTED_ONLY / NOT_EVALUATED
+边界：REAL / HYBRID / DEMO / PLANNED 和已知风险
+复盘：用户/业务、数据/内容、技术/性能、视觉/交互、运营/治理、业务价值
+迭代：本轮问题、优化方案、下一轮目标和放行门槛
+下一步：P0/P1/P2，只有真正需要用户决策的事项才提问
+```
+
+## 工具适配
+
+读取 `references/tool-adapters.md` 选择当前工具的命令映射。工具名称不同不改变执行协议；没有子 Agent 时由主 Agent 串行承担审查、实现和验证，这只改变调度方式，不自动降低运行证据等级。没有浏览器、数据库、日志等观察能力时，对受影响的验证项标记 `BLOCKED` / `NOT_RUN`，并用静态检查、接口或人工步骤替代。
+
+## 项目特定注意事项
+
+- Java/Vue/Markdown/YAML/JSON 文件保持 UTF-8 无 BOM；中文直接写入。
+- Windows 命令优先使用 `rg`、PowerShell 和项目已有脚本；含中文 PostgreSQL SQL 使用 UTF-8 安全流程。
+- 长 Snowflake/任务 ID 全程按字符串处理，禁止 `Number` 转换造成精度丢失。
+- 不把服务器密码、Bearer token、Cookie、License Server 完整 token 写进文件或最终回复。
+- 如果用户明确说服务已启动，默认不重启；先验证热部署和运行态。

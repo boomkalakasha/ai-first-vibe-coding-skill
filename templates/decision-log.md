@@ -1,5 +1,19 @@
-# Decision log
+# AI-first 业务决策日志
 
-| ID | Time | Context/evidence | Decision | Alternatives rejected | Consequence | Owner | Revisit trigger |
-|---|---|---|---|---|---|---|---|
-| D-001 | | | | | | | |
+| 决策编号 | 日期 | 冲突/问题 | 事实来源 | 采用决策 | 放弃方案 | 影响对象/动作/API | 验证方式 | 状态 |
+|---|---|---|---|---|---|---|---|---|
+| D-001 | | | | | | | | 已验证 / 待运行验证 / PLANNED |
+
+## 单条决策补充记录
+
+- 决策编号：
+- 业务问题：
+- 直接事实：
+- 允许推出的结论：
+- 不能推出的结论：
+- 采用方案和原因：
+- 影响的角色、对象、状态和动作：
+- 是否改变 Spec/用户故事/测试 Case：
+- 是否需要人工确认、迁移、回滚或重启：
+- 证据等级：RUNTIME_PASS / STATIC_PASS_PENDING_RUNTIME / OLD_RUNTIME / PARTIAL_PASS / BLOCKED / NOT_RUN / FAIL
+- 后续责任人和截止条件：

@@ -1,0 +1,16 @@
+{
+  "expectations": [
+    {"text": "Controller and high-throughput implementer roles are explicit", "passed": true, "evidence": "Evaluator inferred high/low capability roles from the scenario."},
+    {"text": "Model routing is capability-based and does not hardcode product names", "passed": true, "evidence": "Evaluator used capability descriptions."},
+    {"text": "A single execution ledger records dependencies, agents, writes, evidence and approvals", "passed": true, "evidence": "Evaluator independently proposed a central ledger."},
+    {"text": "DONE requires ordered Spec Review, Quality Review and controller re-verification", "passed": false, "evidence": "The previous Skill did not explicitly teach the ordered three-stage review."},
+    {"text": "Every wave re-anchors baseline, plan, decisions, Git and runtime facts", "passed": false, "evidence": "Evaluator proposed compact handoffs but not the full wave re-anchor contract from the Skill."},
+    {"text": "Parallel writes require stable contracts, isolated workspaces and independent rollback", "passed": false, "evidence": "Only non-overlapping files were explicit; stable contract, worktree isolation and rollback were inferred or absent."},
+    {"text": "Git, Jenkins, deployment, database, deletion and restart remain separate approvals", "passed": true, "evidence": "The previous Skill already taught separate side effects."},
+    {"text": "P0 and P1 must both be zero when the user sets that release rule", "passed": false, "evidence": "Previous Skill required P0 closure but allowed controlled P1; evaluator had to infer the stricter rule."},
+    {"text": "Repeated work without new evidence reaches an explicit HOLD/BLOCKED stop", "passed": false, "evidence": "Evaluator inferred no-progress stopping; baseline template lacked retry and wave fields."}
+  ],
+  "summary": {"passed": 4, "failed": 5, "total": 9},
+  "grading_mode": "manual",
+  "timing": "NOT_RECORDED"
+}

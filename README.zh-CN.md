@@ -2,19 +2,35 @@
 
 ![BOOMKALAKASHA 水印](assets/brand/watermark-auto.svg)
 
-[English](README.md) · [快速开始](docs/quick-start.zh-CN.md) · [品牌](docs/brand.md) · [变更日志](CHANGELOG.md) · [贡献指南](CONTRIBUTING.md) · [支持](SUPPORT.md) · [安全策略](SECURITY.md)
+[English](README.md) · [快速开始](docs/quick-start.zh-CN.md) · [AI 操作指南](docs/ai-operation-guide.zh-CN.md) · [品牌](docs/brand.md) · [变更日志](CHANGELOG.md) · [贡献指南](CONTRIBUTING.md) · [支持](SUPPORT.md) · [安全策略](SECURITY.md)
 
 > **让 AI 自主分工，把交付交给证据验收。**
 >
 > **Let AI divide the work; let evidence earn the release.**
 
-在明确授权边界内，这个 Skill 会把复杂目标拆成边界清楚的 Agent 工作包，由不同角色独立实现、复核和回测，再根据证据决定是否放行。它适合服务重构、跨仓协作和多轮验收复盘，而不只是生成代码。
+在明确授权边界内，这个 Skill 会把复杂目标拆成边界清楚的 Agent 工作包，由不同角色独立实现、复核和回测，再根据证据决定是否放行。它适合服务重构、跨仓协作、长周期交付和多轮验收复盘，而不只是生成代码。
 
-发布状态与下载物料以 [GitHub Releases](https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases) 为准。当前源码声明版本为 `v1.1.3`；可复现安装应使用不可变标签物料，且仅创建标签不能证明 Release 门禁已经通过。
+发布状态与下载物料以 [GitHub Releases](https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases) 为准。最新公开稳定版是 [`v1.1.3`](https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases/tag/v1.1.3)；当前源码声明的是本地候选版 `v1.2.0`。可复现安装应使用不可变标签物料，且仅创建标签不能证明 Release 门禁已经通过。
+
+## 一眼看懂：它能帮你做什么
+
+| 你想完成的事 | 这个 Skill 怎么帮你 | 最后拿到什么 |
+| --- | --- | --- |
+| 把模糊目标变成可执行计划 | 先梳理结果、边界、契约、Case 和决策点，再进入编码 | 任务基线、Spec 和可追踪验收 Case |
+| 把长任务交给多个 Agent | 为每个 Agent 划定写集、角色和停止条件，并按实时容量信号调整并发 | 一份统一执行台账，而不是散落的“已完成”消息 |
+| 判断改动是否真的可以放行 | 分开源码、构建、运行、业务、发布和切流证据 | 带 `P0/P1` 门禁、明确未知项的放行结论 |
+| 在 GitHub、GitLab 或 Jenkins 上安全交付 | 按仓库选择交付 profile，把提交、评审、标签和部署证据分开 | 可审查、可回滚、证据边界清晰的分支/MR/PR 路径 |
+
+它尤其适合服务重构、跨仓改动、面向生产的数据链路，以及“测试通过”仍不足以回答是否可用的长周期任务。
 
 ## 60 秒路径
 
-请使用[安装、升级、回滚与卸载指南](docs/quick-start.zh-CN.md)。打包命令只能生成本地物料与校验和；除非在对应宿主中观察到行为，宿主发现或运行态仍是 `DOCUMENTED_ONLY`。
+1. 让 Agent 宿主读取本仓库的 `SKILL.md`，或按[安装、升级、回滚与卸载指南](docs/quick-start.zh-CN.md)安装；[AI 操作指南](docs/ai-operation-guide.zh-CN.md)给出最小安全工作闭环。
+2. 第一个任务先要求建立基线、用户路径、验收 Case 和最小安全写集。
+3. 长周期或多 Agent 任务复制[执行台账](templates/execution-ledger.md)和[任务基线](templates/task-baseline.md)，每个 Wave 收口都重新核对容量。
+4. 按下面的本地校验命令回收证据。除非在对应宿主中真实观察到行为，宿主发现或运行态仍是 `DOCUMENTED_ONLY`。
+
+如果只是单行翻译、简单问答或纯信息查询，不必套用完整流程。
 
 ## 核心亮点
 
@@ -36,12 +52,15 @@
 ### Codex
 
 ```powershell
-git clone https://github.com/boomkalakasha/ai-first-vibe-coding-skill.git "$env:USERPROFILE\.codex\skills\ai-first-vibe-coding"
+git clone --depth 1 https://github.com/boomkalakasha/ai-first-vibe-coding-skill.git "$env:USERPROFILE\.codex\skills\ai-first-vibe-coding"
 ```
 
-重载 Codex 会话后，可显式使用 `$ai-first-vibe-coding`，也可通过匹配的研发任务描述触发。
+这是最短的可用安装路径。重载 Codex 会话后，可显式使用
+`$ai-first-vibe-coding`，也可通过匹配的研发任务描述触发。其他宿主请让
+其读取 `SKILL.md`，并以 [AI 操作指南](docs/ai-operation-guide.zh-CN.md)
+作为不绑定具体厂商的基础工作约定。
 
-对于打包候选，执行 `pwsh -NoProfile -File scripts/package.ps1 -Version 1.1.3`，检查 `dist/manifest.json` 和 `dist/SHA256SUMS.txt`，再遵循宿主的安装文档。生成归档不等于 Codex 或其他宿主已经安装它。
+对于打包候选，执行 `pwsh -NoProfile -File scripts/package.ps1 -Version 1.2.0`，检查 `dist/manifest.json` 和 `dist/SHA256SUMS.txt`，再遵循宿主的安装文档。生成归档不等于 Codex 或其他宿主已经安装它。
 
 ### 其他 Agent
 
@@ -59,7 +78,7 @@ git clone https://github.com/boomkalakasha/ai-first-vibe-coding-skill.git "$env:
 ```powershell
 python scripts/validate.py
 python scripts/run_evals.py
-pwsh -NoProfile -File scripts/package.ps1 -Version 1.1.3
+pwsh -NoProfile -File scripts/package.ps1 -Version 1.2.0
 ```
 
 验证器检查 Skill frontmatter、JSON、相对 Markdown 链接、BOM、已知内部信息模式和必要文件。它不能代替人工版权审查、完整历史 secret 扫描或真实运行态验收。
@@ -86,7 +105,7 @@ scripts/package.ps1         带 SHA-256 的可重复执行打包
 
 GitHub Release 代表公开源码/物料发布，不等于生产部署，也不等于客户现场验收。
 
-需要完整公开仓库就绪流程时，可在宿主实际提供时转交给可选的 `icarus-open-source-governance` companion。本 Skill 不声称该 companion 已安装，也不声称 GitHub 设置已经验证。
+需要完整公开仓库就绪流程时，可在宿主实际提供时转交给可选的 `icarus-open-source-governance` companion。这里的名称只是路由提示，不代表宿主已安装；GitHub Release 也不等于仓库设置或生产部署已经核验。
 
 ## 可选品牌示例
 

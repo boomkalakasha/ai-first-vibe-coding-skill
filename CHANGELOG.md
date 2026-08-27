@@ -2,6 +2,30 @@
 
 All notable changes are documented here. The project follows Semantic Versioning.
 
+## [1.2.0] - 2026-08-26
+
+> Local candidate notes; this version is not public until its tag, CI,
+> packaged assets and release gates are independently verified.
+
+### Added
+
+- Added a capability-based multi-model orchestration reference with Controller,
+  Implementer, evidence, review and release-audit roles.
+- Added a single execution-ledger lifecycle, context re-anchoring, staged
+  concurrency control and explicit P0/P1 stop gates.
+- Added reusable handoff, iteration, business-write-path and branch-policy
+  templates, plus red/green evidence for tiered-model closure and dynamic
+  multi-window concurrency.
+- Reworked both READMEs around a first-glance feature table, user scenarios and
+  a four-step first-task path so a new maintainer can choose a safe starting point.
+- Added a sanitized bilingual AI operation guide covering scope, evidence,
+  safe parallel work, tool fallbacks, privacy and community discussion.
+
+### Fixed
+
+- Clarified that a delegated `DONE`, a green build or a published Release is
+  not by itself proof of runtime or business completion.
+
 ## [1.1.3] - 2026-08-26
 
 ### Added
@@ -41,6 +65,7 @@ All notable changes are documented here. The project follows Semantic Versioning
 - Optional GitHub open-source iteration and release profile.
 - Bilingual documentation, public governance files, validation, packaging, and CI.
 
+[1.2.0]: https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases/tag/v1.2.0
 [1.1.3]: https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases/tag/v1.1.3
 [1.1.2]: https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases/tag/v1.1.2
 [1.1.1]: https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases/tag/v1.1.1
