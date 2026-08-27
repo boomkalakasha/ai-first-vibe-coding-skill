@@ -30,6 +30,7 @@ class ProductDocumentationTests(unittest.TestCase):
             for word in ("install", "upgrade", "rollback", "uninstall") if source is english else ("安装", "升级", "回滚", "卸载"):
                 self.assertIn(word, source)
             self.assertIn("DOCUMENTED_ONLY", source)
+            self.assertIn("scripts/package.ps1 -Version 1.2.0", source)
 
     def test_skill_hands_public_productization_to_the_optional_governance_skill(self):
         skill = (ROOT / "SKILL.md").read_text(encoding="utf-8")
@@ -40,10 +41,10 @@ class ProductDocumentationTests(unittest.TestCase):
         english = (ROOT / "README.md").read_text(encoding="utf-8")
         chinese = (ROOT / "README.zh-CN.md").read_text(encoding="utf-8")
         self.assertIn("GitHub Releases", english)
-        self.assertIn("source declares `v1.1.3`", english)
+        self.assertIn("source declares local candidate `v1.2.0`", english)
         self.assertIn("a tag alone is not proof", english)
         self.assertIn("GitHub Releases", chinese)
-        self.assertIn("源码声明版本为 `v1.1.3`", chinese)
+        self.assertIn("当前源码声明的是本地候选版 `v1.2.0`", chinese)
         self.assertIn("仅创建标签不能证明", chinese)
         self.assertIn("optional BOOMKALAKASHA", english)
         self.assertIn("可选的 BOOMKALAKASHA", chinese)
@@ -60,6 +61,53 @@ class ProductDocumentationTests(unittest.TestCase):
         self.assertIn("https://github.com/boomkalakasha/icarus-ai-spring-scaffold", chinese)
         self.assertIn("https://github.com/boomkalakasha/icarus-open-source-governance-skill", chinese)
 
+    def test_readmes_explain_core_features_and_first_task_path(self):
+        english = (ROOT / "README.md").read_text(encoding="utf-8")
+        chinese = (ROOT / "README.zh-CN.md").read_text(encoding="utf-8")
+        for source, markers in (
+            (
+                english,
+                (
+                    "## At a glance",
+                    "Turn a fuzzy goal into an executable plan",
+                    "Split a long task across agents",
+                    "Know whether a change is really ready",
+                    "1. Install or point your agent host",
+                    "execution ledger",
+                ),
+            ),
+            (
+                chinese,
+                (
+                    "## 一眼看懂：它能帮你做什么",
+                    "把模糊目标变成可执行计划",
+                    "把长任务交给多个 Agent",
+                    "判断改动是否真的可以放行",
+                    "1. 让 Agent 宿主读取",
+                    "执行台账",
+                ),
+            ),
+        ):
+            for marker in markers:
+                self.assertIn(marker, source, marker)
+
+    def test_readmes_offer_a_simple_install_and_link_the_public_operation_guide(self):
+        english = (ROOT / "README.md").read_text(encoding="utf-8")
+        chinese = (ROOT / "README.zh-CN.md").read_text(encoding="utf-8")
+        guide = (ROOT / "docs" / "ai-operation-guide.md").read_text(encoding="utf-8")
+        guide_zh = (ROOT / "docs" / "ai-operation-guide.zh-CN.md").read_text(encoding="utf-8")
+
+        self.assertIn("git clone --depth 1", english)
+        self.assertIn("git clone --depth 1", chinese)
+        self.assertIn("docs/ai-operation-guide.md", english)
+        self.assertIn("docs/ai-operation-guide.zh-CN.md", chinese)
+        for source, markers in (
+            (guide, ("## Scope before action", "## Evidence before claims", "## Parallel work without overload", "## Privacy and public collaboration", "optional companion documentation", "not auto-loaded")),
+            (guide_zh, ("## 先定范围再行动", "## 先拿证据再下结论", "## 并行工作不能超载", "## 隐私与公开协作", "可选的配套文档", "不会自动加载")),
+        ):
+            for marker in markers:
+                self.assertIn(marker, source, marker)
+
     def test_security_policy_does_not_invent_a_response_sla(self):
         security = (ROOT / "SECURITY.md").read_text(encoding="utf-8").lower()
         self.assertNotIn("seven days", security)
@@ -72,11 +120,29 @@ class ProductDocumentationTests(unittest.TestCase):
 
     def test_changelog_records_the_v112_brand_fix(self):
         changelog = (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
-        self.assertIn("## [1.1.3] - 2026-08-26", changelog)
+        self.assertIn("## [1.2.0] - 2026-08-26", changelog)
         self.assertIn("theme-compatible BOOMKALAKASHA watermark", changelog)
 
-    def test_skill_declares_the_v113_release_version(self):
-        self.assertIn('version: "1.1.3"', (ROOT / "SKILL.md").read_text(encoding="utf-8"))
+    def test_skill_declares_the_v120_release_version(self):
+        self.assertIn('version: "1.2.0"', (ROOT / "SKILL.md").read_text(encoding="utf-8"))
+
+    def test_skill_exposes_tiered_model_and_context_drift_controls(self):
+        skill = (ROOT / "SKILL.md").read_text(encoding="utf-8")
+        for marker in (
+            "主动评估多 Agent 协作",
+            "分层模型执行与长上下文防漂移",
+            "references/multi-model-orchestration.md",
+            "P0/P1",
+        ):
+            self.assertIn(marker, skill)
+        for relative in (
+            "references/git-branch-policy.md",
+            "references/multi-model-orchestration.md",
+            "templates/business-write-path-inventory.md",
+            "templates/handoff.md",
+            "templates/iteration-manifest.md",
+        ):
+            self.assertTrue((ROOT / relative).is_file(), relative)
 
 
 if __name__ == "__main__":

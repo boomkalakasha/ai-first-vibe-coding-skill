@@ -1,0 +1,16 @@
+{
+  "expectations": [
+    {"text": "Controller and high-throughput implementer roles are explicit", "passed": true, "evidence": "Response cites SKILL.md 0.6 and the role table."},
+    {"text": "Model routing is capability-based and does not hardcode product names", "passed": true, "evidence": "Response explicitly separates capability tiers and treats exact model choice as project input."},
+    {"text": "A single execution ledger records dependencies, agents, writes, evidence and approvals", "passed": true, "evidence": "Response uses execution-ledger.md as the only progress source."},
+    {"text": "DONE requires ordered Spec Review, Quality Review and controller re-verification", "passed": true, "evidence": "Response gives the full ordered review loop."},
+    {"text": "Every wave re-anchors baseline, plan, decisions, Git and runtime facts", "passed": true, "evidence": "Response lists all six Context Re-anchor steps."},
+    {"text": "Parallel writes require stable contracts, isolated workspaces and independent rollback", "passed": true, "evidence": "Response states each prerequisite and serial fallbacks."},
+    {"text": "Git, Jenkins, deployment, database, deletion and restart remain separate approvals", "passed": true, "evidence": "Response provides separate external gates."},
+    {"text": "P0 and P1 must both be zero when the user sets that release rule", "passed": true, "evidence": "Response makes P0=0 and P1=0 hard release gates."},
+    {"text": "Repeated work without new evidence reaches an explicit HOLD/BLOCKED stop", "passed": true, "evidence": "Response stops on same-root retries without new evidence and requires baseline limits."}
+  ],
+  "summary": {"passed": 9, "failed": 0, "total": 9},
+  "grading_mode": "manual",
+  "timing": "NOT_RECORDED"
+}
