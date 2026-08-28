@@ -85,7 +85,7 @@ task. For other hosts, point the host's instruction loader at `SKILL.md` and
 use the [AI operation guide](docs/ai-operation-guide.md) as the provider-neutral
 baseline.
 
-For a packaged candidate, use `pwsh -NoProfile -File scripts/package.ps1 -Version 1.2.1`, inspect `dist/manifest.json` and `dist/SHA256SUMS.txt`, then follow your host's documented installation path. Do not treat archive creation as proof that Codex or another host installed it.
+For a packaged candidate, use `pwsh -NoProfile -File scripts/package.ps1 -Version 1.2.2`, inspect `dist/manifest.json` and `dist/SHA256SUMS.txt`, then follow your host's documented installation path. Do not treat archive creation as proof that Codex or another host installed it.
 
 ### Other agents
 
@@ -116,7 +116,7 @@ scripts/package.ps1         Repeatable distributable archive with SHA-256
 ```powershell
 python scripts/validate.py
 python scripts/run_evals.py
-pwsh -NoProfile -File scripts/package.ps1 -Version 1.2.1
+pwsh -NoProfile -File scripts/package.ps1 -Version 1.2.2
 ```
 
 The validator checks frontmatter, JSON, relative Markdown links, BOMs, repository-specific private patterns, and required project files. It is a safety net, not a substitute for manual legal/privacy review or a full secret-history scan.

@@ -53,16 +53,51 @@ jobs:
           python scripts/run_evals.py
           $version = $env:TAG_NAME.TrimStart("v")
           ./scripts/package.ps1 -Release -Version $version
-      - name: Create draft GitHub Release
+      - name: Create and verify draft GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
         shell: bash
         run: |
           set -euo pipefail
           version="${TAG_NAME#v}"
-          gh release create "${TAG_NAME}" \
-            "dist/ai-first-vibe-coding-${version}.zip" \
-            dist/ai-first-vibe-coding.skill \
-            dist/manifest.json \
-            dist/SHA256SUMS.txt \
-            --verify-tag --generate-notes --draft --title "${TAG_NAME}"
+          draft_url="$(
+            gh release create "${TAG_NAME}" \
+              "dist/ai-first-vibe-coding-${version}.zip" \
+              dist/ai-first-vibe-coding.skill \
+              dist/manifest.json \
+              dist/SHA256SUMS.txt \
+              --verify-tag --generate-notes --draft --title "${TAG_NAME}"
+          )"
+          test -n "${draft_url}"
+          actual_asset_lines="$(
+            gh api --paginate --slurp "repos/${GITHUB_REPOSITORY}/releases?per_page=100" \
+              | DRAFT_URL="${draft_url}" EXPECTED_TAG="${TAG_NAME}" python3 -c '
+import json, os, sys
+pages = json.load(sys.stdin)
+matches = [release for page in pages for release in page if release.get("html_url") == os.environ["DRAFT_URL"]]
+if len(matches) != 1:
+    raise SystemExit(f"expected one exact draft release, found {len(matches)}")
+release = matches[0]
+if not release.get("draft") or release.get("tag_name") != os.environ["EXPECTED_TAG"]:
+    raise SystemExit("exact release is not the expected draft/tag")
+print("\n".join(sorted(asset["name"] for asset in release.get("assets", []))))
+'
+          )"
+          mapfile -t actual_assets <<< "${actual_asset_lines}"
+          expected_assets=(
+            "SHA256SUMS.txt"
+            "ai-first-vibe-coding-${version}.zip"
+            "ai-first-vibe-coding.skill"
+            "manifest.json"
+          )
+          if ! diff -u <(printf '%s\n' "${expected_assets[@]}") <(printf '%s\n' "${actual_assets[@]}"); then
+            echo "Draft release assets differ from the reviewed package" >&2
+            exit 1
+          fi
+          {
+            echo "### Draft release ready"
+            echo
+            echo "Review and publish this exact CI-created draft: ${draft_url}"
+            echo
+            printf -- '- `%s`\n' "${actual_assets[@]}"
+          } >> "$GITHUB_STEP_SUMMARY"

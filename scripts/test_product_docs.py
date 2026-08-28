@@ -30,7 +30,7 @@ class ProductDocumentationTests(unittest.TestCase):
             for word in ("install", "upgrade", "rollback", "uninstall") if source is english else ("安装", "升级", "回滚", "卸载"):
                 self.assertIn(word, source)
             self.assertIn("DOCUMENTED_ONLY", source)
-            self.assertIn("scripts/package.ps1 -Version 1.2.1", source)
+            self.assertIn("scripts/package.ps1 -Version 1.2.2", source)
 
     def test_skill_hands_public_productization_to_the_optional_governance_skill(self):
         skill = (ROOT / "SKILL.md").read_text(encoding="utf-8")
@@ -137,14 +137,21 @@ class ProductDocumentationTests(unittest.TestCase):
         self.assertIn("steps.release-metadata.outputs.version", workflow)
         self.assertIn("'^v\\d+\\.\\d+\\.\\d+$'", workflow)
         self.assertNotIn("alpha|beta|rc", workflow)
+        self.assertIn('draft_url="$(' , workflow)
+        self.assertIn('gh release create "${TAG_NAME}"', workflow)
+        self.assertIn("gh api --paginate --slurp", workflow)
+        self.assertIn('release.get("html_url") == os.environ["DRAFT_URL"]', workflow)
+        self.assertIn('release.get("tag_name") != os.environ["EXPECTED_TAG"]', workflow)
+        self.assertIn('release.get("assets", [])', workflow)
+        self.assertIn("$GITHUB_STEP_SUMMARY", workflow)
 
     def test_changelog_records_the_v112_brand_fix(self):
         changelog = (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
         self.assertIn("## [1.2.1] - 2026-08-28", changelog)
         self.assertIn("theme-compatible BOOMKALAKASHA watermark", changelog)
 
-    def test_skill_declares_the_v121_release_version(self):
-        self.assertIn('version: "1.2.1"', (ROOT / "SKILL.md").read_text(encoding="utf-8"))
+    def test_skill_declares_the_v122_release_version(self):
+        self.assertIn('version: "1.2.2"', (ROOT / "SKILL.md").read_text(encoding="utf-8"))
 
     def test_skill_exposes_tiered_model_and_context_drift_controls(self):
         skill = (ROOT / "SKILL.md").read_text(encoding="utf-8")
