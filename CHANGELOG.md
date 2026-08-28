@@ -2,10 +2,23 @@
 
 All notable changes are documented here. The project follows Semantic Versioning.
 
+## [1.2.2] - 2026-08-28
+
+### Fixed
+
+- Added a fail-closed post-create check for the exact four draft Release assets.
+- Captured the CI-created `untagged-*` draft URL directly, verified that exact
+  draft and its assets through the GitHub API, and exposed the URL in the
+  workflow summary so a maintainer does not accidentally publish a second,
+  empty Release form for the same tag.
+- Reissued the packaged assets that were not retained on the immutable
+  `v1.2.1` Release; the source tag and notes for `v1.2.1` remain unchanged.
+
 ## [1.2.1] - 2026-08-28
 
-> Candidate notes for the next release; this version is not public until its
-> tag, CI, packaged assets and release gates are independently verified.
+> The source release is public. Its custom packaged assets were not retained
+> when a second empty Release form was published for the same tag; use
+> `v1.2.2` for the complete downloadable package and checksums.
 
 ### Changed
 
@@ -85,6 +98,7 @@ All notable changes are documented here. The project follows Semantic Versioning
 - Optional GitHub open-source iteration and release profile.
 - Bilingual documentation, public governance files, validation, packaging, and CI.
 
+[1.2.2]: https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases/tag/v1.2.2
 [1.2.1]: https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases/tag/v1.2.1
 [1.2.0]: https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases/tag/v1.2.0
 [1.1.3]: https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases/tag/v1.1.3
