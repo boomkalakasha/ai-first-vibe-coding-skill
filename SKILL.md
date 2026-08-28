@@ -3,7 +3,7 @@ name: ai-first-vibe-coding
 description: Use when a repository task needs implementation, refactoring, runtime or data-flow review, multi-agent delivery, or iterative acceptance; also use for 中文软件研发中的方案、实现、联调、复盘、验收、发版和 Skill/eval 沉淀. Skip simple translation, one-line commands, or purely informational questions.
 license: Apache-2.0
 metadata:
-  version: "1.2.3"
+  version: "1.2.4"
   repository: https://github.com/boomkalakasha/ai-first-vibe-coding-skill
 ---
 

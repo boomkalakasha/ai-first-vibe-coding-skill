@@ -30,7 +30,7 @@ class ProductDocumentationTests(unittest.TestCase):
             for word in ("install", "upgrade", "rollback", "uninstall") if source is english else ("安装", "升级", "回滚", "卸载"):
                 self.assertIn(word, source)
             self.assertIn("DOCUMENTED_ONLY", source)
-            self.assertIn("scripts/package.ps1 -Version 1.2.3", source)
+            self.assertIn("scripts/package.ps1 -Version 1.2.4", source)
 
     def test_skill_hands_public_productization_to_the_optional_governance_skill(self):
         skill = (ROOT / "SKILL.md").read_text(encoding="utf-8")
@@ -140,9 +140,11 @@ class ProductDocumentationTests(unittest.TestCase):
         self.assertIn('draft_url="$(' , workflow)
         self.assertIn('gh release create "${TAG_NAME}"', workflow)
         self.assertIn("gh api --paginate --slurp", workflow)
-        self.assertIn('release.get("html_url") == os.environ["DRAFT_URL"]', workflow)
-        self.assertIn('release.get("tag_name") == os.environ["EXPECTED_TAG"]', workflow)
-        self.assertIn('release.get("assets", [])', workflow)
+        self.assertIn("existing_draft_count", workflow)
+        self.assertIn('release.get("draft") and release.get("tag_name") == os.environ["EXPECTED_TAG"]', workflow)
+        self.assertIn("for attempt in 1 2 3 4 5", workflow)
+        self.assertIn('len(assets) == 4', workflow)
+        self.assertIn('assets = matches[0].get("assets", [])', workflow)
         self.assertIn("$GITHUB_STEP_SUMMARY", workflow)
 
     def test_release_step_keeps_every_shell_line_inside_the_yaml_block(self):
@@ -163,8 +165,8 @@ class ProductDocumentationTests(unittest.TestCase):
         self.assertIn("## [1.2.1] - 2026-08-28", changelog)
         self.assertIn("theme-compatible BOOMKALAKASHA watermark", changelog)
 
-    def test_skill_declares_the_v123_release_version(self):
-        self.assertIn('version: "1.2.3"', (ROOT / "SKILL.md").read_text(encoding="utf-8"))
+    def test_skill_declares_the_v124_release_version(self):
+        self.assertIn('version: "1.2.4"', (ROOT / "SKILL.md").read_text(encoding="utf-8"))
 
     def test_skill_exposes_tiered_model_and_context_drift_controls(self):
         skill = (ROOT / "SKILL.md").read_text(encoding="utf-8")
