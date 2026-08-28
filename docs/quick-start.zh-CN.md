@@ -10,7 +10,7 @@
 
 ```powershell
 python scripts/validate.py
-pwsh -NoProfile -File scripts/package.ps1 -Version 1.2.2
+pwsh -NoProfile -File scripts/package.ps1 -Version 1.2.3
 Get-Content dist\SHA256SUMS.txt
 ```
 
