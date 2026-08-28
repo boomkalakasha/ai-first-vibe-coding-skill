@@ -78,7 +78,7 @@ git clone --depth 1 https://github.com/boomkalakasha/ai-first-vibe-coding-skill.
 其读取 `SKILL.md`，并以 [AI 操作指南](docs/ai-operation-guide.zh-CN.md)
 作为不绑定具体厂商的基础工作约定。
 
-对于打包候选，执行 `pwsh -NoProfile -File scripts/package.ps1 -Version 1.2.3`，检查 `dist/manifest.json` 和 `dist/SHA256SUMS.txt`，再遵循宿主的安装文档。生成归档不等于 Codex 或其他宿主已经安装它。
+对于打包候选，执行 `pwsh -NoProfile -File scripts/package.ps1 -Version 1.2.4`，检查 `dist/manifest.json` 和 `dist/SHA256SUMS.txt`，再遵循宿主的安装文档。生成归档不等于 Codex 或其他宿主已经安装它。
 
 ### 其他 Agent
 
@@ -96,7 +96,7 @@ git clone --depth 1 https://github.com/boomkalakasha/ai-first-vibe-coding-skill.
 ```powershell
 python scripts/validate.py
 python scripts/run_evals.py
-pwsh -NoProfile -File scripts/package.ps1 -Version 1.2.3
+pwsh -NoProfile -File scripts/package.ps1 -Version 1.2.4
 ```
 
 验证器检查 Skill frontmatter、JSON、相对 Markdown 链接、BOM、已知内部信息模式和必要文件。它不能代替人工版权审查、完整历史 secret 扫描或真实运行态验收。

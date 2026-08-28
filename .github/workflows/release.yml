@@ -60,6 +60,14 @@ jobs:
         run: |
           set -euo pipefail
           version="${TAG_NAME#v}"
+          existing_draft_count="$(
+            gh api --paginate --slurp "repos/${GITHUB_REPOSITORY}/releases?per_page=100" \
+              | EXPECTED_TAG="${TAG_NAME}" python3 -c 'import json, os, sys; pages = json.load(sys.stdin); print(sum(1 for page in pages for release in page if release.get("draft") and release.get("tag_name") == os.environ["EXPECTED_TAG"]))'
+          )"
+          if [[ "${existing_draft_count}" != "0" ]]; then
+            echo "Refusing to create a second draft for ${TAG_NAME}" >&2
+            exit 1
+          fi
           draft_url="$(
             gh release create "${TAG_NAME}" \
               "dist/ai-first-vibe-coding-${version}.zip" \
@@ -69,10 +77,23 @@ jobs:
               --verify-tag --generate-notes --draft --title "${TAG_NAME}"
           )"
           test -n "${draft_url}"
-          actual_asset_lines="$(
-            gh api --paginate --slurp "repos/${GITHUB_REPOSITORY}/releases?per_page=100" \
-              | DRAFT_URL="${draft_url}" EXPECTED_TAG="${TAG_NAME}" python3 -c 'import json, os, sys; pages = json.load(sys.stdin); matches = [release for page in pages for release in page if release.get("html_url") == os.environ["DRAFT_URL"]]; len(matches) == 1 or sys.exit(f"expected one exact draft release, found {len(matches)}"); release = matches[0]; (release.get("draft") and release.get("tag_name") == os.environ["EXPECTED_TAG"]) or sys.exit("exact release is not the expected draft/tag"); print("\n".join(sorted(asset["name"] for asset in release.get("assets", []))))'
-          )"
+          actual_asset_lines=""
+          for attempt in 1 2 3 4 5; do
+            set +e
+            actual_asset_lines="$(
+              gh api --paginate --slurp "repos/${GITHUB_REPOSITORY}/releases?per_page=100" \
+                | EXPECTED_TAG="${TAG_NAME}" python3 -c 'import json, os, sys; pages = json.load(sys.stdin); matches = [release for page in pages for release in page if release.get("draft") and release.get("tag_name") == os.environ["EXPECTED_TAG"]]; len(matches) == 1 or sys.exit(f"expected one new draft release, found {len(matches)}"); assets = matches[0].get("assets", []); len(assets) == 4 or sys.exit(f"expected four uploaded assets, found {len(assets)}"); print("\n".join(sorted(asset["name"] for asset in assets)))'
+            )"
+            lookup_status=$?
+            set -e
+            if [[ ${lookup_status} -eq 0 ]]; then
+              break
+            fi
+            if [[ ${attempt} -eq 5 ]]; then
+              exit "${lookup_status}"
+            fi
+            sleep 2
+          done
           mapfile -t actual_assets <<< "${actual_asset_lines}"
           expected_assets=(
             "SHA256SUMS.txt"

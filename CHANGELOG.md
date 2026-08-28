@@ -2,7 +2,25 @@
 
 All notable changes are documented here. The project follows Semantic Versioning.
 
+## [1.2.4] - 2026-08-28
+
+### Fixed
+
+- Made draft identity independent of the differing GitHub CLI and REST URL
+  representations by enforcing zero pre-existing drafts and exactly one new
+  `draft=true` release for the expected tag.
+- Added bounded retries for GitHub's post-create consistency window until the
+  expected draft and all four reviewed assets are visible, then compare their
+  exact names.
+- Reissued the complete package after the `v1.2.3` workflow correctly created
+  its draft but failed closed while matching the draft by URL.
+
 ## [1.2.3] - 2026-08-28
+
+> The tag exists and its workflow created a private draft with all four custom
+> assets, but the post-create guard failed because GitHub CLI and REST expose
+> different URL forms for the same draft. No `v1.2.3` Release was published;
+> use `v1.2.4`.
 
 ### Fixed
 
@@ -10,14 +28,15 @@ All notable changes are documented here. The project follows Semantic Versioning
   while preserving the fail-closed draft, tag and asset checks.
 - Added a regression test for the release step's block-scalar indentation so a
   workflow parse failure is caught before another tag is created.
-- Reissued the complete packaged assets after the `v1.2.2` tag failed to start
-  its Release workflow because of invalid YAML indentation.
+- Prepared the complete packaged assets after the `v1.2.2` YAML failure; the
+  later URL-identity mismatch prevented them from becoming a public
+  `v1.2.3` Release.
 
 ## [1.2.2] - 2026-08-28
 
 > The tag exists, but GitHub rejected the Release workflow before execution
 > because the embedded Python command escaped the YAML block indentation. No
-> `v1.2.2` GitHub Release was published; use `v1.2.3`.
+> `v1.2.2` GitHub Release was published; use `v1.2.4`.
 
 ### Fixed
 
@@ -34,7 +53,7 @@ All notable changes are documented here. The project follows Semantic Versioning
 
 > The source release is public. Its custom packaged assets were not retained
 > when a second empty Release form was published for the same tag; use
-> `v1.2.3` for the complete downloadable package and checksums.
+> `v1.2.4` for the complete downloadable package and checksums.
 
 ### Changed
 
@@ -114,6 +133,7 @@ All notable changes are documented here. The project follows Semantic Versioning
 - Optional GitHub open-source iteration and release profile.
 - Bilingual documentation, public governance files, validation, packaging, and CI.
 
+[1.2.4]: https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases/tag/v1.2.4
 [1.2.3]: https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases/tag/v1.2.3
 [1.2.2]: https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases/tag/v1.2.2
 [1.2.1]: https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases/tag/v1.2.1
