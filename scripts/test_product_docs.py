@@ -30,7 +30,7 @@ class ProductDocumentationTests(unittest.TestCase):
             for word in ("install", "upgrade", "rollback", "uninstall") if source is english else ("安装", "升级", "回滚", "卸载"):
                 self.assertIn(word, source)
             self.assertIn("DOCUMENTED_ONLY", source)
-            self.assertIn("scripts/package.ps1 -Version 1.2.0", source)
+            self.assertIn("scripts/package.ps1 -Version 1.2.1", source)
 
     def test_skill_hands_public_productization_to_the_optional_governance_skill(self):
         skill = (ROOT / "SKILL.md").read_text(encoding="utf-8")
@@ -40,14 +40,26 @@ class ProductDocumentationTests(unittest.TestCase):
     def test_readmes_link_release_status_and_keep_brand_optional(self):
         english = (ROOT / "README.md").read_text(encoding="utf-8")
         chinese = (ROOT / "README.zh-CN.md").read_text(encoding="utf-8")
-        self.assertIn("GitHub Releases", english)
-        self.assertIn("source declares local candidate `v1.2.0`", english)
+        for source in (english, chinese):
+            self.assertIn("<!-- icarus-release-fact: dynamic -->", source)
+            self.assertIn("https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases/latest", source)
+            self.assertIn("https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases", source)
+        self.assertNotIn("latest public stable release is", english.lower())
+        self.assertNotIn("最新公开稳定版是", chinese)
         self.assertIn("a tag alone is not proof", english)
-        self.assertIn("GitHub Releases", chinese)
-        self.assertIn("当前源码声明的是本地候选版 `v1.2.0`", chinese)
         self.assertIn("仅创建标签不能证明", chinese)
         self.assertIn("optional BOOMKALAKASHA", english)
         self.assertIn("可选的 BOOMKALAKASHA", chinese)
+
+    def test_readmes_show_an_illustrative_execution_outcome_after_quick_start(self):
+        english = (ROOT / "README.md").read_text(encoding="utf-8")
+        chinese = (ROOT / "README.zh-CN.md").read_text(encoding="utf-8")
+        self.assertLess(english.index("## What you get"), english.index("## What makes it useful"))
+        self.assertIn("Illustrative outcome", english)
+        self.assertIn("P1: 0 open", english)
+        self.assertLess(chinese.index("## 你会得到什么"), chinese.index("## 核心亮点"))
+        self.assertIn("示意结果", chinese)
+        self.assertIn("P1：0 个未关闭", chinese)
 
     def test_readmes_lead_with_bilingual_value_proposition_and_companions(self):
         english = (ROOT / "README.md").read_text(encoding="utf-8")
@@ -117,14 +129,22 @@ class ProductDocumentationTests(unittest.TestCase):
         workflow = (ROOT / ".github" / "workflows" / "release.yml").read_text(encoding="utf-8")
         self.assertIn('$version = $env:TAG_NAME.TrimStart("v")', workflow)
         self.assertIn("-Release -Version $version", workflow)
+        self.assertIn(
+            "icarus-open-source-governance-skill/actions/release-doc-sync@"
+            "12999d05ccc73800b5d6c49b709e2f09e8303519",
+            workflow,
+        )
+        self.assertIn("steps.release-metadata.outputs.version", workflow)
+        self.assertIn("'^v\\d+\\.\\d+\\.\\d+$'", workflow)
+        self.assertNotIn("alpha|beta|rc", workflow)
 
     def test_changelog_records_the_v112_brand_fix(self):
         changelog = (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
-        self.assertIn("## [1.2.0] - 2026-08-26", changelog)
+        self.assertIn("## [1.2.1] - 2026-08-28", changelog)
         self.assertIn("theme-compatible BOOMKALAKASHA watermark", changelog)
 
-    def test_skill_declares_the_v120_release_version(self):
-        self.assertIn('version: "1.2.0"', (ROOT / "SKILL.md").read_text(encoding="utf-8"))
+    def test_skill_declares_the_v121_release_version(self):
+        self.assertIn('version: "1.2.1"', (ROOT / "SKILL.md").read_text(encoding="utf-8"))
 
     def test_skill_exposes_tiered_model_and_context_drift_controls(self):
         skill = (ROOT / "SKILL.md").read_text(encoding="utf-8")

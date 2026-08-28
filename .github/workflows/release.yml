@@ -26,9 +26,10 @@ jobs:
         with:
           python-version: "3.12"
       - name: Validate tag and metadata version
+        id: release-metadata
         shell: pwsh
         run: |
-          if ($env:TAG_NAME -notmatch '^v\d+\.\d+\.\d+(?:-(?:alpha|beta|rc)\.\d+)?$') {
+          if ($env:TAG_NAME -notmatch '^v\d+\.\d+\.\d+$') {
             throw "Unsupported release tag: $env:TAG_NAME"
           }
           git fetch origin main --no-tags
@@ -37,6 +38,13 @@ jobs:
           $tagVersion = $env:TAG_NAME.TrimStart("v")
           $skillVersion = (Select-String -Path SKILL.md -Pattern '^  version: "(.+)"$').Matches.Groups[1].Value
           if ($tagVersion -ne $skillVersion) { throw "Tag $tagVersion does not match Skill $skillVersion" }
+          Add-Content -Path $env:GITHUB_OUTPUT -Value "version=$tagVersion"
+      - name: Verify dynamic README release facts
+        uses: boomkalakasha/icarus-open-source-governance-skill/actions/release-doc-sync@12999d05ccc73800b5d6c49b709e2f09e8303519
+        with:
+          tag: ${{ env.TAG_NAME }}
+          version: ${{ steps.release-metadata.outputs.version }}
+          repository: ${{ github.repository }}
       - name: Validate and package
         shell: pwsh
         run: |

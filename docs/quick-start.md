@@ -10,7 +10,7 @@ For a packaged candidate, validate and inspect it first:
 
 ```powershell
 python scripts/validate.py
-pwsh -NoProfile -File scripts/package.ps1 -Version 1.2.0
+pwsh -NoProfile -File scripts/package.ps1 -Version 1.2.1
 Get-Content dist\SHA256SUMS.txt
 ```
 
