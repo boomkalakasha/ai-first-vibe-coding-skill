@@ -71,17 +71,7 @@ jobs:
           test -n "${draft_url}"
           actual_asset_lines="$(
             gh api --paginate --slurp "repos/${GITHUB_REPOSITORY}/releases?per_page=100" \
-              | DRAFT_URL="${draft_url}" EXPECTED_TAG="${TAG_NAME}" python3 -c '
-import json, os, sys
-pages = json.load(sys.stdin)
-matches = [release for page in pages for release in page if release.get("html_url") == os.environ["DRAFT_URL"]]
-if len(matches) != 1:
-    raise SystemExit(f"expected one exact draft release, found {len(matches)}")
-release = matches[0]
-if not release.get("draft") or release.get("tag_name") != os.environ["EXPECTED_TAG"]:
-    raise SystemExit("exact release is not the expected draft/tag")
-print("\n".join(sorted(asset["name"] for asset in release.get("assets", []))))
-'
+              | DRAFT_URL="${draft_url}" EXPECTED_TAG="${TAG_NAME}" python3 -c 'import json, os, sys; pages = json.load(sys.stdin); matches = [release for page in pages for release in page if release.get("html_url") == os.environ["DRAFT_URL"]]; len(matches) == 1 or sys.exit(f"expected one exact draft release, found {len(matches)}"); release = matches[0]; (release.get("draft") and release.get("tag_name") == os.environ["EXPECTED_TAG"]) or sys.exit("exact release is not the expected draft/tag"); print("\n".join(sorted(asset["name"] for asset in release.get("assets", []))))'
           )"
           mapfile -t actual_assets <<< "${actual_asset_lines}"
           expected_assets=(

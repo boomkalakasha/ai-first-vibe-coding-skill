@@ -2,7 +2,22 @@
 
 All notable changes are documented here. The project follows Semantic Versioning.
 
+## [1.2.3] - 2026-08-28
+
+### Fixed
+
+- Kept the exact-draft verification command inside valid GitHub Actions YAML
+  while preserving the fail-closed draft, tag and asset checks.
+- Added a regression test for the release step's block-scalar indentation so a
+  workflow parse failure is caught before another tag is created.
+- Reissued the complete packaged assets after the `v1.2.2` tag failed to start
+  its Release workflow because of invalid YAML indentation.
+
 ## [1.2.2] - 2026-08-28
+
+> The tag exists, but GitHub rejected the Release workflow before execution
+> because the embedded Python command escaped the YAML block indentation. No
+> `v1.2.2` GitHub Release was published; use `v1.2.3`.
 
 ### Fixed
 
@@ -11,14 +26,15 @@ All notable changes are documented here. The project follows Semantic Versioning
   draft and its assets through the GitHub API, and exposed the URL in the
   workflow summary so a maintainer does not accidentally publish a second,
   empty Release form for the same tag.
-- Reissued the packaged assets that were not retained on the immutable
-  `v1.2.1` Release; the source tag and notes for `v1.2.1` remain unchanged.
+- Prepared a reissue of the packaged assets missing from the immutable
+  `v1.2.1` Release; the workflow parse failure prevented that reissue from
+  becoming a `v1.2.2` Release.
 
 ## [1.2.1] - 2026-08-28
 
 > The source release is public. Its custom packaged assets were not retained
 > when a second empty Release form was published for the same tag; use
-> `v1.2.2` for the complete downloadable package and checksums.
+> `v1.2.3` for the complete downloadable package and checksums.
 
 ### Changed
 
@@ -98,6 +114,7 @@ All notable changes are documented here. The project follows Semantic Versioning
 - Optional GitHub open-source iteration and release profile.
 - Bilingual documentation, public governance files, validation, packaging, and CI.
 
+[1.2.3]: https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases/tag/v1.2.3
 [1.2.2]: https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases/tag/v1.2.2
 [1.2.1]: https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases/tag/v1.2.1
 [1.2.0]: https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases/tag/v1.2.0

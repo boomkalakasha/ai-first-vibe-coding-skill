@@ -114,8 +114,8 @@ def validate_json(errors: list[str]) -> None:
 
 def validate_release_contract(errors: list[str]) -> None:
     skill = (ROOT / "SKILL.md").read_text(encoding="utf-8")
-    if 'version: "1.2.2"' not in skill:
-        fail(errors, "SKILL.md must declare the v1.2.2 feature version")
+    if 'version: "1.2.3"' not in skill:
+        fail(errors, "SKILL.md must declare the v1.2.3 feature version")
     if "icarus-open-source-governance" not in skill or "不代表该 Skill 已安装" not in skill:
         fail(errors, "SKILL.md must provide a truthful optional governance-skill handoff")
     english = (ROOT / "README.md").read_text(encoding="utf-8")
