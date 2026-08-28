@@ -8,11 +8,16 @@
 >
 > **Let AI divide the work; let evidence earn the release.**
 
-Within clear boundaries, this Skill turns a complex goal into bounded agent work, independent review, repeated acceptance loops, and an evidence-backed release decision. It is built for refactors, cross-repository delivery, and long-running engineering work—not just code generation.
+Within clear boundaries, this Skill helps Codex or another coding agent break down the goal, assign bounded work, implement it, review it independently, and iterate until evidence supports the delivery decision. It is built for refactors, cross-repository delivery, and long-running engineering work—not just code generation.
 
 Vibe coding is excellent at creating momentum. This skill keeps that momentum while adding the pieces that production work needs: repository boundaries, fact chains, testable specifications, honest evidence levels, safe Git delivery, multi-agent contracts, and iterative P0/P1 closure.
 
-Release status and downloadable artifacts are tracked on [GitHub Releases](https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases). The latest public stable release is [`v1.1.3`](https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases/tag/v1.1.3); this source declares local candidate `v1.2.0`. Use immutable tag assets for reproducible installation, because a tag alone is not proof that its Release gate passed.
+<!-- icarus-release-fact: dynamic -->
+Public GitHub Releases and downloadable artifacts are available from the
+[latest GitHub Release](https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases/latest)
+and the [complete release history](https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases).
+Use immutable tag assets for reproducible installation; a tag alone is not proof
+that its Release gate passed.
 
 ## At a glance
 
@@ -33,6 +38,21 @@ It is especially useful for service refactors, cross-repository changes, product
 4. Run the bilingual [install, upgrade, rollback, and uninstall guide](docs/quick-start.md) and the local validation commands below. Host discovery or runtime behavior remains `DOCUMENTED_ONLY` unless observed in that host.
 
 If the work is a one-line translation or a purely informational question, skip the full workflow and use the smallest tool that answers it.
+
+## What you get
+
+**Illustrative outcome — this is a format example, not a runtime or release
+claim for your repository:**
+
+| Ledger field | Example result |
+| --- | --- |
+| Goal | Preserve the existing API while splitting one service |
+| Work packages | Contract, implementation, independent review, runtime check |
+| Evidence | 42 tests passed; runtime identity still `NOT_RUN` |
+| Gate | `P0: 0 open`; `P1: 0 open`; release remains `STATIC_PASS_PENDING_RUNTIME` |
+
+The value is the decision trail: a reviewer can see what changed, which facts
+were observed, what remains unknown, and why the candidate is or is not ready.
 
 ## What makes it useful
 
@@ -65,7 +85,7 @@ task. For other hosts, point the host's instruction loader at `SKILL.md` and
 use the [AI operation guide](docs/ai-operation-guide.md) as the provider-neutral
 baseline.
 
-For a packaged candidate, use `pwsh -NoProfile -File scripts/package.ps1 -Version 1.2.0`, inspect `dist/manifest.json` and `dist/SHA256SUMS.txt`, then follow your host's documented installation path. Do not treat archive creation as proof that Codex or another host installed it.
+For a packaged candidate, use `pwsh -NoProfile -File scripts/package.ps1 -Version 1.2.1`, inspect `dist/manifest.json` and `dist/SHA256SUMS.txt`, then follow your host's documented installation path. Do not treat archive creation as proof that Codex or another host installed it.
 
 ### Other agents
 
@@ -96,7 +116,7 @@ scripts/package.ps1         Repeatable distributable archive with SHA-256
 ```powershell
 python scripts/validate.py
 python scripts/run_evals.py
-pwsh -NoProfile -File scripts/package.ps1 -Version 1.2.0
+pwsh -NoProfile -File scripts/package.ps1 -Version 1.2.1
 ```
 
 The validator checks frontmatter, JSON, relative Markdown links, BOMs, repository-specific private patterns, and required project files. It is a safety net, not a substitute for manual legal/privacy review or a full secret-history scan.

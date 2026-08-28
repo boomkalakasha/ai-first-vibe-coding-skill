@@ -2,6 +2,26 @@
 
 All notable changes are documented here. The project follows Semantic Versioning.
 
+## [1.2.1] - 2026-08-28
+
+> Candidate notes for the next release; this version is not public until its
+> tag, CI, packaged assets and release gates are independently verified.
+
+### Changed
+
+- Reframed the bilingual first-glance description around autonomous goal
+  decomposition, bounded agent work, implementation, independent review and
+  repeated evidence-led acceptance.
+- Replaced hard-coded latest-version claims with dynamic GitHub Release facts
+  and added an illustrative execution-ledger outcome before the detailed guide.
+- Added deterministic documentation checks for the user-facing outcome example
+  and current packaging instructions.
+- Added the reusable Governance release-documentation gate, pinned to the
+  reviewed `main` commit SHA, before release packaging.
+- Aligned the public Release workflow with that gate by accepting stable
+  `vMAJOR.MINOR.PATCH` tags only; local candidate packaging may still use a
+  prerelease version without publishing it through this workflow.
+
 ## [1.2.0] - 2026-08-26
 
 > Local candidate notes; this version is not public until its tag, CI,
@@ -65,6 +85,7 @@ All notable changes are documented here. The project follows Semantic Versioning
 - Optional GitHub open-source iteration and release profile.
 - Bilingual documentation, public governance files, validation, packaging, and CI.
 
+[1.2.1]: https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases/tag/v1.2.1
 [1.2.0]: https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases/tag/v1.2.0
 [1.1.3]: https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases/tag/v1.1.3
 [1.1.2]: https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases/tag/v1.1.2
