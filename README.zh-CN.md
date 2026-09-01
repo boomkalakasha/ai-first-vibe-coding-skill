@@ -20,6 +20,7 @@
 
 | 你想完成的事 | 这个 Skill 怎么帮你 | 最后拿到什么 |
 | --- | --- | --- |
+| 完成一个安全的本地小改动 | 先使用三字段 Lite 卡片，只有风险或范围扩大才升级流程 | 目标、精确允许写集和聚焦验证，不用为小事堆流程 |
 | 把模糊目标变成可执行计划 | 先梳理结果、边界、契约、Case 和决策点，再进入编码 | 任务基线、Spec 和可追踪验收 Case |
 | 把长任务交给多个 Agent | 为每个 Agent 划定写集、角色和停止条件，并按实时容量信号调整并发 | 一份统一执行台账，而不是散落的“已完成”消息 |
 | 判断改动是否真的可以放行 | 分开源码、构建、运行、业务、发布和切流证据 | 带 `P0/P1` 门禁、明确未知项的放行结论 |
@@ -30,11 +31,22 @@
 ## 60 秒路径
 
 1. 让 Agent 宿主读取本仓库的 `SKILL.md`，或按[安装、升级、回滚与卸载指南](docs/quick-start.zh-CN.md)安装；[AI 操作指南](docs/ai-operation-guide.zh-CN.md)给出最小安全工作闭环。
-2. 第一个任务先要求建立基线、用户路径、验收 Case 和最小安全写集。
+2. 如果只是一个安全的本地改动，先使用 [Lite 任务卡](templates/lite-task-card.md)：目标、允许影响和验证。任务更大时，再建立基线、用户路径、验收 Case 和最小安全写集。
 3. 长周期或多 Agent 任务复制[执行台账](templates/execution-ledger.md)和[任务基线](templates/task-baseline.md)，每个 Wave 收口都重新核对容量。
 4. 按下面的本地校验命令回收证据。除非在对应宿主中真实观察到行为，宿主发现或运行态仍是 `DOCUMENTED_ONLY`。
 
-如果只是单行翻译、简单问答或纯信息查询，不必套用完整流程。
+如果只是单行翻译、简单问答或纯信息查询，不必套用完整流程。若是可聚焦验证的本地代码/文档修复，优先使用 [Lite 交付](references/lite-delivery.md)，而不是完整台账。
+
+### 用真实记录判断 Skill 是否有帮助
+
+不要把下载量或打包流程的完整度当成用户价值。若要对比“不使用 Skill、只给短提示词、使用 AI-first”，复制
+[`comparative-trials.template.json`](evals/comparative-trials.template.json)，让三组执行同一个任务和同一套成功标准，再校验记录：
+
+```powershell
+python scripts/check_comparative_trials.py --results path/to/results.json
+```
+
+模板故意标记为 `PLANNED`。只有人或真实宿主记录观察到的状态、耗时、返工次数以及三组一致的验收标准后，它才成为证据；它不能证明外部采用，也不能代替有统计意义的用户研究。
 
 ## 你会得到什么
 
@@ -55,6 +67,7 @@
 - 按风险从单文件修复平滑扩展到跨仓库、跨运行态交付，小任务不堆文档，大任务不省验收。
 - 明确区分源码、构建、测试、运行、业务、发布、部署与切流证据。
 - 核对项目规范与当前源码、配置和运行事实；关键证据不足时主动询问，不强行下结论。
+- 主动判断项目或模块是否真的需要 AI 引导；只有存在独特、可验证边界时才沉淀最小项目文档，避免每个目录重复复制规则。
 - 保护脏工作区；建分支、提交、推送、PR、标签、发布、部署、写库、重启和清理分别管理。
 - 用“需求 → 契约 → Case → 实现 → 证据 → 放行状态”避免上下文漂移。
 - 支持 Controller / Implementer / Reviewer 多 Agent 协作，但不把子 Agent 的完成声明直接当作验收。
@@ -79,7 +92,7 @@ git clone --depth 1 https://github.com/boomkalakasha/ai-first-vibe-coding-skill.
 其读取 `SKILL.md`，并以 [AI 操作指南](docs/ai-operation-guide.zh-CN.md)
 作为不绑定具体厂商的基础工作约定。
 
-对于打包候选，执行 `pwsh -NoProfile -File scripts/package.ps1 -Version 1.2.5`，检查 `dist/manifest.json` 和 `dist/SHA256SUMS.txt`，再遵循宿主的安装文档。生成归档不等于 Codex 或其他宿主已经安装它。
+对于 1.3.0 打包候选，执行 `pwsh -NoProfile -File scripts/package.ps1 -Version 1.3.0`，检查 `dist/manifest.json` 和 `dist/SHA256SUMS.txt`，再遵循宿主的安装文档。生成归档不等于 Codex 或其他宿主已经安装它，也不代表 1.3.0 已公开发布。
 
 ### 其他 Agent
 
@@ -97,7 +110,7 @@ git clone --depth 1 https://github.com/boomkalakasha/ai-first-vibe-coding-skill.
 ```powershell
 python scripts/validate.py
 python scripts/run_evals.py
-pwsh -NoProfile -File scripts/package.ps1 -Version 1.2.5
+pwsh -NoProfile -File scripts/package.ps1 -Version 1.3.0
 ```
 
 验证器检查 Skill frontmatter、JSON、相对 Markdown 链接、BOM、已知内部信息模式和必要文件。它不能代替人工版权审查、完整历史 secret 扫描或真实运行态验收。
@@ -118,9 +131,16 @@ scripts/package.ps1         带 SHA-256 的可重复执行打包
 
 ## Git 发版模式
 
+公共核心不携带内部制度，采用以下分层：
+
+`公开核心 → 组织策略 → 项目规范 → 本机偏好`
+
+这表示内容归属，不表示覆盖顺序；当前授权和项目规范优先于组织、本机与公开默认值。
+已公开旧历史的迁移边界见[历史说明](references/legacy-public-history.md)。
+
 - `project-defined`：以项目最近作用域内的规则为准。
 - `github-open-source`：受保护 `main`、PR、SemVer tag、GitHub Release、校验和、可选来源证明和 fork 安全 CI。
-- `internal-gitlab`：使用组织提供的 MR/Jenkins/客户分支规范。
+- `organization-supplied`：使用项目明确选择的私有组织策略；分支、CI 和客户交付细节不进入这个公共包。
 
 GitHub Release 代表公开源码/物料发布，不等于生产部署，也不等于客户现场验收。
 

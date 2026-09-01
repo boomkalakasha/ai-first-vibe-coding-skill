@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "task": {
+    "id": "replace-with-one-shared-task-id",
+    "successCriteria": [
+      "replace-with-the-same-observable-success-criterion-for-all-variants"
+    ]
+  },
+  "variants": [
+    {
+      "id": "no-skill",
+      "taskId": "replace-with-one-shared-task-id",
+      "status": "PLANNED",
+      "observationSource": "DOCUMENTED_ONLY"
+    },
+    {
+      "id": "short-prompt",
+      "taskId": "replace-with-one-shared-task-id",
+      "status": "PLANNED",
+      "observationSource": "DOCUMENTED_ONLY"
+    },
+    {
+      "id": "ai-first",
+      "taskId": "replace-with-one-shared-task-id",
+      "status": "PLANNED",
+      "observationSource": "DOCUMENTED_ONLY"
+    }
+  ]
+}

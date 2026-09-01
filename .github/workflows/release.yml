@@ -25,6 +25,8 @@ jobs:
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0, reviewed 2026-08-25
         with:
           python-version: "3.12"
+      - name: Fetch every public branch ref for the history boundary
+        run: git fetch --no-tags origin '+refs/heads/*:refs/remotes/origin/*'
       - name: Validate tag and metadata version
         id: release-metadata
         shell: pwsh
@@ -49,6 +51,7 @@ jobs:
         shell: pwsh
         run: |
           python scripts/validate.py
+          python scripts/check_history_boundaries.py
           python -m unittest discover -s scripts -p 'test_*.py'
           python scripts/run_evals.py
           $version = $env:TAG_NAME.TrimStart("v")
@@ -60,12 +63,13 @@ jobs:
         run: |
           set -euo pipefail
           version="${TAG_NAME#v}"
-          existing_draft_count="$(
-            gh api --paginate --slurp "repos/${GITHUB_REPOSITORY}/releases?per_page=100" \
-              | EXPECTED_TAG="${TAG_NAME}" python3 -c 'import json, os, sys; pages = json.load(sys.stdin); print(sum(1 for page in pages for release in page if release.get("draft") and release.get("tag_name") == os.environ["EXPECTED_TAG"]))'
+          export EXPECTED_TAG="${TAG_NAME}"
+          existing_release_count="$(
+            gh api --paginate --slurp "repos/${GITHUB_REPOSITORY}/releases?per_page=100" |
+              python3 -c 'import json, os, sys; pages = json.load(sys.stdin); print(sum(1 for page in pages for release in page if release.get("tag_name") == os.environ["EXPECTED_TAG"]))'
           )"
-          if [[ "${existing_draft_count}" != "0" ]]; then
-            echo "Refusing to create a second draft for ${TAG_NAME}" >&2
+          if [[ "${existing_release_count}" != "0" ]]; then
+            echo "Refusing to reuse an existing release or draft for ${TAG_NAME}" >&2
             exit 1
           fi
           draft_url="$(
@@ -81,8 +85,8 @@ jobs:
           for attempt in 1 2 3 4 5; do
             set +e
             actual_asset_lines="$(
-              gh api --paginate --slurp "repos/${GITHUB_REPOSITORY}/releases?per_page=100" \
-                | EXPECTED_TAG="${TAG_NAME}" python3 -c 'import json, os, sys; pages = json.load(sys.stdin); matches = [release for page in pages for release in page if release.get("draft") and release.get("tag_name") == os.environ["EXPECTED_TAG"]]; len(matches) == 1 or sys.exit(f"expected one new draft release, found {len(matches)}"); assets = matches[0].get("assets", []); len(assets) == 4 or sys.exit(f"expected four uploaded assets, found {len(assets)}"); print("\n".join(sorted(asset["name"] for asset in assets)))'
+              gh api --paginate --slurp "repos/${GITHUB_REPOSITORY}/releases?per_page=100" |
+                python3 -c 'import json, os, sys; pages = json.load(sys.stdin); matches = [release for page in pages for release in page if release.get("draft") and release.get("tag_name") == os.environ["EXPECTED_TAG"]]; len(matches) == 1 or sys.exit(f"expected one new draft release, found {len(matches)}"); assets = matches[0].get("assets", []); len(assets) == 4 or sys.exit(f"expected four uploaded assets, found {len(assets)}"); print("\n".join(sorted(asset["name"] for asset in assets)))'
             )"
             lookup_status=$?
             set -e

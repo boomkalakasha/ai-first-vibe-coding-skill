@@ -55,7 +55,28 @@ claim it actually exercises. Report `RUNNING`, `PENDING`, `RECOVERING` and
 browser, service or data source is unavailable, downgrade the evidence level
 instead of converting documentation into runtime proof.
 
+## Project and module AI guidance
+
+Reading an existing `AGENTS.md` is not the final check. For L2/L3 work, record
+whether the project guidance is `PRESENT_VALIDATED`, `NEEDS_UPDATE`,
+`CREATE_PROJECT_GUIDE`, `CREATE_MODULE_GUIDE`, or `NOT_NEEDED`; use the
+[guidance coverage decision](../references/project-ai-guidance.md) rather than
+creating a guide for every folder.
+
+Create a project-level guide when local commands, delivery rules, privileged
+boundaries, ownership or cross-module contracts are not safely discoverable.
+Create a module guide only when that module has a distinct command, external
+contract, data/security boundary, lifecycle or dependency direction. Keep it
+short, link it from the project guide, and retain the actual facts in the
+project—not in this public Skill.
+
 ## A safe implementation loop
+
+For a single local, reversible change with a focused check, use the
+[Lite delivery card](../templates/lite-task-card.md): goal, allowed effects,
+and verification. It is not a shortcut around authorization. Preserve the
+card and upgrade when work starts touching data, permissions, another
+repository, a restart, deployment, release, or an untestable boundary.
 
 1. Inspect and map the user path, dependencies and failure boundaries.
 2. Write a compact baseline: goal, non-goals, acceptance cases and smallest
@@ -66,6 +87,14 @@ instead of converting documentation into runtime proof.
 5. Review the diff and generated artifacts for unintended files, secrets,
    path changes and permission expansion.
 6. Record changed, verified, unknown and next-step items in one ledger.
+
+## Measure the method, not the presentation
+
+Use the three-variant [comparison template](../evals/comparative-trials.template.json)
+only when you can give all variants the same task and success criteria. Run
+`python scripts/check_comparative_trials.py --results <file>` after a real
+host or human observation. `PLANNED` is a valid planning record, but it is not
+an effect claim, user study, or adoption metric.
 
 ## Parallel work without overload
 

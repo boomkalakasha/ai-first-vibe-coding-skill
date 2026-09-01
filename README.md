@@ -23,6 +23,7 @@ that its Release gate passed.
 
 | If you need to... | This Skill helps you... | You leave with... |
 | --- | --- | --- |
+| Make one safe local change | Start with a three-field Lite card, then escalate only if risk or scope grows | A goal, exact allowed effects, and focused verification instead of process overhead |
 | Turn a fuzzy goal into an executable plan | Map the outcome, boundaries, contracts, cases and decision points before coding | A task baseline, Spec and traceable acceptance cases |
 | Split a long task across agents | Give each agent a bounded write set, role and stop condition; resize concurrency from live capacity signals | A shared execution ledger instead of scattered “done” messages |
 | Know whether a change is really ready | Separate source, build, runtime, business, release and cutover evidence | A release decision with explicit `P0/P1` gates and honest unknowns |
@@ -33,11 +34,28 @@ It is especially useful for service refactors, cross-repository changes, product
 ## 60-second path
 
 1. Install or point your agent host at this repository's `SKILL.md`; the [AI operation guide](docs/ai-operation-guide.md) explains the smallest safe operating loop.
-2. For a first task, ask for a baseline, user path, acceptance cases and the smallest safe write set.
+2. For one safe local change, start with the [Lite task card](templates/lite-task-card.md): goal, allowed effects, and verification. For anything larger, ask for a baseline, user path, acceptance cases and the smallest safe write set.
 3. For a long-running or multi-agent task, copy the [execution ledger](templates/execution-ledger.md) and [task baseline](templates/task-baseline.md), then re-check capacity at each wave boundary.
 4. Run the bilingual [install, upgrade, rollback, and uninstall guide](docs/quick-start.md) and the local validation commands below. Host discovery or runtime behavior remains `DOCUMENTED_ONLY` unless observed in that host.
 
-If the work is a one-line translation or a purely informational question, skip the full workflow and use the smallest tool that answers it.
+If the work is a one-line translation or a purely informational question, skip the full workflow and use the smallest tool that answers it. If it is a local code/doc fix with a focused check, use [Lite delivery](references/lite-delivery.md) rather than a full ledger.
+
+### Measure whether the Skill helps
+
+Do not infer usefulness from package downloads or a polished release process. To
+compare this Skill with a short prompt or no Skill, copy
+[`comparative-trials.template.json`](evals/comparative-trials.template.json),
+run the same task and success criteria in all three variants, then validate the
+record:
+
+```powershell
+python scripts/check_comparative_trials.py --results path/to/results.json
+```
+
+The template is intentionally `PLANNED`. It becomes evidence only after a
+human or real host records the observed status, elapsed time, rework count, and
+the same verified criteria for all three variants. It does not measure user
+adoption or establish a statistically significant result.
 
 ## What you get
 
@@ -59,6 +77,7 @@ were observed, what remains unknown, and why the candidate is or is not ready.
 - Scales from a one-file fix to cross-repository delivery without forcing heavyweight ceremony on small tasks.
 - Separates source, build, runtime, business, release, deployment, and cutover evidence.
 - Verifies repository guidance against current source, configuration, and runtime facts; asks when material evidence is missing instead of forcing a decision.
+- Decides whether a project or module truly needs AI guidance, then records a minimal project-owned guide only for distinct, verifiable boundaries instead of duplicating rules per folder.
 - Preserves dirty worktrees and treats every external side effect as a distinct permission.
 - Connects requirement → contract → case → implementation → evidence → release gate.
 - Supports controller/implementer/reviewer agent teams without trusting delegated completion claims.
@@ -86,7 +105,7 @@ task. For other hosts, point the host's instruction loader at `SKILL.md` and
 use the [AI operation guide](docs/ai-operation-guide.md) as the provider-neutral
 baseline.
 
-For a packaged candidate, use `pwsh -NoProfile -File scripts/package.ps1 -Version 1.2.5`, inspect `dist/manifest.json` and `dist/SHA256SUMS.txt`, then follow your host's documented installation path. Do not treat archive creation as proof that Codex or another host installed it.
+For a packaged 1.3.0 candidate, use `pwsh -NoProfile -File scripts/package.ps1 -Version 1.3.0`, inspect `dist/manifest.json` and `dist/SHA256SUMS.txt`, then follow your host's documented installation path. Do not treat archive creation as proof that Codex or another host installed it or that 1.3.0 has been publicly released.
 
 ### Other agents
 
@@ -117,7 +136,7 @@ scripts/package.ps1         Repeatable distributable archive with SHA-256
 ```powershell
 python scripts/validate.py
 python scripts/run_evals.py
-pwsh -NoProfile -File scripts/package.ps1 -Version 1.2.5
+pwsh -NoProfile -File scripts/package.ps1 -Version 1.3.0
 ```
 
 The validator checks frontmatter, JSON, relative Markdown links, BOMs, repository-specific private patterns, and required project files. It is a safety net, not a substitute for manual legal/privacy review or a full secret-history scan.
@@ -126,11 +145,18 @@ The package stages one source tree and produces `.zip`, `.skill`, `manifest.json
 
 ## Delivery profiles
 
-The skill does not force one hosting platform:
+The public core does not force one hosting platform or carry a private policy:
+
+`Public core → organization policy → project guidance → machine preferences`
+
+This is an ownership flow, not an override order. Project guidance and explicit
+authorization take precedence over organization, machine and public defaults.
+See the [legacy public-history boundary](references/legacy-public-history.md)
+for the already-published migration provenance.
 
 - `project-defined`: follow the closest repository rules.
 - `github-open-source`: protected `main`, PR checks, SemVer tags, GitHub Releases, checksums and optional provenance, fork-safe CI.
-- `internal-gitlab`: follow the organization's supplied MR/Jenkins/customer-branch policy.
+- `organization-supplied`: follow the private policy explicitly selected by the project; its branch, CI and customer-delivery details stay outside this public package.
 
 Public release and production deployment are deliberately separate proof states.
 

@@ -22,10 +22,14 @@ REQUIRED = [
     "SUPPORT.md",
     "CHANGELOG.md",
     "references/github-open-source-release-profile.md",
+    "references/legacy-public-history.md",
     "evals/evals.json",
     "evals/trigger-evals.json",
     "evals/rubric.json",
+    "evals/comparative-trials.template.json",
     "scripts/run_evals.py",
+    "scripts/check_comparative_trials.py",
+    "scripts/check_history_boundaries.py",
     "docs/quick-start.md",
     "docs/quick-start.zh-CN.md",
     "docs/ai-operation-guide.md",
@@ -114,8 +118,15 @@ def validate_json(errors: list[str]) -> None:
 
 def validate_release_contract(errors: list[str]) -> None:
     skill = (ROOT / "SKILL.md").read_text(encoding="utf-8")
-    if 'version: "1.2.5"' not in skill:
-        fail(errors, "SKILL.md must declare the v1.2.5 feature version")
+    if 'version: "1.3.0"' not in skill:
+        fail(errors, "SKILL.md must declare the v1.3.0 candidate version")
+    runtime_source = "\n".join(
+        path.read_text(encoding="utf-8")
+        for path in [ROOT / "SKILL.md", *(ROOT / "references").glob("*.md"), *(ROOT / "templates").glob("*.md")]
+    )
+    for private_marker in ("feat-#<Issue", "bug_fix-#<Issue", "proj_main-", "前后端分支管理规范.docx"):
+        if private_marker in runtime_source:
+            fail(errors, f"public runtime contains organization policy marker: {private_marker}")
     if "icarus-open-source-governance" not in skill or "不代表该 Skill 已安装" not in skill:
         fail(errors, "SKILL.md must provide a truthful optional governance-skill handoff")
     english = (ROOT / "README.md").read_text(encoding="utf-8")
@@ -184,7 +195,7 @@ def main() -> int:
         for error in errors:
             print(f"- {error}")
         return 1
-    print("PASS: v1.2 package, bilingual lifecycle, optional governance handoff, and host-evidence boundary")
+    print("PASS: v1.3 candidate, layered policy boundary, bilingual lifecycle, and host-evidence boundary")
     print(f"Validation passed: {len(text_files())} text files checked")
     return 0
 

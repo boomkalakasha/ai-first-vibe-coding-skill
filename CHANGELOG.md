@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.3.0] - Unreleased
+
+- Separate public workflow defaults from organization-supplied policy,
+  project-owned guidance and machine-local preferences.
+- Remove internal branch/customer-delivery formats and domain-specific business
+  examples from the public runtime package.
+- Add deterministic boundary checks and align the candidate package/document
+  version without claiming a public release.
+- Record already-public legacy policy examples without rewriting immutable
+  tags, and fail CI when a new history change leaves those markers present.
+- Add a Lite path for bounded local work and a three-variant comparison-record
+  validator; both label unobserved host/adoption evidence as planned rather
+  than treating documentation as a result.
+- Add an explicit project/module AI-guidance coverage decision, a baseline
+  record and a documented evaluation case so agents create project-owned guides
+  only for distinct, verifiable boundaries.
+
 All notable changes are documented here. The project follows Semantic Versioning.
 
 ## [1.2.5] - 2026-09-01
@@ -95,8 +112,8 @@ All notable changes are documented here. The project follows Semantic Versioning
 
 ## [1.2.0] - 2026-08-26
 
-> Local candidate notes; this version is not public until its tag, CI,
-> packaged assets and release gates are independently verified.
+> Released on 2026-08-26; its tag and public GitHub Release were reverified
+> while preparing the 1.3.0 candidate.
 
 ### Added
 
@@ -156,6 +173,7 @@ All notable changes are documented here. The project follows Semantic Versioning
 - Optional GitHub open-source iteration and release profile.
 - Bilingual documentation, public governance files, validation, packaging, and CI.
 
+[1.3.0]: https://github.com/boomkalakasha/ai-first-vibe-coding-skill/compare/v1.2.5...HEAD
 [1.2.5]: https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases/tag/v1.2.5
 [1.2.4]: https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases/tag/v1.2.4
 [1.2.3]: https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases/tag/v1.2.3

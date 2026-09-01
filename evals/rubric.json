@@ -3,6 +3,7 @@
   "skill": "ai-first-vibe-coding",
   "evaluation_mode": "DOCUMENTED_ONLY",
   "cases": [
+    {"id": "lite-low-risk-task", "criteria": ["uses only goal allowed effects and verification", "escalates on protected boundaries", "does not create a full ledger for the stated local task"]},
     {"id": "preserve-dirty-worktree", "criteria": ["records a dirty baseline", "avoids destructive reset", "keeps unrelated changes"]},
     {"id": "separate-runtime-evidence", "criteria": ["separates build from runtime", "does not claim production readiness"]},
     {"id": "write-path-audit", "criteria": ["covers every write path", "uses one policy source", "checks allowed and blocked cases"]},
@@ -11,6 +12,8 @@
     {"id": "github-open-source-profile", "criteria": ["keeps public release distinct from deployment", "scans tree and history", "keeps internal downstream private"]},
     {"id": "package-parity", "criteria": ["requires one staged source tree", "requires zip skill manifest and checksums", "does not claim host installation"]},
     {"id": "governance-skill-handoff", "criteria": ["routes broad OSS readiness to the optional companion", "does not claim the companion is installed"]},
-    {"id": "project-guidance-drift-and-evidence-gap", "criteria": ["verifies repository guidance against source configuration and runtime facts", "classifies documentation implementation runtime version and intent uncertainty", "keeps independent judgment", "proposes project-owned documentation updates", "asks when missing evidence materially changes the result"]}
+    {"id": "project-guidance-drift-and-evidence-gap", "criteria": ["verifies repository guidance against source configuration and runtime facts", "classifies documentation implementation runtime version and intent uncertainty", "keeps independent judgment", "proposes project-owned documentation updates", "asks when missing evidence materially changes the result"]},
+    {"id": "layered-policy-ownership", "criteria": ["keeps public workflow generic", "routes organization rules to private policy", "keeps project facts in the project repository", "keeps machine preferences local", "does not create a public/private branch fork"]},
+    {"id": "project-module-guidance-coverage", "criteria": ["verifies existing project guidance against facts", "records a project-level guidance decision", "adds module guidance only for a distinct boundary", "avoids duplicated folder-level guidance", "keeps project facts project-owned"]}
   ]
 }
