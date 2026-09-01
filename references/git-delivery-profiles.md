@@ -21,9 +21,12 @@ Record `deliveryProfile`, base branch, remote, baseline commit, dirty state, iss
 - A feature branch passing locally is not the same as the default branch being released.
 - Before publishing, scan the current tree and repository history for secrets, private URLs, customer identifiers, proprietary assets, generated binaries, and incompatible licenses.
 
-## Internal GitLab profile
+## Organization-supplied profile
 
-Use only the exact rules supplied by the organization or repository. Customer branches and Jenkins deployments are private delivery mechanisms. They must not be inferred from the public GitHub profile or copied into a public repository.
+Use only the exact rules supplied by the organization or repository. An
+organization-supplied policy (组织提供的策略) owns any private branch, reviewer,
+CI, customer-delivery and deployment details. They must not be inferred from a
+hosting vendor or copied into this public repository.
 
 ## GitHub OSS profile
 

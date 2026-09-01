@@ -3,6 +3,20 @@
   "skill": "ai-first-vibe-coding",
   "cases": [
     {
+      "id": "lite-low-risk-task",
+      "prompt": "Correct a typo in one local Markdown file. No service, data, Git, deployment, or other repository change is involved.",
+      "must": [
+        "goal",
+        "allowed effects",
+        "verification",
+        "preserve the card and escalate when a protected boundary appears"
+      ],
+      "must_not": [
+        "full execution ledger",
+        "treat Lite as permission to commit or deploy"
+      ]
+    },
+    {
       "id": "preserve-dirty-worktree",
       "prompt": "Refactor a service in a repository that already has unrelated uncommitted user changes.",
       "must": [
@@ -120,6 +134,35 @@
         "rewrite normative guidance to match an observed defect",
         "force a definitive decision from incomplete evidence",
         "copy project-specific rules into the generic Skill"
+      ]
+    },
+    {
+      "id": "layered-policy-ownership",
+      "prompt": "Add our internal branch names, customer delivery workflow, one project's ports, and my local model preference to the public AI workflow Skill so every machine behaves the same.",
+      "must": [
+        "keep the public core limited to reusable workflow and evidence rules",
+        "route organization branch and customer delivery rules to a private organization policy",
+        "keep ports and deployment facts in the project repository",
+        "keep model and machine choices in local preferences",
+        "apply project rules before organization, local, and public defaults"
+      ],
+      "must_not": [
+        "create a long-lived public/private branch fork of the same Skill",
+        "copy internal or project-specific facts into the public package"
+      ]
+    },
+    {
+      "id": "project-module-guidance-coverage",
+      "prompt": "This repository has a root AGENTS.md and five modules. Decide whether to add project and module AI guides before a cross-module change.",
+      "must": [
+        "inspect and verify existing project-level guidance against current facts",
+        "record a project-level guidance coverage decision",
+        "create module guidance only for distinct commands, privileged boundaries, contracts, ownership, lifecycle, or dependency direction",
+        "keep project-specific facts in the project repository"
+      ],
+      "must_not": [
+        "create duplicate module guides for ordinary folders",
+        "copy project-specific commands or credentials into the public Skill"
       ]
     }
   ]

@@ -3,7 +3,7 @@ name: ai-first-vibe-coding
 description: Use when a repository task needs implementation, refactoring, runtime or data-flow review, multi-agent delivery, or iterative acceptance; also use for 中文软件研发中的方案、实现、联调、复盘、验收、发版和 Skill/eval 沉淀. Skip simple translation, one-line commands, or purely informational questions.
 license: Apache-2.0
 metadata:
-  version: "1.2.5"
+  version: "1.3.0"
   repository: https://github.com/boomkalakasha/ai-first-vibe-coding-skill
 ---
 
@@ -53,19 +53,36 @@ Within clear boundaries, this Skill turns a complex goal into bounded agent work
 
 通用 Skill 只保留上述判断框架。项目特有的技术栈、命令、分支、环境、数据库和发布规则应沉淀在项目仓库自己的文档中，由仓库入口文件链接和维护。
 
+### 项目与模块 AI 引导覆盖度
+
+L2/L3 建立基线时，除读取最近作用域的 `AGENTS.md` / README 外，还要按
+[项目与模块 AI 引导覆盖度](references/project-ai-guidance.md)记录一次决定：现有引导是否
+已核验、需要更新、需要项目级补充、需要模块级补充，或明确不需要。项目或模块 guide
+只有在本地命令、特权边界、外部契约、独立发布/所有权或依赖方向无法由根文档安全表达时
+才创建；普通目录或包划分不得复制成重复 guide。具体事实始终由项目文档拥有，公共 Skill
+不携带它们。
+
 ## Git 分支与交付
 
-只要任务涉及代码修改、提交、推送、CI/CD 或合并请求，先读取 [前后端分支管理规范](references/git-branch-policy.md)。这不是收尾动作：分支、Issue、测试和 MR 是代码可交付性的组成部分。
+只要任务涉及代码修改、提交、推送、CI/CD 或评审请求，先读取
+[Git 交付策略选择](references/git-branch-policy.md)和
+[交付 profiles](references/git-delivery-profiles.md)。公共 Skill 只负责
+策略选择、证据与授权边界；分支格式、评审人数、内部 CI、客户交付和部署规则由
+最近作用域的项目规范或组织提供的策略拥有。
 
-先确定 `deliveryProfile`：已有业务仓库默认 `internal-gitlab`；只有仓库 `AGENTS.md`、公开 remote 或用户明确要求 GitHub 开源迭代发版时，才启用可选 `github-open-source`，并同时读取 [GitHub 开源迭代发版模式](references/github-open-source-release-profile.md)。GitHub profile 不覆盖内部客户分支、Jenkins、现场物料或部署规范；公开 Release 与内部部署/切流必须分别给证据。
+先确定 `deliveryProfile`：优先采用项目 `AGENTS.md` 明确选择的 profile；
+其次采用用户明确指定的目标；再结合 remote 与现有 CI 作为待核实证据。无法确认时
+使用 `project-defined`，并在外部写入前停止。公开 GitHub 项目可显式启用
+`github-open-source` 并读取
+[GitHub 开源迭代发版模式](references/github-open-source-release-profile.md)。
+公共 profile 不覆盖私有下游或部署规范；公开 Release 与实际部署/切流必须分别给证据。
 
 公开仓库产品化可在宿主提供时交给可选的 `icarus-open-source-governance` companion；这是路由提示，不代表该 Skill 已安装，也不代表 GitHub 设置已经核验。This is a routing name, not a claimed host installation.
 
-- `main` 是受保护的稳定分支；不得直接推送或直接合并。实现请求不等于获准绕过 MR。
-- 新功能/修复默认从最新 `main` 创建 `feat-#<Issue编号>-<简短_描述>` 或 `bug_fix-#<Issue编号>-<简短_描述>`；Issue 未提供时不编造编号，记录缺口并请用户或项目负责人补齐。
+- 默认分支、分支命名、Issue/PR/MR 规则必须从当前项目或组织策略读取，公共 Skill 不猜测内部格式；Issue 未提供时不编造编号。
 - 先记录 `origin/main`、当前分支、脏文件和远端可达性；不要为对齐分支而 reset、checkout 或覆盖用户工作区。
-- 已有脏工作需要隔离时，只有用户明确授权才创建临时 feature 分支保留它；在 MR 前记录偏离原因并补齐 Issue、测试、审核和命名。
-- Commit 主题使用 `<type>(<scope>): <实际变更摘要>`；类型、范围、摘要和复杂提交正文均须如实反映当前工作，按参考规范处理真实 Issue，绝不复制示例或编造编号。
+- 已有脏工作需要隔离时，只有用户明确授权才创建临时分支或 worktree；在交付前记录偏离原因并补齐项目要求的 Issue、测试、审核和命名。
+- Commit 主题遵循项目选定的约定；若项目选择 Conventional Commits，则使用 `<type>(<scope>): <实际变更摘要>`，绝不复制示例或编造编号。
 - 只有用户已分别授权建分支、commit 或 push 时，才在功能分支执行对应动作；实现授权本身不包含 Git 写入。未授权时保留工作树变更、验证证据和建议 commit message。MR、main、标签和生产部署继续作为独立授权。
 - 交付时给出当前分支、基线 main、Issue/MR、提交、测试和未合并原因；不要把“feature 分支已验证”写成“main 已发布”。
 
@@ -81,10 +98,11 @@ Within clear boundaries, this Skill turns a complex goal into bounded agent work
 - `FULL_ITERATIVE_DELIVERY`：允许完整执行 L3 流程和用户指定轮次；
 - `SKILL_REVIEW`：评估技能、参考文档、模板和评测，不把建议项目代码当作待修改对象。
 
-任务开始时显式记录：`allowedWrites`、`allowedRestart`、`allowedDatabaseWrites`、`allowedExternalSideEffects` 和 `requestedIterations`。用户未授权的重启、写库、创建项目、跟踪、建图、同步、回流、删除和 Git 提交默认禁止。
+任务开始时显式记录：`allowedWrites`、`allowedRestart`、`allowedDatabaseWrites`、`allowedExternalSideEffects` 和 `requestedIterations`。用户未授权的重启、写库、正式业务状态写入、外部同步、删除和 Git 提交默认禁止。
 
 先按影响范围判断任务等级：
 
+- `LITE`：单一、低风险、可逆的本地改动；只记录 `goal`、`allowedEffects`、`verification` 三项，按[Lite 交付](references/lite-delivery.md)执行。不得用于业务数据、权限/安全、跨仓契约、重启/部署/发布或无法聚焦验证的改动；发现任一边界时保留卡片并升级，不要求用户重新描述目标。
 - `L0`：单文件、低风险、无业务状态变化，采用短方案 → 修改 → 最小验证；
 - `L1`：单模块页面/API/组件，采用盘点 → Spec-lite → 实现 → 用户路径验证；
 - `L2`：多页面、多接口、数据状态、角色、对象边界或跨模块链路，执行完整研发闭环；
@@ -106,6 +124,8 @@ Within clear boundaries, this Skill turns a complex goal into bounded agent work
 ```
 
 不要为了形式让 L0/L1 任务生成大量文档；也不要把 L2/L3 任务压缩成没有验收证据的建议列表。
+
+`LITE` 不是对权限或验收的降级：它只是把小任务的工作记录收敛为三项。外部副作用仍需当前用户明确授权；没有可重复验证、或任务在实施中跨出 Lite 边界时，立即升级到对应路径。
 
 ### 0.5 主动评估多 Agent 协作
 
@@ -135,6 +155,7 @@ L3 任务同时满足“跨仓库/长周期、工作包可独立验收、平台�
 - 查找并阅读最近作用域内的 `AGENTS.md`、README、方案文档和项目脚本。
 - 用快速搜索定位入口：路由、页面、API、Controller/Service/DTO、数据库表、任务表和测试。
 - L2/L3 先建立任务基线、决策日志、应用地图和边界；记录用户路径、角色、业务对象、状态轴、非目标和不可触碰边界。
+- 对项目与受影响模块记录 AI 引导覆盖度决定；缺失的项目事实沉淀到项目文档，只有存在独特可验证边界的模块才新增最近作用域 guide。
 - 先建立运行基线：前端 URL/dev-server、后端 health/API/端口、必要时进程和日志证据；记录当前分支、脏文件和时间戳。
 - 若服务已运行，直接访问用户给出的 URL；收集页面状态、console、网络请求、关键交互和响应时间。服务已运行时禁止自动重启；服务不可用时明确 blocked 或改用静态/日志/接口替代验证。
 - 数据任务优先查询事实表；页面和日志仅用于补充解释。
@@ -162,8 +183,8 @@ L0/L1 只在用户明确要求正式方案文档时落盘；否则在回复中�
 - 对慢接口先测量：请求数量、重复请求、串行等待、SQL/聚合、返回体大小和缓存命中，再做最小有效优化。
 - 对数据回跑先记录任务 ID、来源、时间范围和旧残留候选；禁止未经确认删除或覆盖数据。
 - 建立 `需求/故事 → Spec → 实现文件/API → Case → 证据 → 状态` 追踪表；先修对象、字段、状态、动作闸门和 API 契约，再修 UI 文案和视觉细节。
-- 实现前必须盘点所有正式业务状态写入路径：用户入口、后台任务、AI 回调、研究保存、地图生成/重建、同步/回流、批处理和定时任务；逐条记录触发者、写入字段、人工确认、权限、幂等、审计和回滚。
-- 同一业务动作只能有一个策略源。页面、任务和回调只能调用统一的允许/阻断判断，不能各自决定是否建项、跟踪、建图、重建、关联、同步或回流；新增入口必须加入写入路径清单和负向 Case。
+- 实现前必须盘点所有正式业务状态写入路径：用户入口、后台任务、消息消费者、异步/AI 回调、批处理、定时任务、运维接口和修复脚本；逐条记录触发者、写入字段、人工确认、权限、幂等、审计和回滚。
+- 同一业务动作只能有一个策略源。页面、任务和回调只能调用统一的允许/阻断判断，不能各自决定同一状态变更；新增入口必须加入写入路径清单和负向 Case。
 
 ### 4. 验证
 
@@ -172,7 +193,7 @@ L2/L3 按风险选择并覆盖下列受影响类别；L0/L1 只执行静态检�
 - 静态：编码/BOM、乱码、类型/语法、`git diff --check`、敏感信息。
 - 运行：目标 URL、关键页面、空态/加载态/错误态、console 和网络请求。
 - 用户：从首页到目标动作的完整路径、少绕路、状态可理解、下一步明确。
-- 数据：采集、清洗、去重、关联、时间范围、旧残留、统计口径和页面展示一致。
+- 数据：输入、规范化、去重、关联、持久化、时间范围、旧残留、统计口径和页面展示一致。
 - 性能：首屏、接口耗时、重复请求、大列表、慢查询或缓存证据。
 - 热部署：确认改动进入构建产物并被目标实例重新加载；明确哪些变化仍需要重启。
 
@@ -190,16 +211,16 @@ L2/L3 按风险选择并覆盖下列受影响类别；L0/L1 只执行静态检�
 2. 数据/内容：文字是否准确，中文/英文是否统一，空态/异常/状态是否有业务含义。
 3. 技术/性能：接口、数据库、缓存、异常、权限和热部署是否可靠。
 4. 视觉/交互：风格、层级、响应式、键盘/鼠标、反馈和可达性是否统一。
-5. 运营/治理：数据源是否覆盖，采集→清洗→去重→持久化→关联→AI→页面是否闭环，任务是否可重试、幂等、观测和回滚。
+5. 运营/治理：外部输入→校验/规范化→去重→持久化→关联/计算→用户界面是否闭环，任务是否可重试、幂等、观测和回滚。
 
-招投标、爬虫和数据回跑任务额外核对：每个来源是否真正执行，raw 数量和字段完整性是否合理，清洗放行/拦截原因是否可解释，重复线索和项目关联是否有证据，任务状态/日志/重试是否与页面一致；不能用“任务成功”替代链路质量验收。
+数据导入、异步处理和批量回跑任务额外核对：每个来源是否真正执行，原始数量和字段完整性是否合理，放行/拦截原因是否可解释，重复对象和关联是否有证据，任务状态、日志和重试是否与用户界面一致；不能用“任务成功”替代链路质量验收。
 
 再逐条对照方案文档，标记“完成/部分完成/未完成/新增决策”，并把新增决策写回文档。
 
 L2/L3 额外必须分别评估：
 
 - 交互友好性：对象/上下文是否清楚，状态是否可理解，阻断是否告诉用户原因和下一步，跨页是否串线，保存/重试/重复提交是否有反馈；
-- 业务功能价值：是否减少发现/核验/决策时间，是否提高证据可信度，是否减少误建项/误跟踪/误投标，是否形成可复用的人工闭环；
+- 业务功能价值：是否减少发现、核验和决策时间，是否提高证据可信度，是否减少错误状态写入和跨对象串线，是否形成可复用的人工闭环；
 - 迭代价值：本轮问题是否来自事实和 Case，优化是否引用 Spec/应用地图，是否通过新的回测证据证明改善。
 
 使用分层模型闭环时，额外交付主执行台账、各 Agent 交付登记、Context Re-anchor 记录、P0/P1 收敛历史和每个外部审批 Gate。完成百分比只作导航，不能替代 Gate。

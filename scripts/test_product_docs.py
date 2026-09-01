@@ -1,3 +1,7 @@
+import json
+import subprocess
+import shutil
+import sys
 import unittest
 from pathlib import Path
 
@@ -30,7 +34,7 @@ class ProductDocumentationTests(unittest.TestCase):
             for word in ("install", "upgrade", "rollback", "uninstall") if source is english else ("安装", "升级", "回滚", "卸载"):
                 self.assertIn(word, source)
             self.assertIn("DOCUMENTED_ONLY", source)
-            self.assertIn("scripts/package.ps1 -Version 1.2.5", source)
+            self.assertIn("scripts/package.ps1 -Version 1.3.0", source)
 
     def test_skill_hands_public_productization_to_the_optional_governance_skill(self):
         skill = (ROOT / "SKILL.md").read_text(encoding="utf-8")
@@ -140,12 +144,26 @@ class ProductDocumentationTests(unittest.TestCase):
         self.assertIn('draft_url="$(' , workflow)
         self.assertIn('gh release create "${TAG_NAME}"', workflow)
         self.assertIn("gh api --paginate --slurp", workflow)
-        self.assertIn("existing_draft_count", workflow)
+        self.assertIn("existing_release_count", workflow)
+        self.assertIn("Refusing to reuse an existing release or draft", workflow)
         self.assertIn('release.get("draft") and release.get("tag_name") == os.environ["EXPECTED_TAG"]', workflow)
         self.assertIn("for attempt in 1 2 3 4 5", workflow)
         self.assertIn('len(assets) == 4', workflow)
         self.assertIn('assets = matches[0].get("assets", [])', workflow)
         self.assertIn("$GITHUB_STEP_SUMMARY", workflow)
+
+        block = workflow.split("      - name: Create and verify draft GitHub Release", 1)[1]
+        script = "\n".join(
+            line[10:] if line.startswith("          ") else line
+            for line in block.split("        run: |\n", 1)[1].splitlines()
+        )
+        if shutil.which("bash") is None:
+            self.skipTest("bash is unavailable on this validation host")
+        result = subprocess.run(
+            ["bash", "-n"], input=script.encode("utf-8"), capture_output=True, check=False
+        )
+        output = (result.stdout + result.stderr).decode("utf-8", errors="replace")
+        self.assertEqual(0, result.returncode, output)
 
     def test_release_step_keeps_every_shell_line_inside_the_yaml_block(self):
         lines = (ROOT / ".github" / "workflows" / "release.yml").read_text(encoding="utf-8").splitlines()
@@ -165,8 +183,71 @@ class ProductDocumentationTests(unittest.TestCase):
         self.assertIn("## [1.2.1] - 2026-08-28", changelog)
         self.assertIn("theme-compatible BOOMKALAKASHA watermark", changelog)
 
-    def test_skill_declares_the_v125_release_version(self):
-        self.assertIn('version: "1.2.5"', (ROOT / "SKILL.md").read_text(encoding="utf-8"))
+    def test_skill_declares_the_v130_candidate_version(self):
+        self.assertIn('version: "1.3.0"', (ROOT / "SKILL.md").read_text(encoding="utf-8"))
+        self.assertIn("## [1.3.0] - Unreleased", (ROOT / "CHANGELOG.md").read_text(encoding="utf-8"))
+
+    def test_public_runtime_owns_no_internal_branch_or_customer_policy(self):
+        runtime_files = [
+            ROOT / "SKILL.md",
+            *(ROOT / "references").glob("*.md"),
+            *(ROOT / "templates").glob("*.md"),
+        ]
+        source = "\n".join(path.read_text(encoding="utf-8") for path in runtime_files)
+        for private_marker in (
+            "feat-#<Issue",
+            "bug_fix-#<Issue",
+            "proj_main-",
+            "前后端分支管理规范.docx",
+        ):
+            self.assertNotIn(private_marker, source, private_marker)
+        self.assertIn("organization-supplied policy", source)
+        self.assertIn("组织提供的策略", source)
+
+    def test_public_runtime_examples_are_domain_neutral(self):
+        runtime_files = [
+            ROOT / "SKILL.md",
+            ROOT / "references" / "end-to-end-workflow.md",
+            ROOT / "templates" / "business-write-path-inventory.md",
+        ]
+        source = "\n".join(path.read_text(encoding="utf-8") for path in runtime_files)
+        for domain_marker in ("招投标", "误投标", "作战地图", "在线研究", "项目库", "爬虫"):
+            self.assertNotIn(domain_marker, source, domain_marker)
+
+    def test_readmes_explain_the_four_layer_policy_boundary(self):
+        english = (ROOT / "README.md").read_text(encoding="utf-8")
+        chinese = (ROOT / "README.zh-CN.md").read_text(encoding="utf-8")
+        self.assertIn("Public core → organization policy → project guidance → machine preferences", english)
+        self.assertIn("公开核心 → 组织策略 → 项目规范 → 本机偏好", chinese)
+        self.assertIn("1.3.0", english)
+        self.assertIn("1.3.0", chinese)
+
+    def test_verified_public_v120_history_is_not_labeled_unpublished(self):
+        changelog = (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
+        section = changelog.split("## [1.2.0]", 1)[1].split("## [1.1.3]", 1)[0]
+        self.assertIn("Released on 2026-08-26", section)
+        self.assertNotIn("not public", section)
+
+    def test_legacy_public_history_is_explicit_and_new_markers_are_gated(self):
+        note = (ROOT / "references" / "legacy-public-history.md").read_text(encoding="utf-8")
+        self.assertIn("already-public low-sensitivity disclosure", note)
+        result = subprocess.run(
+            [sys.executable, str(ROOT / "scripts" / "check_history_boundaries.py")],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        self.assertEqual(0, result.returncode, result.stdout + result.stderr)
+        self.assertIn("ACCEPTED_LEGACY", result.stdout)
+        gate = (ROOT / "scripts" / "check_history_boundaries.py").read_text(encoding="utf-8")
+        self.assertIn("--show-toplevel", gate)
+        self.assertIn('"--all"', gate)
+        self.assertIn("refs/remotes/origin", gate)
+        for workflow_name in ("ci.yml", "release.yml"):
+            workflow = (ROOT / ".github" / "workflows" / workflow_name).read_text(encoding="utf-8")
+            self.assertIn("+refs/heads/*:refs/remotes/origin/*", workflow)
+            self.assertIn("check_history_boundaries.py", workflow)
 
     def test_skill_verifies_project_guidance_and_preserves_independent_judgment(self):
         skill = (ROOT / "SKILL.md").read_text(encoding="utf-8")
@@ -187,6 +268,26 @@ class ProductDocumentationTests(unittest.TestCase):
         for project_specific_marker in ("JRebel", "Snowflake", "PostgreSQL"):
             self.assertNotIn(project_specific_marker, skill)
 
+    def test_skill_requires_a_project_and_module_guidance_coverage_decision(self):
+        reference = ROOT / "references" / "project-ai-guidance.md"
+        self.assertTrue(reference.is_file(), "guidance coverage decision reference must exist")
+
+        skill = (ROOT / "SKILL.md").read_text(encoding="utf-8")
+        baseline = (ROOT / "templates" / "task-baseline.md").read_text(encoding="utf-8")
+        behavior = json.loads((ROOT / "evals" / "evals.json").read_text(encoding="utf-8"))
+
+        self.assertIn("项目与模块 AI 引导覆盖度", skill)
+        self.assertIn("references/project-ai-guidance.md", skill)
+        self.assertIn("项目 AI 引导", baseline)
+        self.assertIn("模块 AI 引导", baseline)
+        coverage_case = next(case for case in behavior["cases"] if case.get("id") == "project-module-guidance-coverage")
+        self.assertTrue(
+            any("project-level guidance" in requirement for requirement in coverage_case["must"])
+        )
+        self.assertTrue(
+            any("duplicate module guides" in requirement for requirement in coverage_case["must_not"])
+        )
+
     def test_skill_exposes_tiered_model_and_context_drift_controls(self):
         skill = (ROOT / "SKILL.md").read_text(encoding="utf-8")
         for marker in (
@@ -204,6 +305,38 @@ class ProductDocumentationTests(unittest.TestCase):
             "templates/iteration-manifest.md",
         ):
             self.assertTrue((ROOT / relative).is_file(), relative)
+
+    def test_lite_path_is_a_real_low_risk_contract_with_explicit_escalation(self):
+        reference = ROOT / "references" / "lite-delivery.md"
+        template = ROOT / "templates" / "lite-task-card.md"
+        self.assertTrue(reference.is_file(), "the Lite delivery reference must exist")
+        self.assertTrue(template.is_file(), "the Lite task card must exist")
+
+        skill = (ROOT / "SKILL.md").read_text(encoding="utf-8")
+        self.assertIn("`LITE`", skill)
+        self.assertIn("goal", skill)
+        self.assertIn("allowedEffects", skill)
+        self.assertIn("verification", skill)
+        self.assertIn("升级", skill)
+
+        behavior = json.loads((ROOT / "evals" / "evals.json").read_text(encoding="utf-8"))
+        lite_case = next(case for case in behavior["cases"] if case.get("id") == "lite-low-risk-task")
+        self.assertIn("goal", lite_case["must"])
+        self.assertIn("allowed effects", lite_case["must"])
+        self.assertIn("verification", lite_case["must"])
+        self.assertIn("full execution ledger", lite_case["must_not"])
+
+    def test_root_agent_guide_names_the_complete_gate_and_guidance_decision(self):
+        guide = (ROOT / "AGENTS.md").read_text(encoding="utf-8")
+        for marker in (
+            "scripts/validate.py",
+            "scripts/check_history_boundaries.py",
+            "unittest discover",
+            "scripts/run_evals.py",
+            "Project/module AI guidance coverage",
+            "NOT_NEEDED",
+        ):
+            self.assertIn(marker, guide, marker)
 
 
 if __name__ == "__main__":

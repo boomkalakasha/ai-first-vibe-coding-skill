@@ -39,7 +39,7 @@
 - 工作区基线摘要：
 - origin/main 基线提交：
 - 工作分支类型与名称：
-- 关联 GitLab Issue：
+- 关联 Issue/PR/MR（如项目要求）：
 - 计划 Commit message（`<type>(<scope>): <实际变更摘要>`）：
 - 复杂提交正文的关键变化/验证要点：
 - 计划 Merge Request：
@@ -51,6 +51,15 @@
 - 热部署状态：
 - 数据库/数据源权限：
 - 可用工具：浏览器 / 数据库 / 日志 / 子 Agent / 构建环境
+
+## 项目与模块 AI 引导覆盖度
+
+- 项目 AI 引导：PRESENT_VALIDATED / NEEDS_UPDATE / CREATE_PROJECT_GUIDE / NOT_NEEDED
+- 项目级决定依据（命令、交付、特权边界、契约或所有权）：
+- 模块 AI 引导候选与状态：模块名 → PRESENT_VALIDATED / NEEDS_UPDATE / CREATE_MODULE_GUIDE / NOT_NEEDED
+- 模块级决定依据（独特命令、外部契约、数据/权限、发布/所有权或依赖方向）：
+- 避免重复 guide 的理由与根文档链接：
+- 待补项目文档 / 负责人 / 验证方式：
 
 ## 需求来源
 
