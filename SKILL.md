@@ -3,7 +3,7 @@ name: ai-first-vibe-coding
 description: Use when a repository task needs implementation, refactoring, runtime or data-flow review, multi-agent delivery, or iterative acceptance; also use for 中文软件研发中的方案、实现、联调、复盘、验收、发版和 Skill/eval 沉淀. Skip simple translation, one-line commands, or purely informational questions.
 license: Apache-2.0
 metadata:
-  version: "1.2.4"
+  version: "1.2.5"
   repository: https://github.com/boomkalakasha/ai-first-vibe-coding-skill
 ---
 
@@ -29,13 +29,29 @@ Within clear boundaries, this Skill turns a complex goal into bounded agent work
 2. 先读规则、现状和运行事实；用户说“直接实现”时，在低风险范围内自主决策，不把时间耗在不影响结果的追问上。
 3. 方案文档、实现、运行态验证、用户/测试复盘和文档对照形成闭环。用户只说“先出方案/等我确认”时停在方案；用户同时明确“方案后继续实现”时，写完方案即可继续。
 4. 所有能力标记为 `REAL`、`HYBRID`、`DEMO` 或 `PLANNED`。没有事实依据就不虚构指标、成功率、进度或完成状态。
-5. 发现热部署时优先复用：检查前端 dev server、JRebel license、`target/classes` watcher 和 reload 日志；不自动重启用户已运行的服务。
-6. 保留脏工作区和用户改动；不使用破坏性 reset/checkout；敏感信息只做最小化、脱敏输出。
+5. 发现已有开发服务器、热更新或增量部署链路时优先复用，并核对构建产物、加载日志和运行实例；不自动重启用户已运行的服务。
+6. 保留脏工作区和用户改动；不使用破坏性 reset/checkout；敏感信息只做最小化、脱敏输出。凭据、密码、令牌、Cookie 和私有运行值不得写入受版本控制文件或最终交付内容。
 7. 复杂业务任务先建应用地图、详细 Spec、用户故事/测试和业务审查，再进入实现；这些文档是实现和回测的共同事实源。
 8. 每个结论都要有证据等级：`RUNTIME_PASS`、`STATIC_PASS_PENDING_RUNTIME`、`OLD_RUNTIME`、`PARTIAL_PASS`、`BLOCKED`、`NOT_RUN` 或 `FAIL`；不能把源码改动、接口 200 或按钮可点击当成业务完成。
 9. 用需求追踪把“业务问题 → Spec 条款 → 用户故事/Case → 实现 → 回测证据 → 放行状态”串起来；每轮优化只处理已证实的问题，避免范围漂移。
 10. 用户要求“再迭代两遍”时，默认执行三轮闭环：第一轮建立基线，第二、三轮依据上一轮评估和优化方案继续收敛，并保留每轮证据。
 11. 任何改变正式业务状态的动作都必须做全入口、全回调、全任务的写入路径审计，并由唯一业务策略源统一决定允许/阻断；不能只修当前页面或主 Service。
+
+## 项目规范、版本漂移与独立判断
+
+仓库内的 `AGENTS.md`、README、工程规范和运行手册是项目意图与协作契约，但不是当前实现已经一致的证明。读取后还要核对其中引用的分支、路径、配置、源码、测试、运行实例、数据状态和发布链路；不要只读规范就直接执行。
+
+发现文档与事实不一致时，先保留两边证据，再按最贴近事实的类型说明：
+
+- `DOC_STALE`：当前实现与已确认的项目意图一致，但项目文档或示例仍描述旧版本；在授权范围内更新项目文档，否则主动提出更新建议。
+- `IMPLEMENTATION_DRIFT`：项目规范仍代表当前意图，但源码、配置、流水线或运行行为已经偏离；修实现或提出修复方案，不把缺陷反写成新规范。
+- `OLD_RUNTIME`：源码或构建物已更新，实际运行实例仍是旧版本；先核对提交、制品、镜像、部署目标和启动时间，不重复修改源码掩盖部署问题。
+- `VERSION_UNCERTAIN`：无法证明文档、源码、制品与运行实例属于同一版本；结论降级，继续收集身份与时间证据。
+- `INTENT_UNCLEAR`：现有规范、实现和用户记忆都不足以证明预期行为；保留冲突证据，低风险可逆步骤可声明假设后继续，影响业务语义、数据、权限、发布目标或不可逆结果时必须询问。
+
+始终保持独立判断：项目文档、当前行为和用户记忆都可能不完整，任何一方都不能自动覆盖其他证据。证据不足时，如果缺口只影响可逆、低风险步骤，可以明确假设后继续；如果会改变业务语义、数据、权限、发布目标或不可逆结果，必须主动反馈并询问，不能基于不完整凭证强行下结论。
+
+通用 Skill 只保留上述判断框架。项目特有的技术栈、命令、分支、环境、数据库和发布规则应沉淀在项目仓库自己的文档中，由仓库入口文件链接和维护。
 
 ## Git 分支与交付
 
@@ -122,7 +138,7 @@ L3 任务同时满足“跨仓库/长周期、工作包可独立验收、平台�
 - 先建立运行基线：前端 URL/dev-server、后端 health/API/端口、必要时进程和日志证据；记录当前分支、脏文件和时间戳。
 - 若服务已运行，直接访问用户给出的 URL；收集页面状态、console、网络请求、关键交互和响应时间。服务已运行时禁止自动重启；服务不可用时明确 blocked 或改用静态/日志/接口替代验证。
 - 数据任务优先查询事实表；页面和日志仅用于补充解释。
-- 记录热部署状态和不能触碰的边界；JRebel 需要能追踪 `compile → target/classes → reload/reconfigure`。
+- 记录热更新或增量部署状态和不能触碰的边界；需要能追踪 `source → build artifact → reload/reconfigure → running instance`。
 
 ### 2. 方案和边界
 
@@ -158,7 +174,7 @@ L2/L3 按风险选择并覆盖下列受影响类别；L0/L1 只执行静态检�
 - 用户：从首页到目标动作的完整路径、少绕路、状态可理解、下一步明确。
 - 数据：采集、清洗、去重、关联、时间范围、旧残留、统计口径和页面展示一致。
 - 性能：首屏、接口耗时、重复请求、大列表、慢查询或缓存证据。
-- 热部署：确认改动进入编译产物，检查 JRebel reload/reconfigure；明确哪些变化仍需要重启。
+- 热部署：确认改动进入构建产物并被目标实例重新加载；明确哪些变化仍需要重启。
 
 运行结果必须区分 `RUNTIME_PASS`、`STATIC_PASS_PENDING_RUNTIME`、`OLD_RUNTIME`、`PARTIAL_PASS`、`BLOCKED`、`NOT_RUN` 和 `FAIL`。如果服务已运行但未重载，源码通过不等于运行通过；如果浏览器不可用，必须说明 UI/视觉/点击路径未验证，并用接口、DOM、日志或人工步骤降级。
 
@@ -210,10 +226,3 @@ L2/L3 最终回复使用以下结构；L0/L1 只保留与当前风险相关的�
 
 读取 `references/tool-adapters.md` 选择当前工具的命令映射。工具名称不同不改变执行协议；没有子 Agent 时由主 Agent 串行承担审查、实现和验证，这只改变调度方式，不自动降低运行证据等级。没有浏览器、数据库、日志等观察能力时，对受影响的验证项标记 `BLOCKED` / `NOT_RUN`，并用静态检查、接口或人工步骤替代。
 
-## 项目特定注意事项
-
-- Java/Vue/Markdown/YAML/JSON 文件保持 UTF-8 无 BOM；中文直接写入。
-- Windows 命令优先使用 `rg`、PowerShell 和项目已有脚本；含中文 PostgreSQL SQL 使用 UTF-8 安全流程。
-- 长 Snowflake/任务 ID 全程按字符串处理，禁止 `Number` 转换造成精度丢失。
-- 不把服务器密码、Bearer token、Cookie、License Server 完整 token 写进文件或最终回复。
-- 如果用户明确说服务已启动，默认不重启；先验证热部署和运行态。

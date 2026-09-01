@@ -30,7 +30,7 @@ class ProductDocumentationTests(unittest.TestCase):
             for word in ("install", "upgrade", "rollback", "uninstall") if source is english else ("安装", "升级", "回滚", "卸载"):
                 self.assertIn(word, source)
             self.assertIn("DOCUMENTED_ONLY", source)
-            self.assertIn("scripts/package.ps1 -Version 1.2.4", source)
+            self.assertIn("scripts/package.ps1 -Version 1.2.5", source)
 
     def test_skill_hands_public_productization_to_the_optional_governance_skill(self):
         skill = (ROOT / "SKILL.md").read_text(encoding="utf-8")
@@ -165,8 +165,27 @@ class ProductDocumentationTests(unittest.TestCase):
         self.assertIn("## [1.2.1] - 2026-08-28", changelog)
         self.assertIn("theme-compatible BOOMKALAKASHA watermark", changelog)
 
-    def test_skill_declares_the_v124_release_version(self):
-        self.assertIn('version: "1.2.4"', (ROOT / "SKILL.md").read_text(encoding="utf-8"))
+    def test_skill_declares_the_v125_release_version(self):
+        self.assertIn('version: "1.2.5"', (ROOT / "SKILL.md").read_text(encoding="utf-8"))
+
+    def test_skill_verifies_project_guidance_and_preserves_independent_judgment(self):
+        skill = (ROOT / "SKILL.md").read_text(encoding="utf-8")
+        for marker in (
+            "项目规范、版本漂移与独立判断",
+            "DOC_STALE",
+            "IMPLEMENTATION_DRIFT",
+            "OLD_RUNTIME",
+            "VERSION_UNCERTAIN",
+            "INTENT_UNCLEAR",
+            "保持独立判断",
+            "证据不足",
+            "凭据、密码、令牌、Cookie",
+            "受版本控制文件或最终交付内容",
+        ):
+            self.assertIn(marker, skill)
+        self.assertNotIn("## 项目特定注意事项", skill)
+        for project_specific_marker in ("JRebel", "Snowflake", "PostgreSQL"):
+            self.assertNotIn(project_specific_marker, skill)
 
     def test_skill_exposes_tiered_model_and_context_drift_controls(self):
         skill = (ROOT / "SKILL.md").read_text(encoding="utf-8")
