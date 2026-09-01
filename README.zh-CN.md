@@ -54,6 +54,7 @@
 
 - 按风险从单文件修复平滑扩展到跨仓库、跨运行态交付，小任务不堆文档，大任务不省验收。
 - 明确区分源码、构建、测试、运行、业务、发布、部署与切流证据。
+- 核对项目规范与当前源码、配置和运行事实；关键证据不足时主动询问，不强行下结论。
 - 保护脏工作区；建分支、提交、推送、PR、标签、发布、部署、写库、重启和清理分别管理。
 - 用“需求 → 契约 → Case → 实现 → 证据 → 放行状态”避免上下文漂移。
 - 支持 Controller / Implementer / Reviewer 多 Agent 协作，但不把子 Agent 的完成声明直接当作验收。
@@ -78,7 +79,7 @@ git clone --depth 1 https://github.com/boomkalakasha/ai-first-vibe-coding-skill.
 其读取 `SKILL.md`，并以 [AI 操作指南](docs/ai-operation-guide.zh-CN.md)
 作为不绑定具体厂商的基础工作约定。
 
-对于打包候选，执行 `pwsh -NoProfile -File scripts/package.ps1 -Version 1.2.4`，检查 `dist/manifest.json` 和 `dist/SHA256SUMS.txt`，再遵循宿主的安装文档。生成归档不等于 Codex 或其他宿主已经安装它。
+对于打包候选，执行 `pwsh -NoProfile -File scripts/package.ps1 -Version 1.2.5`，检查 `dist/manifest.json` 和 `dist/SHA256SUMS.txt`，再遵循宿主的安装文档。生成归档不等于 Codex 或其他宿主已经安装它。
 
 ### 其他 Agent
 
@@ -96,7 +97,7 @@ git clone --depth 1 https://github.com/boomkalakasha/ai-first-vibe-coding-skill.
 ```powershell
 python scripts/validate.py
 python scripts/run_evals.py
-pwsh -NoProfile -File scripts/package.ps1 -Version 1.2.4
+pwsh -NoProfile -File scripts/package.ps1 -Version 1.2.5
 ```
 
 验证器检查 Skill frontmatter、JSON、相对 Markdown 链接、BOM、已知内部信息模式和必要文件。它不能代替人工版权审查、完整历史 secret 扫描或真实运行态验收。

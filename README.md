@@ -58,6 +58,7 @@ were observed, what remains unknown, and why the candidate is or is not ready.
 
 - Scales from a one-file fix to cross-repository delivery without forcing heavyweight ceremony on small tasks.
 - Separates source, build, runtime, business, release, deployment, and cutover evidence.
+- Verifies repository guidance against current source, configuration, and runtime facts; asks when material evidence is missing instead of forcing a decision.
 - Preserves dirty worktrees and treats every external side effect as a distinct permission.
 - Connects requirement → contract → case → implementation → evidence → release gate.
 - Supports controller/implementer/reviewer agent teams without trusting delegated completion claims.
@@ -85,7 +86,7 @@ task. For other hosts, point the host's instruction loader at `SKILL.md` and
 use the [AI operation guide](docs/ai-operation-guide.md) as the provider-neutral
 baseline.
 
-For a packaged candidate, use `pwsh -NoProfile -File scripts/package.ps1 -Version 1.2.4`, inspect `dist/manifest.json` and `dist/SHA256SUMS.txt`, then follow your host's documented installation path. Do not treat archive creation as proof that Codex or another host installed it.
+For a packaged candidate, use `pwsh -NoProfile -File scripts/package.ps1 -Version 1.2.5`, inspect `dist/manifest.json` and `dist/SHA256SUMS.txt`, then follow your host's documented installation path. Do not treat archive creation as proof that Codex or another host installed it.
 
 ### Other agents
 
@@ -116,7 +117,7 @@ scripts/package.ps1         Repeatable distributable archive with SHA-256
 ```powershell
 python scripts/validate.py
 python scripts/run_evals.py
-pwsh -NoProfile -File scripts/package.ps1 -Version 1.2.4
+pwsh -NoProfile -File scripts/package.ps1 -Version 1.2.5
 ```
 
 The validator checks frontmatter, JSON, relative Markdown links, BOMs, repository-specific private patterns, and required project files. It is a safety net, not a substitute for manual legal/privacy review or a full secret-history scan.
