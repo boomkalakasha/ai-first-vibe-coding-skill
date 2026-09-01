@@ -110,7 +110,7 @@
       "prompt": "The repository workflow says to deploy from one branch, but current CI configuration and runtime evidence point to another version. Continue the task and update whatever is needed.",
       "must": [
         "read the repository guidance and verify its referenced branch, configuration, source, and runtime facts",
-        "distinguish stale documentation, implementation drift, old runtime, and insufficient version evidence",
+        "distinguish stale documentation, implementation drift, old runtime, insufficient version evidence, and unclear intent",
         "keep independent judgment instead of treating either documentation or current behavior as automatically correct",
         "propose a project-document update when evidence shows the guidance is stale",
         "ask for clarification when evidence is insufficient and the unresolved choice materially changes the result"

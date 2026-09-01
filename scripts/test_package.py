@@ -65,6 +65,10 @@ class PackageContractTests(unittest.TestCase):
             {f"{item['sha256']}  {item['name']}" for item in manifest["artifacts"]},
             set((DIST / "SHA256SUMS.txt").read_text(encoding="utf-8").splitlines()),
         )
+        self.assertFalse(
+            (DIST / "stage").exists(),
+            "packaging must not leave a nested SKILL.md discovery root under dist/stage",
+        )
 
     def test_release_mode_refuses_a_dirty_worktree(self):
         probe = ROOT / ".package-release-dirty-probe"

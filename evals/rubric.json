@@ -11,6 +11,6 @@
     {"id": "github-open-source-profile", "criteria": ["keeps public release distinct from deployment", "scans tree and history", "keeps internal downstream private"]},
     {"id": "package-parity", "criteria": ["requires one staged source tree", "requires zip skill manifest and checksums", "does not claim host installation"]},
     {"id": "governance-skill-handoff", "criteria": ["routes broad OSS readiness to the optional companion", "does not claim the companion is installed"]},
-    {"id": "project-guidance-drift-and-evidence-gap", "criteria": ["verifies repository guidance against source configuration and runtime facts", "classifies documentation implementation runtime and version drift", "keeps independent judgment", "proposes project-owned documentation updates", "asks when missing evidence materially changes the result"]}
+    {"id": "project-guidance-drift-and-evidence-gap", "criteria": ["verifies repository guidance against source configuration and runtime facts", "classifies documentation implementation runtime version and intent uncertainty", "keeps independent judgment", "proposes project-owned documentation updates", "asks when missing evidence materially changes the result"]}
   ]
 }

@@ -7,11 +7,19 @@ All notable changes are documented here. The project follows Semantic Versioning
 ### Changed
 
 - Added a provider-neutral project-guidance drift check that distinguishes stale
-  documentation, implementation drift, old runtime, and uncertain version identity.
+  documentation, implementation drift, old runtime, uncertain version identity,
+  and unclear intended behavior.
 - Required independent judgment and explicit clarification when missing evidence
   would materially change business, data, permission, or release decisions.
 - Removed Java, Vue, JRebel, PostgreSQL, and Snowflake-specific operating notes
   from the generic Skill so project-specific rules remain in each repository.
+
+### Fixed
+
+- Staged release files in an isolated temporary directory and removed legacy
+  `dist/stage` output so an installed repository exposes only one discoverable Skill.
+- Kept the generic credential boundary explicit after project-specific operating
+  notes moved back to their owning repositories.
 
 ### Evals
 

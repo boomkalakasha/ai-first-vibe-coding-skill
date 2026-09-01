@@ -176,8 +176,11 @@ class ProductDocumentationTests(unittest.TestCase):
             "IMPLEMENTATION_DRIFT",
             "OLD_RUNTIME",
             "VERSION_UNCERTAIN",
+            "INTENT_UNCLEAR",
             "保持独立判断",
             "证据不足",
+            "凭据、密码、令牌、Cookie",
+            "受版本控制文件或最终交付内容",
         ):
             self.assertIn(marker, skill)
         self.assertNotIn("## 项目特定注意事项", skill)
