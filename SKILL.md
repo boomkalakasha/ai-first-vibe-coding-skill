@@ -3,7 +3,7 @@ name: ai-first-vibe-coding
 description: Use when a repository task needs implementation, refactoring, runtime or data-flow review, multi-agent delivery, or iterative acceptance; also use for 中文软件研发中的方案、实现、联调、复盘、验收、发版和 Skill/eval 沉淀. Skip simple translation, one-line commands, or purely informational questions.
 license: Apache-2.0
 metadata:
-  version: "1.3.0"
+  version: "1.3.1"
   repository: https://github.com/boomkalakasha/ai-first-vibe-coding-skill
 ---
 
@@ -22,6 +22,14 @@ Within clear boundaries, this Skill turns a complex goal into bounded agent work
 ## 何时使用
 
 当任务涉及已有代码库、运行中的服务、页面/接口/数据链路、POC 到生产演进、性能或用户体验时，优先加载本 skill。纯翻译、简单问答和单行命令不需要加载完整流程。
+
+## 上下文优先与按需路由
+
+先按[上下文与持续记录](references/workspace-records.md)读取当前请求、用户锚点和项目事实；规范化高置信语音/拼音错误。授权内低风险可逆工作，声明假设后自主继续；确认不是默认动作。当前用户明确执行请求可构成授权，范围未变不重复请示；实质歧义、缺失权限或不可逆决定仍需解决。
+
+按[主动能力路由](references/skill-routing.md)选择实际需要且可用的 Skill/插件，末尾简述实际使用项。新 Web/0→1/重要路径使用[第一价值门禁](references/web-coding.md)和[任务契约](templates/web-task-contract.md)，先证明入口到结果再扩展功能。
+
+L1+ 交付按[验收矩阵](references/acceptance-matrix.md)与[四层完成门禁](references/completion-gate.md)核验源码/构建、运行/UI、数据/业务、发布/切流；不适用层写明理由。涉及模型可靠性才读取[模型健康策略](references/model-health.md)；离线判定不等于在线监控。
 
 ## 核心原则
 
@@ -62,6 +70,12 @@ L2/L3 建立基线时，除读取最近作用域的 `AGENTS.md` / README 外，�
 才创建；普通目录或包划分不得复制成重复 guide。具体事实始终由项目文档拥有，公共 Skill
 不携带它们。
 
+### 项目级、组织级与公共 Skill 的主动沉淀
+
+按[Skill 沉淀、迭代与反馈闭环](references/skill-promotion-and-feedback.md)工作。L1+ 任务启动、每个迭代 Wave 收口、用户纠正、重复失败模式和最终交付时，主动检查本轮是否产生了可复用规则、失败 Case、用户偏好或文档漂移。候选必须根据事实、Case 或明确反馈分层到 `USER_PREFERENCE`、`PROJECT_GUIDANCE`、`ORG_POLICY`、`PUBLIC_SKILL` 或 `LOCAL_ONLY`，并在 `skillUpdateSummary` 中记录证据、所有者、建议落点、状态、验证和下一次复核。
+
+项目特有事实只回写项目所有者，跨项目规则只回写获授权的私有组织策略，公共 Skill 只吸收脱敏且跨项目可复用的方法；没有授权时形成提案，不静默改公司策略或公共包。即使没有候选，也要明确记录 `skillUpdateSummary: none`，避免沉淀只留在对话里。
+
 ## Git 分支与交付
 
 只要任务涉及代码修改、提交、推送、CI/CD 或评审请求，先读取
@@ -83,6 +97,9 @@ L2/L3 建立基线时，除读取最近作用域的 `AGENTS.md` / README 外，�
 - 先记录 `origin/main`、当前分支、脏文件和远端可达性；不要为对齐分支而 reset、checkout 或覆盖用户工作区。
 - 已有脏工作需要隔离时，只有用户明确授权才创建临时分支或 worktree；在交付前记录偏离原因并补齐项目要求的 Issue、测试、审核和命名。
 - Commit 主题遵循项目选定的约定；若项目选择 Conventional Commits，则使用 `<type>(<scope>): <实际变更摘要>`，绝不复制示例或编造编号。
+- 如果用户或组织已经声明了更具体的提交消息规范，先读取并在任务基线记录为 `commitConvention`，它优先于公共默认；生成提交前逐项核对类型、scope、语言、标题具体性、正文覆盖范围和拆分要求，不能静默退回泛化的英文或含糊标题。
+- 多项修改只有在同一目标、同一回滚边界下才能合并；否则拆分提交。合并时提交正文逐条写出修改对象、影响范围、行为结果和验证方式。
+- 文档在 `git add` 前先按[文档与 Git 边界](references/document-git-boundary.md)分类：`LOCAL_PROCESS` 默认留在本地，只有 `DELIVERY`、`TEAM_SYNC`、`PROJECT_SYNC` 在授权和项目规则允许时才进入 Git；不确定时保持 `PENDING`，禁止用 `git add .` 批量提交过程记录。
 - 只有用户已分别授权建分支、commit 或 push 时，才在功能分支执行对应动作；实现授权本身不包含 Git 写入。未授权时保留工作树变更、验证证据和建议 commit message。MR、main、标签和生产部署继续作为独立授权。
 - 交付时给出当前分支、基线 main、Issue/MR、提交、测试和未合并原因；不要把“feature 分支已验证”写成“main 已发布”。
 
@@ -98,7 +115,7 @@ L2/L3 建立基线时，除读取最近作用域的 `AGENTS.md` / README 外，�
 - `FULL_ITERATIVE_DELIVERY`：允许完整执行 L3 流程和用户指定轮次；
 - `SKILL_REVIEW`：评估技能、参考文档、模板和评测，不把建议项目代码当作待修改对象。
 
-任务开始时显式记录：`allowedWrites`、`allowedRestart`、`allowedDatabaseWrites`、`allowedExternalSideEffects` 和 `requestedIterations`。用户未授权的重启、写库、正式业务状态写入、外部同步、删除和 Git 提交默认禁止。
+非 LITE 任务开始时显式记录：`allowedWrites`、`allowedRestart`、`allowedDatabaseWrites`、`allowedExternalSideEffects` 和 `requestedIterations`；LITE 使用下述三项任务卡记录授权与验收。用户未授权的重启、写库、正式业务状态写入、外部同步、删除和 Git 提交默认禁止。
 
 先按影响范围判断任务等级：
 
@@ -227,6 +244,12 @@ L2/L3 额外必须分别评估：
 
 用户要求多轮时，只有 P0 证据真正闭合才能放行；“轮数完成”不等于“功能完成”。
 
+### 先汇总，再展开
+
+每次最终交付或收尾回复都先用一两句话给出结论：是否完成、当前是否可继续使用，以及最重要的阻断或边界。随后列出 3–5 条关键结果或决定，再展开文件、命令、日志、数据库、截图、证据等级和未决项。详细审计不能取代开头的结论，也不能让用户从工具流水或文件清单中自行拼出结果；L0/L1 任务只保留与风险相关的最小摘要。
+
+收尾时附上“本次使用的 Skill/插件”清单，只列本次实际读取、调用或依赖的项，并用一句话说明作用；可用但未使用的 Skill/插件不列入清单。摘要顺序不能抬高证据等级，未验证内容仍须标记 `PENDING`、`BLOCKED`、`NOT_RUN` 或相应边界。
+
 L2/L3 最终回复使用以下结构；L0/L1 只保留与当前风险相关的最小子集：
 
 ```markdown
@@ -241,6 +264,7 @@ L2/L3 最终回复使用以下结构；L0/L1 只保留与当前风险相关的�
 复盘：用户/业务、数据/内容、技术/性能、视觉/交互、运营/治理、业务价值
 迭代：本轮问题、优化方案、下一轮目标和放行门槛
 下一步：P0/P1/P2，只有真正需要用户决策的事项才提问
+本次使用的 Skill/插件：实际使用项及作用（只列已使用项）
 ```
 
 ## 工具适配

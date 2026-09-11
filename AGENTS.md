@@ -20,7 +20,11 @@ The validator covers frontmatter, JSON, Markdown links, UTF-8/BOM, required
 files, and known private-pattern leaks. The history boundary check reports
 documented legacy exposure separately from new leakage; never rewrite public
 history merely to silence it. Packaging creates the release ZIP and SHA-256
-under `dist/`. These commands must work without private services.
+under `dist/`. A Git checkout records `sourceCommit` and labels the tree
+`clean` or `dirty`; an installed snapshot may package in non-release mode with
+`sourceCommit=UNAVAILABLE` and `sourceTree=unavailable`. Release packaging
+requires a clean Git worktree. These commands must work without private
+services.
 
 ## Writing Style
 

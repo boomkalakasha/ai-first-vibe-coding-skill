@@ -118,8 +118,9 @@ def validate_json(errors: list[str]) -> None:
 
 def validate_release_contract(errors: list[str]) -> None:
     skill = (ROOT / "SKILL.md").read_text(encoding="utf-8")
-    if 'version: "1.3.0"' not in skill:
-        fail(errors, "SKILL.md must declare the v1.3.0 candidate version")
+    version_match = re.search(r'^  version: "(\d+\.\d+\.\d+)"$', skill, re.MULTILINE)
+    if version_match is None:
+        fail(errors, "SKILL.md must declare a stable SemVer candidate version")
     runtime_source = "\n".join(
         path.read_text(encoding="utf-8")
         for path in [ROOT / "SKILL.md", *(ROOT / "references").glob("*.md"), *(ROOT / "templates").glob("*.md")]

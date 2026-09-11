@@ -10,9 +10,14 @@ For a packaged candidate, validate and inspect it first:
 
 ```powershell
 python scripts/validate.py
-pwsh -NoProfile -File scripts/package.ps1 -Version 1.3.0
+pwsh -NoProfile -File scripts/package.ps1 -Version 1.3.1
 Get-Content dist\SHA256SUMS.txt
 ```
+
+Non-release packaging also works from an installed snapshot without Git
+history; its manifest records `sourceCommit=UNAVAILABLE` and
+`sourceTree=unavailable`. Release packaging requires a clean Git worktree so
+that provenance and tag checks remain reviewable.
 
 Extract the reviewed `.skill` only into the skill location selected by the host. Do not overwrite another Skill or assume a host supports `.skill` archives merely because this repository can build one.
 

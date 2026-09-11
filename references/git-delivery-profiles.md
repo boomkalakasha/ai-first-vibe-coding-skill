@@ -11,11 +11,18 @@ Determine the profile from, in order:
 
 Record `deliveryProfile`, base branch, remote, baseline commit, dirty state, issue/PR requirement, commit convention, checks, release mechanism, and protected targets.
 
+An explicit user or organization commit convention is binding for the task. Do
+not silently replace it with the public default; derive the title and body from
+the actual diff, and split changes that do not share one goal and rollback
+boundary.
+
 ## Shared rules
 
 - Preserve uncommitted user work; use an isolated branch/worktree for risky or long-running changes.
 - Never invent issue numbers or copy sample commit text.
 - Keep commits cohesive and messages truthful.
+- When one commit covers several related changes, enumerate each change and its
+  verification in the body; split unrelated goals.
 - Branch, commit, push, PR/MR, tag, release, deploy, and cleanup are separately observable actions.
 - Do not force-push a protected or shared branch.
 - A feature branch passing locally is not the same as the default branch being released.

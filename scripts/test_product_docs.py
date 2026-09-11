@@ -34,7 +34,7 @@ class ProductDocumentationTests(unittest.TestCase):
             for word in ("install", "upgrade", "rollback", "uninstall") if source is english else ("安装", "升级", "回滚", "卸载"):
                 self.assertIn(word, source)
             self.assertIn("DOCUMENTED_ONLY", source)
-            self.assertIn("scripts/package.ps1 -Version 1.3.0", source)
+            self.assertIn("scripts/package.ps1 -Version 1.3.1", source)
 
     def test_skill_hands_public_productization_to_the_optional_governance_skill(self):
         skill = (ROOT / "SKILL.md").read_text(encoding="utf-8")
@@ -135,7 +135,7 @@ class ProductDocumentationTests(unittest.TestCase):
         self.assertIn("-Release -Version $version", workflow)
         self.assertIn(
             "icarus-open-source-governance-skill/actions/release-doc-sync@"
-            "12999d05ccc73800b5d6c49b709e2f09e8303519",
+            "4809933a1c60ca19bc70a8140e479eba09da8c37",
             workflow,
         )
         self.assertIn("steps.release-metadata.outputs.version", workflow)
@@ -183,9 +183,9 @@ class ProductDocumentationTests(unittest.TestCase):
         self.assertIn("## [1.2.1] - 2026-08-28", changelog)
         self.assertIn("theme-compatible BOOMKALAKASHA watermark", changelog)
 
-    def test_skill_declares_the_v130_candidate_version(self):
-        self.assertIn('version: "1.3.0"', (ROOT / "SKILL.md").read_text(encoding="utf-8"))
-        self.assertIn("## [1.3.0] - Unreleased", (ROOT / "CHANGELOG.md").read_text(encoding="utf-8"))
+    def test_skill_declares_the_v131_candidate_version(self):
+        self.assertIn('version: "1.3.1"', (ROOT / "SKILL.md").read_text(encoding="utf-8"))
+        self.assertIn("## [1.3.1] - Unreleased", (ROOT / "CHANGELOG.md").read_text(encoding="utf-8"))
 
     def test_public_runtime_owns_no_internal_branch_or_customer_policy(self):
         runtime_files = [
@@ -219,8 +219,8 @@ class ProductDocumentationTests(unittest.TestCase):
         chinese = (ROOT / "README.zh-CN.md").read_text(encoding="utf-8")
         self.assertIn("Public core → organization policy → project guidance → machine preferences", english)
         self.assertIn("公开核心 → 组织策略 → 项目规范 → 本机偏好", chinese)
-        self.assertIn("1.3.0", english)
-        self.assertIn("1.3.0", chinese)
+        self.assertIn("1.3.1", english)
+        self.assertIn("1.3.1", chinese)
 
     def test_verified_public_v120_history_is_not_labeled_unpublished(self):
         changelog = (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
@@ -239,7 +239,10 @@ class ProductDocumentationTests(unittest.TestCase):
             check=False,
         )
         self.assertEqual(0, result.returncode, result.stdout + result.stderr)
-        self.assertIn("ACCEPTED_LEGACY", result.stdout)
+        if "NOT_RUN: Git history is unavailable" in result.stdout:
+            self.assertNotIn("FAIL:", result.stdout)
+        else:
+            self.assertIn("ACCEPTED_LEGACY", result.stdout)
         gate = (ROOT / "scripts" / "check_history_boundaries.py").read_text(encoding="utf-8")
         self.assertIn("--show-toplevel", gate)
         self.assertIn('"--all"', gate)
@@ -337,6 +340,16 @@ class ProductDocumentationTests(unittest.TestCase):
             "NOT_NEEDED",
         ):
             self.assertIn(marker, guide, marker)
+
+    def test_tool_adapter_handles_windows_host_patch_boundaries(self):
+        adapters = (ROOT / "references" / "tool-adapters.md").read_text(encoding="utf-8")
+        for marker in (
+            "apply_patch` 是宿主工具",
+            "不要把它当作 PowerShell",
+            "不要重复重试同一个失败入口",
+            "保留失败证据",
+        ):
+            self.assertIn(marker, adapters, marker)
 
 
 if __name__ == "__main__":

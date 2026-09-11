@@ -1,0 +1,91 @@
+{
+  "_provenance": "Recovery reconstruction on 2026-09-10; JSON schema is not the lost original",
+  "layers": {
+    "SOURCE_BUILD": {
+      "status": "NOT_RUN",
+      "evidence": []
+    },
+    "RUNTIME_UI": {
+      "status": "NOT_RUN",
+      "evidence": []
+    },
+    "DATA_BUSINESS": {
+      "status": "NOT_RUN",
+      "evidence": []
+    },
+    "RELEASE_CUTOVER": {
+      "status": "NOT_RUN",
+      "evidence": []
+    }
+  },
+  "acceptance_matrix": {
+    "_provenance": "Recovery reconstruction on 2026-09-10; JSON schema is not the lost original",
+    "task_type": "mvp_crud",
+    "layers": {
+      "SOURCE_BUILD": {
+        "status": "NOT_RUN",
+        "evidence": []
+      },
+      "RUNTIME_UI": {
+        "status": "NOT_RUN",
+        "evidence": []
+      },
+      "DATA_BUSINESS": {
+        "status": "NOT_RUN",
+        "evidence": []
+      },
+      "RELEASE_CUTOVER": {
+        "status": "NOT_RUN",
+        "evidence": []
+      }
+    },
+    "journey": {
+      "login": {
+        "status": "NOT_RUN",
+        "evidence": []
+      },
+      "create": {
+        "status": "NOT_RUN",
+        "evidence": []
+      },
+      "list": {
+        "status": "NOT_RUN",
+        "evidence": []
+      },
+      "edit": {
+        "status": "NOT_RUN",
+        "evidence": []
+      },
+      "error": {
+        "status": "NOT_RUN",
+        "evidence": []
+      }
+    },
+    "cases": {
+      "success": {
+        "status": "NOT_RUN",
+        "evidence": []
+      },
+      "error": {
+        "status": "NOT_RUN",
+        "evidence": []
+      },
+      "empty": {
+        "status": "NOT_RUN",
+        "evidence": []
+      },
+      "retry": {
+        "status": "NOT_RUN",
+        "evidence": []
+      },
+      "duplicate": {
+        "status": "NOT_RUN",
+        "evidence": []
+      },
+      "permission": {
+        "status": "NOT_RUN",
+        "evidence": []
+      }
+    }
+  }
+}

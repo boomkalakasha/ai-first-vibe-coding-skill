@@ -27,6 +27,11 @@ project security or release gate.
 - whether branch, commit, push, review request, merge, tag, release, deployment
   and cleanup are individually authorized.
 
+If the user or organization provides an exact commit-message convention, record
+it as `commitConvention` in the task baseline and apply it before the public
+Conventional Commits fallback. Validate the type, scope, required language,
+title specificity, body coverage and split rules against the actual diff.
+
 Never infer an internal branch format from a hosting vendor. Never invent an
 issue number. If the project has no delivery policy, use `project-defined`
 and stop before an external write that would require one.
@@ -35,6 +40,8 @@ and stop before an external write that would require one.
 
 - Preserve user work and isolate long-running changes.
 - Keep commits cohesive and messages truthful.
+- When one commit covers several related changes, make the body enumerate each
+  change, its impact and its verification; split unrelated rollback boundaries.
 - Do not force-push a protected or shared branch.
 - Treat local tests, default-branch merge, public release and deployment as
   distinct proof states.

@@ -38,6 +38,18 @@ Use the smallest path that matches the request:
 4. If facts are missing, keep the item `PENDING` instead of silently filling
    the gap with a plausible assumption.
 
+When a user or organization has an explicit commit-message convention, record
+it as `commitConvention` in the task baseline and apply it before the public
+default. Derive the title and body from the actual diff, cover each related
+change and its verification, and split unrelated goals.
+
+Classify every document before `git add` using the
+[document/Git boundary](../references/document-git-boundary.md): local process
+records stay local by default; delivery, team-sync and project-source-of-truth
+documents enter Git only when the task authorization and project policy allow
+it. If the classification is uncertain, keep it `PENDING` and do not use
+`git add .` as a shortcut.
+
 ## Evidence before claims
 
 Keep these evidence streams distinct:
@@ -55,6 +67,20 @@ claim it actually exercises. Report `RUNNING`, `PENDING`, `RECOVERING` and
 browser, service or data source is unavailable, downgrade the evidence level
 instead of converting documentation into runtime proof.
 
+## Summary-first delivery
+
+Every final or handoff response starts with one or two sentences stating the
+outcome, whether the user can proceed, and the most important blocker or
+boundary. Follow with 3–5 key outcomes or decisions, then provide paths,
+commands, evidence levels, limitations and detailed audit material. The
+summary must not inflate the evidence level or make the user reconstruct the
+answer from a tool log or file list; keep L0/L1 responses to the smallest
+risk-relevant version.
+
+End the response with a short **Skills/plugins used** checklist. List every
+Skill or plugin actually read, called or relied on in this task, with its role;
+omit capabilities that were available but unused.
+
 ## Project and module AI guidance
 
 Reading an existing `AGENTS.md` is not the final check. For L2/L3 work, record
@@ -69,6 +95,18 @@ Create a module guide only when that module has a distinct command, external
 contract, data/security boundary, lifecycle or dependency direction. Keep it
 short, link it from the project guide, and retain the actual facts in the
 project—not in this public Skill.
+
+## Skill promotion and feedback
+
+For L1+ work, at task start, after each iteration wave, after user correction or
+repeated failure, and at handoff, proactively inspect whether the task produced
+a reusable rule, failure case, user preference or guidance drift. Follow the
+[Skill promotion and feedback loop](../references/skill-promotion-and-feedback.md)
+and record a `skillUpdateSummary` with evidence, owner, destination, status,
+validation and next review. Project facts stay project-owned; cross-project
+rules stay in authorized private organization policy; the public Skill receives
+only sanitized, reusable methods. If there is no candidate, record
+`skillUpdateSummary: none`.
 
 ## A safe implementation loop
 

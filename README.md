@@ -28,6 +28,8 @@ that its Release gate passed.
 | Split a long task across agents | Give each agent a bounded write set, role and stop condition; resize concurrency from live capacity signals | A shared execution ledger instead of scattered “done” messages |
 | Know whether a change is really ready | Separate source, build, runtime, business, release and cutover evidence | A release decision with explicit `P0/P1` gates and honest unknowns |
 | Ship across GitHub, GitLab or Jenkins | Select the repository's delivery profile and keep commits, reviews, tags and deployment proof separate | A reviewable branch/MR/PR path with rollback and evidence boundaries |
+| Keep a long handoff readable | Lead with the conclusion and 3–5 key outcomes, then show evidence and limits; finish with the Skills/plugins actually used | A decision a reviewer can understand without replaying tool logs |
+| Turn repeated feedback into durable guidance | Classify reusable rules as user, project, organization, public or local and validate the promotion | A `skillUpdateSummary` with an owner, evidence and next review |
 
 It is especially useful for service refactors, cross-repository changes, production-bound data flows and any task where “the tests passed” is only one part of the answer.
 
@@ -39,6 +41,8 @@ It is especially useful for service refactors, cross-repository changes, product
 4. Run the bilingual [install, upgrade, rollback, and uninstall guide](docs/quick-start.md) and the local validation commands below. Host discovery or runtime behavior remains `DOCUMENTED_ONLY` unless observed in that host.
 
 If the work is a one-line translation or a purely informational question, skip the full workflow and use the smallest tool that answers it. If it is a local code/doc fix with a focused check, use [Lite delivery](references/lite-delivery.md) rather than a full ledger.
+
+For shared documentation and Git decisions, use the [document/Git boundary](references/document-git-boundary.md). For reusable learning and user feedback, use the [Skill promotion loop](references/skill-promotion-and-feedback.md); project facts and private preferences stay with their owners.
 
 ### Measure whether the Skill helps
 
@@ -105,7 +109,7 @@ task. For other hosts, point the host's instruction loader at `SKILL.md` and
 use the [AI operation guide](docs/ai-operation-guide.md) as the provider-neutral
 baseline.
 
-For a packaged 1.3.0 candidate, use `pwsh -NoProfile -File scripts/package.ps1 -Version 1.3.0`, inspect `dist/manifest.json` and `dist/SHA256SUMS.txt`, then follow your host's documented installation path. Do not treat archive creation as proof that Codex or another host installed it or that 1.3.0 has been publicly released.
+For a packaged 1.3.1 candidate, use `pwsh -NoProfile -File scripts/package.ps1 -Version 1.3.1`, inspect `dist/manifest.json` and `dist/SHA256SUMS.txt`, then follow your host's documented installation path. Do not treat archive creation as proof that Codex or another host installed it or that 1.3.1 has been publicly released.
 
 ### Other agents
 
@@ -136,12 +140,12 @@ scripts/package.ps1         Repeatable distributable archive with SHA-256
 ```powershell
 python scripts/validate.py
 python scripts/run_evals.py
-pwsh -NoProfile -File scripts/package.ps1 -Version 1.3.0
+pwsh -NoProfile -File scripts/package.ps1 -Version 1.3.1
 ```
 
 The validator checks frontmatter, JSON, relative Markdown links, BOMs, repository-specific private patterns, and required project files. It is a safety net, not a substitute for manual legal/privacy review or a full secret-history scan.
 
-The package stages one source tree and produces `.zip`, `.skill`, `manifest.json`, and `SHA256SUMS.txt`. Its manifest labels a source tree `clean` or `dirty`; only a clean exact-tag package can enter release review.
+The package stages one source tree and produces `.zip`, `.skill`, `manifest.json`, and `SHA256SUMS.txt`. Its manifest labels a Git checkout `clean` or `dirty`, or records `unavailable` with `sourceCommit=UNAVAILABLE` when run from an installed snapshot. Only a clean exact-tag package can enter release review; release packaging requires a Git worktree.
 
 ## Delivery profiles
 
