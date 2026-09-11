@@ -20,6 +20,15 @@ class PackageContractTests(unittest.TestCase):
             check=False,
         )
 
+    def has_git_worktree(self) -> bool:
+        result = subprocess.run(
+            ["git", "-C", str(ROOT), "rev-parse", "--show-toplevel"],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        return result.returncode == 0 and Path(result.stdout.strip()).resolve() == ROOT.resolve()
+
     def test_dot_prefixed_package_entries_are_read_with_force_on_unix(self):
         source = (ROOT / "scripts" / "package.ps1").read_text(encoding="utf-8")
         self.assertIn("Get-Item -LiteralPath $source -Force", source)
@@ -33,14 +42,16 @@ class PackageContractTests(unittest.TestCase):
         self.assertIn("dist/SHA256SUMS.txt", workflow)
 
     def test_one_staged_tree_produces_manifested_zip_skill_and_checksums(self):
-        result = self.run_package("-Version", "1.3.0")
+        result = self.run_package("-Version", "1.3.1")
         self.assertEqual(0, result.returncode, result.stdout + result.stderr)
         manifest = json.loads((DIST / "manifest.json").read_text(encoding="utf-8"))
-        self.assertEqual("1.3.0", manifest["version"])
-        self.assertIn(manifest["sourceTree"], {"clean", "dirty"})
+        self.assertEqual("1.3.1", manifest["version"])
+        self.assertIn(manifest["sourceTree"], {"clean", "dirty", "unavailable"})
+        if not self.has_git_worktree():
+            self.assertEqual("UNAVAILABLE", manifest["sourceCommit"])
         archives = [DIST / item["name"] for item in manifest["artifacts"]]
         self.assertEqual(
-            {"ai-first-vibe-coding-1.3.0.zip", "ai-first-vibe-coding.skill"},
+            {"ai-first-vibe-coding-1.3.1.zip", "ai-first-vibe-coding.skill"},
             {path.name for path in archives},
         )
         entries = []
@@ -74,11 +85,24 @@ class PackageContractTests(unittest.TestCase):
         probe = ROOT / ".package-release-dirty-probe"
         probe.write_text("test-owned untracked probe\n", encoding="utf-8")
         try:
-            result = self.run_package("-Release", "-Version", "1.3.0")
+            result = self.run_package("-Release", "-Version", "1.3.1")
             self.assertNotEqual(0, result.returncode)
-            self.assertIn("clean working tree", result.stdout + result.stderr)
+            output = result.stdout + result.stderr
+            if self.has_git_worktree():
+                self.assertIn("clean working tree", output)
+            else:
+                self.assertIn("Git worktree", output)
         finally:
             probe.unlink(missing_ok=True)
+
+    def test_non_release_packaging_from_an_installed_snapshot_has_an_explicit_git_boundary(self):
+        if self.has_git_worktree():
+            self.skipTest("this case targets an installed snapshot without Git history")
+        result = self.run_package("-Version", "1.3.1")
+        self.assertEqual(0, result.returncode, result.stdout + result.stderr)
+        manifest = json.loads((DIST / "manifest.json").read_text(encoding="utf-8"))
+        self.assertEqual("UNAVAILABLE", manifest["sourceCommit"])
+        self.assertEqual("unavailable", manifest["sourceTree"])
 
 
 if __name__ == "__main__":

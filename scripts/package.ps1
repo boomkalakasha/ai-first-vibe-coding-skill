@@ -31,7 +31,24 @@ $includes = @(
     'assets', 'docs', 'references', 'templates', 'evals', 'scripts', '.github'
 )
 
-$isDirty = [bool](git -C $repositoryRoot status --porcelain)
+$gitRootOutput = @(git -C $repositoryRoot rev-parse --show-toplevel 2>$null)
+$hasGitWorktree = $false
+if ($LASTEXITCODE -eq 0 -and $gitRootOutput.Count -gt 0) {
+    $gitRoot = [IO.Path]::GetFullPath(($gitRootOutput | Select-Object -First 1).ToString().Trim())
+    $hasGitWorktree = $gitRoot.TrimEnd('\', '/') -eq $repositoryRoot.TrimEnd('\', '/')
+}
+if ($Release -and -not $hasGitWorktree) {
+    throw 'Release packaging requires a Git worktree.'
+}
+
+$isDirty = $false
+if ($hasGitWorktree) {
+    $statusOutput = @(git -C $repositoryRoot status --porcelain 2>$null)
+    if ($LASTEXITCODE -ne 0) {
+        throw 'Unable to inspect the Git working tree.'
+    }
+    $isDirty = $statusOutput.Count -gt 0
+}
 if ($Release -and $isDirty) {
     throw 'Release packaging requires a clean working tree.'
 }
@@ -82,8 +99,8 @@ try {
     $manifest = [ordered]@{
         schemaVersion = 1
         version = $Version
-        sourceCommit = (git -C $repositoryRoot rev-parse HEAD).Trim()
-        sourceTree = $(if ($isDirty) { 'dirty' } else { 'clean' })
+        sourceCommit = $(if ($hasGitWorktree) { (git -C $repositoryRoot rev-parse HEAD 2>$null).Trim() } else { 'UNAVAILABLE' })
+        sourceTree = $(if (-not $hasGitWorktree) { 'unavailable' } elseif ($isDirty) { 'dirty' } else { 'clean' })
         artifacts = $artifacts
         stagedFiles = $stagedFiles
     }

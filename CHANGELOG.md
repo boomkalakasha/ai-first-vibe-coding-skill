@@ -1,6 +1,19 @@
 # Changelog
 
-## [1.3.0] - Unreleased
+## [1.3.1] - Unreleased
+
+- Restore summary-first handoffs and the end-of-task list of Skills/plugins used.
+- Enforce user- or organization-supplied commit-message conventions before the
+  public default, including concrete Chinese titles, body coverage and split
+  rules.
+- Add a document/Git boundary and a validated feedback-promotion loop with
+  owner routing and explicit no-candidate reporting.
+- Add bilingual README guidance and evaluations for document classification,
+  feedback promotion and truthful release packaging from installed snapshots.
+- Pin the public release documentation gate to the reviewed
+  icarus-open-source-governance commit used for this candidate.
+
+## [1.3.0] - 2026-09-01
 
 - Separate public workflow defaults from organization-supplied policy,
   project-owned guidance and machine-local preferences.
@@ -173,7 +186,8 @@ All notable changes are documented here. The project follows Semantic Versioning
 - Optional GitHub open-source iteration and release profile.
 - Bilingual documentation, public governance files, validation, packaging, and CI.
 
-[1.3.0]: https://github.com/boomkalakasha/ai-first-vibe-coding-skill/compare/v1.2.5...HEAD
+[1.3.1]: https://github.com/boomkalakasha/ai-first-vibe-coding-skill/compare/v1.3.0...HEAD
+[1.3.0]: https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases/tag/v1.3.0
 [1.2.5]: https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases/tag/v1.2.5
 [1.2.4]: https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases/tag/v1.2.4
 [1.2.3]: https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases/tag/v1.2.3

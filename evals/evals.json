@@ -164,6 +164,135 @@
         "create duplicate module guides for ordinary folders",
         "copy project-specific commands or credentials into the public Skill"
       ]
+    },
+    {
+      "id": "restored-context-autonomy",
+      "prompt": "Fix an already-authorized small local typo after reading the maintained task context. No other effects.",
+      "must": [
+        "continue autonomously inside scope",
+        "focused verification",
+        "use the Lite card"
+      ],
+      "must_not": [
+        "generic confirmation wait",
+        "mandatory browser",
+        "mandatory subagents"
+      ]
+    },
+    {
+      "id": "restored-web-first-value",
+      "prompt": "Our new Web app builds. The root-to-result user journey has not run. Can we call it complete and add another module?",
+      "must": [
+        "FIRST_VALUE_PENDING",
+        "verify one user promise and golden path",
+        "separate source from runtime evidence"
+      ],
+      "must_not": [
+        "FIRST_VALUE_PASS from build",
+        "claim DONE"
+      ]
+    },
+    {
+      "id": "restored-completion-gate",
+      "prompt": "L1 workflow has source/build evidence only. Determine completion.",
+      "must": [
+        "DONE_BLOCKED",
+        "four independent evidence layers",
+        "reasoned NOT_APPLICABLE only"
+      ],
+      "must_not": [
+        "accept empty evidence",
+        "promote DOCUMENTED_ONLY to runtime"
+      ]
+    },
+    {
+      "id": "restored-crud-acceptance",
+      "prompt": "CRUD login create list edit work, but error handling was not tested. Assess acceptance.",
+      "must": [
+        "missing error case blocks acceptance",
+        "task-shaped matrix",
+        "business state evidence"
+      ],
+      "must_not": [
+        "accept success path alone"
+      ]
+    },
+    {
+      "id": "restored-model-health",
+      "prompt": "Two of five events failed in the last five minutes. The configured fallback returned text, quality has not been compared.",
+      "must": [
+        "ROUTE_DEGRADED",
+        "QUALITY_DEGRADED",
+        "offline evaluator distinct from live scheduling"
+      ],
+      "must_not": [
+        "rewrite credentials",
+        "claim equivalent quality",
+        "claim live monitoring from fixture"
+      ]
+    },
+    {
+      "id": "summary-first-delivery",
+      "prompt": "After a long recovery audit, the user says the answer is hard to follow and asks for the result. Respond with the outcome first, then the key findings, evidence and limits, and finish by listing the Skills/plugins actually used.",
+      "must": [
+        "lead with a concise conclusion and current usability or blocker",
+        "give 3-5 key outcomes or decisions before detailed evidence",
+        "place evidence, files, commands and limitations after the summary",
+        "end with a checklist of only the Skills/plugins actually used"
+      ],
+      "must_not": [
+        "open with a long audit trail or file list",
+        "make the user reconstruct the conclusion from tool output",
+        "list available but unused Skills/plugins",
+        "claim original artifacts were recovered when only a reconstruction is verified"
+      ]
+    },
+    {
+      "id": "user-commit-message-convention",
+      "prompt": "The user has explicitly said: keep the fix/feat prefix and scope, make the text after the colon concrete Chinese, describe every related change and its verification in the body, and split unrelated goals. Prepare the commit message for the actual diff.",
+      "must": [
+        "read and apply the explicit user convention before the public default",
+        "use a truthful <type>(<scope>): <具体中文描述> title when the diff supports a scope",
+        "cover each related change, impact or behavior result, and verification in the body",
+        "split unrelated goals instead of hiding them behind a broad title"
+      ],
+      "must_not": [
+        "fall back to a generic English or vague title",
+        "copy a sample commit message unchanged",
+        "rewrite shared history without explicit authorization"
+      ]
+    },
+    {
+      "id": "document-git-boundary",
+      "prompt": "A long-running AI task produced a temporary plan, agent tool logs, screenshots, recovery intermediates, an accepted ADR, a project README update, and a release runbook. Decide which documents may enter Git.",
+      "must": [
+        "classify transient plans, tool logs, screenshots and recovery intermediates as LOCAL_PROCESS",
+        "keep LOCAL_PROCESS documents out of Git by default",
+        "allow DELIVERY, TEAM_SYNC and PROJECT_SYNC documents only when authorization and project policy permit",
+        "keep uncertain classification PENDING and avoid git add .",
+        "remove private paths, credentials and one-off machine details before committing shared documents"
+      ],
+      "must_not": [
+        "commit every file under docs",
+        "treat a process log as a project source of truth",
+        "use .gitignore to hide a required delivery or team document"
+      ]
+    },
+    {
+      "id": "skill-promotion-feedback-loop",
+      "prompt": "Across three related tasks, the same project boundary failure appears twice, the user confirms a new collaboration preference, and a cross-project rule may be reusable. Produce the skillUpdateSummary and decide what should update at user, project, organization, public-skill or local scope.",
+      "must": [
+        "proactively inspect repeated failures, user confirmation and guidance drift",
+        "record evidence, owner, destination, status, validation and next review in skillUpdateSummary",
+        "route project facts to project guidance and cross-project rules to authorized private organization policy",
+        "promote to the public Skill only when the method is sanitized and reusable across projects",
+        "record skillUpdateSummary: none when no candidate exists"
+      ],
+      "must_not": [
+        "silently edit organization policy or the public Skill without authorization",
+        "promote a one-off workaround as a durable rule",
+        "leave the decision only in chat context"
+      ]
     }
   ]
 }

@@ -25,6 +25,8 @@
 | 把长任务交给多个 Agent | 为每个 Agent 划定写集、角色和停止条件，并按实时容量信号调整并发 | 一份统一执行台账，而不是散落的“已完成”消息 |
 | 判断改动是否真的可以放行 | 分开源码、构建、运行、业务、发布和切流证据 | 带 `P0/P1` 门禁、明确未知项的放行结论 |
 | 在 GitHub、GitLab 或 Jenkins 上安全交付 | 按仓库选择交付 profile，把提交、评审、标签和部署证据分开 | 可审查、可回滚、证据边界清晰的分支/MR/PR 路径 |
+| 让长任务交接容易读懂 | 先给结论和 3–5 条关键结果，再给证据与限制，最后列出实际使用的 Skill/插件 | 不用重放工具流水也能复核的决定 |
+| 把重复反馈沉淀成长期引导 | 将可复用规则分到用户、项目、组织、公共或本地层级，并在提升后验证 | 带所有者、证据和下一次复核的 `skillUpdateSummary` |
 
 它尤其适合服务重构、跨仓改动、面向生产的数据链路，以及“测试通过”仍不足以回答是否可用的长周期任务。
 
@@ -36,6 +38,8 @@
 4. 按下面的本地校验命令回收证据。除非在对应宿主中真实观察到行为，宿主发现或运行态仍是 `DOCUMENTED_ONLY`。
 
 如果只是单行翻译、简单问答或纯信息查询，不必套用完整流程。若是可聚焦验证的本地代码/文档修复，优先使用 [Lite 交付](references/lite-delivery.md)，而不是完整台账。
+
+共享文档和 Git 归属按[文档与 Git 边界](references/document-git-boundary.md)判断；可复用经验和用户反馈按[Skill 沉淀、迭代与反馈闭环](references/skill-promotion-and-feedback.md)处理。项目事实和私有偏好仍由各自所有者维护。
 
 ### 用真实记录判断 Skill 是否有帮助
 
@@ -92,7 +96,7 @@ git clone --depth 1 https://github.com/boomkalakasha/ai-first-vibe-coding-skill.
 其读取 `SKILL.md`，并以 [AI 操作指南](docs/ai-operation-guide.zh-CN.md)
 作为不绑定具体厂商的基础工作约定。
 
-对于 1.3.0 打包候选，执行 `pwsh -NoProfile -File scripts/package.ps1 -Version 1.3.0`，检查 `dist/manifest.json` 和 `dist/SHA256SUMS.txt`，再遵循宿主的安装文档。生成归档不等于 Codex 或其他宿主已经安装它，也不代表 1.3.0 已公开发布。
+对于 1.3.1 打包候选，执行 `pwsh -NoProfile -File scripts/package.ps1 -Version 1.3.1`，检查 `dist/manifest.json` 和 `dist/SHA256SUMS.txt`，再遵循宿主的安装文档。生成归档不等于 Codex 或其他宿主已经安装它，也不代表 1.3.1 已公开发布。
 
 ### 其他 Agent
 
@@ -110,12 +114,12 @@ git clone --depth 1 https://github.com/boomkalakasha/ai-first-vibe-coding-skill.
 ```powershell
 python scripts/validate.py
 python scripts/run_evals.py
-pwsh -NoProfile -File scripts/package.ps1 -Version 1.3.0
+pwsh -NoProfile -File scripts/package.ps1 -Version 1.3.1
 ```
 
 验证器检查 Skill frontmatter、JSON、相对 Markdown 链接、BOM、已知内部信息模式和必要文件。它不能代替人工版权审查、完整历史 secret 扫描或真实运行态验收。
 
-打包器只暂存一次源树，再生成 `.zip`、`.skill`、`manifest.json` 和 `SHA256SUMS.txt`。manifest 会标记源树为 `clean` 或 `dirty`；只有干净的确切 tag 包才能进入发版审查。
+打包器只暂存一次源树，再生成 `.zip`、`.skill`、`manifest.json` 和 `SHA256SUMS.txt`。在 Git checkout 中，manifest 会标记源树为 `clean` 或 `dirty`；从已安装快照运行非发版打包时，会记录 `sourceCommit=UNAVAILABLE`、`sourceTree=unavailable`。只有干净的确切 tag 包才能进入发版审查，发版打包必须在 Git worktree 中执行。
 
 ## 仓库结构
 

@@ -10,9 +10,13 @@
 
 ```powershell
 python scripts/validate.py
-pwsh -NoProfile -File scripts/package.ps1 -Version 1.3.0
+pwsh -NoProfile -File scripts/package.ps1 -Version 1.3.1
 Get-Content dist\SHA256SUMS.txt
 ```
+
+没有 Git 历史的已安装快照也可以执行非发版打包；manifest 会记录
+`sourceCommit=UNAVAILABLE` 和 `sourceTree=unavailable`。发版打包必须使用干净的
+Git worktree，保证来源与 tag 检查仍然可审查。
 
 只将已审核的 `.skill` 解压到宿主选定的位置。仓库能生成 `.skill` 不代表任意宿主都支持该归档，也不要覆盖其他 Skill。
 
