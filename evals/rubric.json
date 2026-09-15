@@ -4,6 +4,10 @@
   "evaluation_mode": "DOCUMENTED_ONLY",
   "cases": [
     {
+      "id": "vibe-coding-non-web-first-value",
+      "criteria": ["uses the actual CLI entrypoint and observable result", "retains failure recovery and RUNTIME_OBSERVED in RUNTIME_UI for the CLI", "does not impose Web-specific UI or browser gates on a non-UI task", "judges release applicability from task scope rather than the absence of UI"]
+    },
+    {
       "id": "lite-low-risk-task",
       "criteria": [
         "uses only goal allowed effects and verification",

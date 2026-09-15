@@ -12,6 +12,8 @@ Within clear boundaries, this Skill helps Codex or another coding agent break do
 
 Vibe coding is excellent at creating momentum. This skill keeps that momentum while adding the pieces that production work needs: repository boundaries, fact chains, testable specifications, honest evidence levels, safe Git delivery, multi-agent contracts, and iterative P0/P1 closure.
 
+Vibe Coding applies to Web, backend services, CLI tools, desktop applications, automation and data tasks. Use the [first-value guide](references/vibe-coding.md) and [task contract](templates/vibe-task-contract.md) for a new result path; select evidence for the actual interface and keep small fixes small.
+
 <!-- icarus-release-fact: dynamic -->
 Public GitHub Releases and downloadable artifacts are available from the
 [latest GitHub Release](https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases/latest)
@@ -109,7 +111,7 @@ task. For other hosts, point the host's instruction loader at `SKILL.md` and
 use the [AI operation guide](docs/ai-operation-guide.md) as the provider-neutral
 baseline.
 
-For a packaged 1.3.1 candidate, use `pwsh -NoProfile -File scripts/package.ps1 -Version 1.3.1`, inspect `dist/manifest.json` and `dist/SHA256SUMS.txt`, then follow your host's documented installation path. Do not treat archive creation as proof that Codex or another host installed it or that 1.3.1 has been publicly released.
+For a packaged 1.3.2 candidate, use `pwsh -NoProfile -File scripts/package.ps1 -Version 1.3.2`, inspect `dist/manifest.json` and `dist/SHA256SUMS.txt`, then follow your host's documented installation path. Do not treat archive creation as proof that Codex or another host installed it or that 1.3.2 has been publicly released.
 
 ### Other agents
 
@@ -140,7 +142,7 @@ scripts/package.ps1         Repeatable distributable archive with SHA-256
 ```powershell
 python scripts/validate.py
 python scripts/run_evals.py
-pwsh -NoProfile -File scripts/package.ps1 -Version 1.3.1
+pwsh -NoProfile -File scripts/package.ps1 -Version 1.3.2
 ```
 
 The validator checks frontmatter, JSON, relative Markdown links, BOMs, repository-specific private patterns, and required project files. It is a safety net, not a substitute for manual legal/privacy review or a full secret-history scan.

@@ -10,6 +10,8 @@
 
 在明确授权边界内，这个 Skill 会让 Codex 或其他编码 Agent 自主拆解目标、按需分工、完成实现与独立复核，再通过多轮迭代让证据决定是否交付。它适合服务重构、跨仓协作、长周期交付和多轮验收复盘，而不只是生成代码。
 
+Vibe Coding 覆盖 Web、后端服务、CLI、桌面应用、自动化和数据任务。新建结果路径时使用[第一价值指南](references/vibe-coding.md)与[任务契约](templates/vibe-task-contract.md)，按实际入口选择证据；局部修复保持与风险相称的流程。
+
 <!-- icarus-release-fact: dynamic -->
 公开 GitHub Releases 状态与下载物料请查看
 [最新 GitHub Release](https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases/latest)
@@ -96,7 +98,7 @@ git clone --depth 1 https://github.com/boomkalakasha/ai-first-vibe-coding-skill.
 其读取 `SKILL.md`，并以 [AI 操作指南](docs/ai-operation-guide.zh-CN.md)
 作为不绑定具体厂商的基础工作约定。
 
-对于 1.3.1 打包候选，执行 `pwsh -NoProfile -File scripts/package.ps1 -Version 1.3.1`，检查 `dist/manifest.json` 和 `dist/SHA256SUMS.txt`，再遵循宿主的安装文档。生成归档不等于 Codex 或其他宿主已经安装它，也不代表 1.3.1 已公开发布。
+对于 1.3.2 打包候选，执行 `pwsh -NoProfile -File scripts/package.ps1 -Version 1.3.2`，检查 `dist/manifest.json` 和 `dist/SHA256SUMS.txt`，再遵循宿主的安装文档。生成归档不等于 Codex 或其他宿主已经安装它，也不代表 1.3.2 已公开发布。
 
 ### 其他 Agent
 
@@ -114,7 +116,7 @@ git clone --depth 1 https://github.com/boomkalakasha/ai-first-vibe-coding-skill.
 ```powershell
 python scripts/validate.py
 python scripts/run_evals.py
-pwsh -NoProfile -File scripts/package.ps1 -Version 1.3.1
+pwsh -NoProfile -File scripts/package.ps1 -Version 1.3.2
 ```
 
 验证器检查 Skill frontmatter、JSON、相对 Markdown 链接、BOM、已知内部信息模式和必要文件。它不能代替人工版权审查、完整历史 secret 扫描或真实运行态验收。
