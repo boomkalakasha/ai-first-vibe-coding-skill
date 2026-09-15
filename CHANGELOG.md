@@ -1,6 +1,18 @@
 # Changelog
 
-## [1.3.1] - Unreleased
+## [1.3.2] - 2026-09-15
+
+- Correct the first-value workflow to Vibe Coding across Web, backend, CLI,
+  desktop, automation and data tasks; choose evidence for the actual entrypoint.
+- Move the canonical first-value guide to references/vibe-coding.md and its
+  template to templates/vibe-task-contract.md. Keep the former paths as short
+  compatibility entries so existing links still resolve.
+- Add a non-Web CLI evaluation scenario and align both README entrypoints.
+- Correct the v1.3.1 release date against the published GitHub Release.
+- This is an instruction and documentation correction, not new tool capability
+  or a measured claim of improved agent quality or performance.
+
+## [1.3.1] - 2026-09-11
 
 - Restore summary-first handoffs and the end-of-task list of Skills/plugins used.
 - Enforce user- or organization-supplied commit-message conventions before the
@@ -186,7 +198,8 @@ All notable changes are documented here. The project follows Semantic Versioning
 - Optional GitHub open-source iteration and release profile.
 - Bilingual documentation, public governance files, validation, packaging, and CI.
 
-[1.3.1]: https://github.com/boomkalakasha/ai-first-vibe-coding-skill/compare/v1.3.0...HEAD
+[1.3.2]: https://github.com/boomkalakasha/ai-first-vibe-coding-skill/compare/v1.3.1...v1.3.2
+[1.3.1]: https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases/tag/v1.3.1
 [1.3.0]: https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases/tag/v1.3.0
 [1.2.5]: https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases/tag/v1.2.5
 [1.2.4]: https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases/tag/v1.2.4

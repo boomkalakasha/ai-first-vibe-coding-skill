@@ -3,7 +3,7 @@ name: ai-first-vibe-coding
 description: Use when a repository task needs implementation, refactoring, runtime or data-flow review, multi-agent delivery, or iterative acceptance; also use for 中文软件研发中的方案、实现、联调、复盘、验收、发版和 Skill/eval 沉淀. Skip simple translation, one-line commands, or purely informational questions.
 license: Apache-2.0
 metadata:
-  version: "1.3.1"
+  version: "1.3.2"
   repository: https://github.com/boomkalakasha/ai-first-vibe-coding-skill
 ---
 
@@ -27,7 +27,7 @@ Within clear boundaries, this Skill turns a complex goal into bounded agent work
 
 先按[上下文与持续记录](references/workspace-records.md)读取当前请求、用户锚点和项目事实；规范化高置信语音/拼音错误。授权内低风险可逆工作，声明假设后自主继续；确认不是默认动作。当前用户明确执行请求可构成授权，范围未变不重复请示；实质歧义、缺失权限或不可逆决定仍需解决。
 
-按[主动能力路由](references/skill-routing.md)选择实际需要且可用的 Skill/插件，末尾简述实际使用项。新 Web/0→1/重要路径使用[第一价值门禁](references/web-coding.md)和[任务契约](templates/web-task-contract.md)，先证明入口到结果再扩展功能。
+按[主动能力路由](references/skill-routing.md)选择实际需要且可用的 Skill/插件，末尾简述实际使用项。Vibe Coding 的 0→1/重要任务路径使用[第一价值门禁](references/vibe-coding.md)和[任务契约](templates/vibe-task-contract.md)，覆盖 Web、后端、CLI、桌面、自动化和数据任务，先证明实际入口到结果再扩展功能；局部修复按风险缩小流程。
 
 L1+ 交付按[验收矩阵](references/acceptance-matrix.md)与[四层完成门禁](references/completion-gate.md)核验源码/构建、运行/UI、数据/业务、发布/切流；不适用层写明理由。涉及模型可靠性才读取[模型健康策略](references/model-health.md)；离线判定不等于在线监控。
 

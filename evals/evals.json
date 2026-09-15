@@ -3,6 +3,12 @@
   "skill": "ai-first-vibe-coding",
   "cases": [
     {
+      "id": "vibe-coding-non-web-first-value",
+      "prompt": "Use vibe coding to build a CLI that validates local records and produces a report. There is no website or UI. First prove one input-to-result path and its failure recovery.",
+      "must": ["identify the CLI command as the actual entrypoint", "verify output and failure recovery using CLI and applicable data evidence", "retain RUNTIME_UI with RUNTIME_OBSERVED for the CLI even when UI observation is inapplicable", "mark release inapplicable only when release is outside the task scope"],
+      "must_not": ["require a web page or browser for the CLI", "treat build success as business acceptance", "expand a simple correction into a full product workflow"]
+    },
+    {
       "id": "lite-low-risk-task",
       "prompt": "Correct a typo in one local Markdown file. No service, data, Git, deployment, or other repository change is involved.",
       "must": [

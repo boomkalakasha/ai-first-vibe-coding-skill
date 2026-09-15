@@ -1,16 +1,5 @@
-# Web Coding：先证明第一价值
+# Compatibility entry: Vibe Coding first value
 
-适用于新 Web 应用、0→1 MVP、重要用户路径的新建或重构；现有局部样式修复用与改动相称的验证。
-
-先用[任务契约](../templates/web-task-contract.md)锁定一类用户、一个待完成工作、一句可验证承诺和一条黄金路径。明确入口、输入、动作、可见结果、数据来源、失败恢复和非目标；区分真实、混合、演示及规划能力。
-
-先实现并验证根入口到结果的一条真实路径，再扩大页面、视觉变体、功能域或集成。技术脚手架、构建成功、漂亮页面、mock 数字和按钮可点击不能替代承诺结果。
-
-- `FIRST_VALUE_PENDING`：承诺已记录，尚无完整路径证据。
-- `FIRST_VALUE_PASS`：从根入口实际完成目标动作，结果可理解，适用的真实/演示边界及失败恢复已验证，证据可定位。
-- `FIRST_VALUE_BLOCKED`：缺少关键访问、契约、输入或运行环境，已指出需要补什么。
-- `FIRST_VALUE_FAIL`：已运行路径但结果不符合承诺，有失败证据和最小修正方向。
-
-只有 PASS 才将第一价值视为已证明；PENDING/BLOCKED/FAIL 时先闭合该路径的缺口。用户明确要求的视觉探索、演示或扩大范围按其目标执行，仍保留真实能力与未验证边界，不擅自换产品目标。
-
-验收观察包含入口可发现性、对象/上下文、加载/空/错状态、保存和重试、重复提交、权限，以及动作前后的业务状态。使用[验收矩阵](acceptance-matrix.md)和[完成门禁](completion-gate.md)记录适用案例和四层证据。没有真实 UI 观察时，不把源码推断写成实际用户体验通过。
+This legacy path remains available for existing links. Read the canonical
+[Vibe Coding first-value guide](vibe-coding.md), which covers Web, backend,
+CLI, desktop, automation and data tasks. This file adds no separate workflow.
