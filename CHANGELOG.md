@@ -1,6 +1,15 @@
 # Changelog
 
-## [1.3.2] - 2026-09-15
+## [1.3.3] - 2026-09-15
+
+- Include dot-directory members in manifest.json on every packaging host and
+  verify that the manifest lists exactly the members of both archives.
+- Carry forward the Vibe Coding scope and compatibility corrections below.
+- v1.3.2 remains a tagged, unpublished candidate: its Linux-built archive
+  contained .github files that were absent from the per-file checksum manifest.
+  No existing tag or published artifact was overwritten.
+
+## [1.3.2] - Unreleased (tagged candidate)
 
 - Correct the first-value workflow to Vibe Coding across Web, backend, CLI,
   desktop, automation and data tasks; choose evidence for the actual entrypoint.
@@ -198,6 +207,7 @@ All notable changes are documented here. The project follows Semantic Versioning
 - Optional GitHub open-source iteration and release profile.
 - Bilingual documentation, public governance files, validation, packaging, and CI.
 
+[1.3.3]: https://github.com/boomkalakasha/ai-first-vibe-coding-skill/compare/v1.3.1...v1.3.3
 [1.3.2]: https://github.com/boomkalakasha/ai-first-vibe-coding-skill/compare/v1.3.1...v1.3.2
 [1.3.1]: https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases/tag/v1.3.1
 [1.3.0]: https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases/tag/v1.3.0
