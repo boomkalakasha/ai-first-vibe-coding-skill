@@ -90,7 +90,7 @@ try {
             sha256 = (Get-FileHash -LiteralPath $_ -Algorithm SHA256).Hash.ToLowerInvariant()
         }
     }
-    $stagedFiles = Get-ChildItem -LiteralPath $stageRoot -File -Recurse | Sort-Object FullName | ForEach-Object {
+    $stagedFiles = Get-ChildItem -LiteralPath $stageRoot -File -Recurse -Force | Sort-Object FullName | ForEach-Object {
         [ordered]@{
             path = [IO.Path]::GetRelativePath($stageRoot, $_.FullName).Replace('\', '/')
             sha256 = (Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash.ToLowerInvariant()

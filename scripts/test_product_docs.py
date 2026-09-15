@@ -34,7 +34,7 @@ class ProductDocumentationTests(unittest.TestCase):
             for word in ("install", "upgrade", "rollback", "uninstall") if source is english else ("安装", "升级", "回滚", "卸载"):
                 self.assertIn(word, source)
             self.assertIn("DOCUMENTED_ONLY", source)
-            self.assertIn("scripts/package.ps1 -Version 1.3.2", source)
+            self.assertIn("scripts/package.ps1 -Version 1.3.3", source)
 
     def test_skill_hands_public_productization_to_the_optional_governance_skill(self):
         skill = (ROOT / "SKILL.md").read_text(encoding="utf-8")
@@ -183,9 +183,9 @@ class ProductDocumentationTests(unittest.TestCase):
         self.assertIn("## [1.2.1] - 2026-08-28", changelog)
         self.assertIn("theme-compatible BOOMKALAKASHA watermark", changelog)
 
-    def test_skill_declares_the_v132_release_version(self):
-        self.assertIn('version: "1.3.2"', (ROOT / "SKILL.md").read_text(encoding="utf-8"))
-        self.assertIn("## [1.3.2] - 2026-09-15", (ROOT / "CHANGELOG.md").read_text(encoding="utf-8"))
+    def test_skill_declares_the_v133_release_version(self):
+        self.assertIn('version: "1.3.3"', (ROOT / "SKILL.md").read_text(encoding="utf-8"))
+        self.assertIn("## [1.3.3] - 2026-09-15", (ROOT / "CHANGELOG.md").read_text(encoding="utf-8"))
 
     def test_public_runtime_owns_no_internal_branch_or_customer_policy(self):
         runtime_files = [
@@ -219,8 +219,8 @@ class ProductDocumentationTests(unittest.TestCase):
         chinese = (ROOT / "README.zh-CN.md").read_text(encoding="utf-8")
         self.assertIn("Public core → organization policy → project guidance → machine preferences", english)
         self.assertIn("公开核心 → 组织策略 → 项目规范 → 本机偏好", chinese)
-        self.assertIn("1.3.2", english)
-        self.assertIn("1.3.2", chinese)
+        self.assertIn("1.3.3", english)
+        self.assertIn("1.3.3", chinese)
 
     def test_verified_public_v120_history_is_not_labeled_unpublished(self):
         changelog = (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
