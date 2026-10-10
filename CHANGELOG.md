@@ -1,5 +1,19 @@
 # Changelog
 
+## [Unreleased]
+
+- Add a domain-neutral architecture optimization reference for observable
+  engineering harnesses, canonical document ownership, reference-based maps,
+  thin host entrypoints and complete approved-scope integration.
+- Strengthen necessary context, trustworthy reuse, re-anchoring and durable
+  minimal records; separate goal semantics from action authority and retain
+  unresolved-answer dependencies through handoff.
+- Separate module documentation coverage from per-module AI guides, make
+  learning scans explicit, and route substantial reports proportionally.
+- Add discriminating documented scenarios and align bilingual value highlights
+  and the Icarus harness Java scaffold companion link. Public version remains
+  1.3.3; these source changes do not claim a new release or measured performance.
+
 ## [1.3.3] - 2026-09-15
 
 - Include dot-directory members in manifest.json on every packaging host and

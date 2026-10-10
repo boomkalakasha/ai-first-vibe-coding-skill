@@ -8,6 +8,11 @@
 这是一项项目所有的决定。公共 Skill 只给判断框架；端口、命令、服务账户、数据、
 客户分支、部署环境和项目专有工作方式必须留在对应项目仓库或私有组织策略中。
 
+影响结构、命令、契约、权限、发布或模块边界的较小任务也检查受影响指南。
+指南覆盖与[模块资料覆盖及引用式地图](architecture-optimization.md#one-owner-references-at-every-other-layer)
+是两个独立决定；没有新增模块AGENTS不等于无需规格、设计、代码和验证资料。
+宿主入口保持薄，按目标路径选择指南；加载规则见[架构优化方法](architecture-optimization.md#thin-path-selected-host-entrypoints)。
+
 ## 决策状态
 
 每个受影响仓库记录一个状态，而不是默认创建更多 Markdown：

@@ -12,6 +12,8 @@
 
 Vibe Coding 覆盖 Web、后端服务、CLI、桌面应用、自动化和数据任务。新建结果路径时使用[第一价值指南](references/vibe-coding.md)与[任务契约](templates/vibe-task-contract.md)，按实际入口选择证据；局部修复保持与风险相称的流程。
 
+架构与harness演进使用[架构优化方法](references/architecture-optimization.md)：同一事实一处维护，以引用导航，可信复用上下文，从黄金路径推进到整个批准范围的集成验收。工程harness拥有可观测的工作环境和检查入口，具体业务行为仍由项目拥有。
+
 <!-- icarus-release-fact: dynamic -->
 公开 GitHub Releases 状态与下载物料请查看
 [最新 GitHub Release](https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases/latest)
@@ -24,6 +26,7 @@ Vibe Coding 覆盖 Web、后端服务、CLI、桌面应用、自动化和数据�
 | --- | --- | --- |
 | 完成一个安全的本地小改动 | 先使用三字段 Lite 卡片，只有风险或范围扩大才升级流程 | 目标、精确允许写集和聚焦验证，不用为小事堆流程 |
 | 把模糊目标变成可执行计划 | 先梳理结果、边界、契约、Case 和决策点，再进入编码 | 任务基线、Spec 和可追踪验收 Case |
+| 优化架构与Agent工作环境 | 复用契约所有者和地图，按路径选宿主指南，验证逐入口启用 | 可达上下文、持久任务记录和全范围集成证据 |
 | 把长任务交给多个 Agent | 为每个 Agent 划定写集、角色和停止条件，并按实时容量信号调整并发 | 一份统一执行台账，而不是散落的“已完成”消息 |
 | 判断改动是否真的可以放行 | 分开源码、构建、运行、业务、发布和切流证据 | 带 `P0/P1` 门禁、明确未知项的放行结论 |
 | 在 GitHub、GitLab 或 Jenkins 上安全交付 | 按仓库选择交付 profile，把提交、评审、标签和部署证据分开 | 可审查、可回滚、证据边界清晰的分支/MR/PR 路径 |
@@ -36,7 +39,7 @@ Vibe Coding 覆盖 Web、后端服务、CLI、桌面应用、自动化和数据�
 
 1. 让 Agent 宿主读取本仓库的 `SKILL.md`，或按[安装、升级、回滚与卸载指南](docs/quick-start.zh-CN.md)安装；[AI 操作指南](docs/ai-operation-guide.zh-CN.md)给出最小安全工作闭环。
 2. 如果只是一个安全的本地改动，先使用 [Lite 任务卡](templates/lite-task-card.md)：目标、允许影响和验证。任务更大时，再建立基线、用户路径、验收 Case 和最小安全写集。
-3. 长周期或多 Agent 任务复制[执行台账](templates/execution-ledger.md)和[任务基线](templates/task-baseline.md)，每个 Wave 收口都重新核对容量。
+3. 非简单任务复用持久记录，缺失内容再参考[执行台账](templates/execution-ledger.md)和[任务基线](templates/task-baseline.md)补齐。压缩、来源变化或目标切换后重新定位受影响事实；派发时核对容量。
 4. 按下面的本地校验命令回收证据。除非在对应宿主中真实观察到行为，宿主发现或运行态仍是 `DOCUMENTED_ONLY`。
 
 如果只是单行翻译、简单问答或纯信息查询，不必套用完整流程。若是可聚焦验证的本地代码/文档修复，优先使用 [Lite 交付](references/lite-delivery.md)，而不是完整台账。
@@ -72,8 +75,9 @@ python scripts/check_comparative_trials.py --results path/to/results.json
 
 - 按风险从单文件修复平滑扩展到跨仓库、跨运行态交付，小任务不堆文档，大任务不省验收。
 - 明确区分源码、构建、测试、运行、业务、发布、部署与切流证据。
-- 核对项目规范与当前源码、配置和运行事实；关键证据不足时主动询问，不强行下结论。
-- 主动判断项目或模块是否真的需要 AI 引导；只有存在独特、可验证边界时才沉淀最小项目文档，避免每个目录重复复制规则。
+- 核对规范与当前事实，可信复用上下文；目标有实质歧义时等待必要答复，同时推进独立工作。
+- 模块资料与模块AGENTS分别判断：以唯一规格、决定、代码符号和Case组成引用式地图，宿主入口保持薄且按路径选用。
+- 黄金路径贯通后逐入口启用，再集成验收整个批准范围；单切片不代表P0加P1任务完成。
 - 保护脏工作区；建分支、提交、推送、PR、标签、发布、部署、写库、重启和清理分别管理。
 - 用“需求 → 契约 → Case → 实现 → 证据 → 放行状态”避免上下文漂移。
 - 支持 Controller / Implementer / Reviewer 多 Agent 协作，但不把子 Agent 的完成声明直接当作验收。
@@ -82,7 +86,7 @@ python scripts/check_comparative_trials.py --results path/to/results.json
 
 ## 配套项目
 
-- [Icarus AI Spring Scaffold](https://github.com/boomkalakasha/icarus-ai-spring-scaffold)：先生成可审查的 Java 17 多模块服务骨架，再交给 Agent 协作实现。
+- [Icarus Harness Java Scaffold](https://github.com/boomkalakasha/Icarus-harness-java-scaffold)：面向工程harness的Java脚手架；可执行能力与验证状态由该仓库拥有。
 - [Icarus 开源治理](https://github.com/boomkalakasha/icarus-open-source-governance-skill)：准备开源时扫描来源与隐私风险，整理双语文档和发布证据。
 
 ## 安装

@@ -4,6 +4,10 @@
 reversible change from inheriting the ceremony intended for a cross-repository
 or production-bound program.
 
+First apply [context and intent](workspace-records.md): a local reversible
+change still waits for a necessary answer when competing interpretations would
+change the result. Reuse an existing task record; a new card file is optional.
+
 ## Use it only when every condition is true
 
 - One cohesive local change can be described without a new interface contract.
@@ -19,8 +23,8 @@ their goal just because the task became larger.
 
 ## The whole record
 
-Copy [the Lite task card](../templates/lite-task-card.md) and fill only these
-three fields before editing:
+Use [the Lite task card](../templates/lite-task-card.md) or its equivalent in
+an existing record and state these three fields before editing:
 
 1. `goal` — the observable result to preserve or change.
 2. `allowedEffects` — the exact local write set and the external effects that

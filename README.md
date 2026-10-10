@@ -14,6 +14,8 @@ Vibe coding is excellent at creating momentum. This skill keeps that momentum wh
 
 Vibe Coding applies to Web, backend services, CLI tools, desktop applications, automation and data tasks. Use the [first-value guide](references/vibe-coding.md) and [task contract](templates/vibe-task-contract.md) for a new result path; select evidence for the actual interface and keep small fixes small.
 
+For architecture and harness evolution, use the [architecture optimization method](references/architecture-optimization.md): keep one owner per fact, navigate with references, reuse trustworthy context, and progress from a golden path to integrated acceptance of the entire approved scope. The engineering harness is the observable workspace and its checks; domain behavior stays in its project.
+
 <!-- icarus-release-fact: dynamic -->
 Public GitHub Releases and downloadable artifacts are available from the
 [latest GitHub Release](https://github.com/boomkalakasha/ai-first-vibe-coding-skill/releases/latest)
@@ -27,6 +29,7 @@ that its Release gate passed.
 | --- | --- | --- |
 | Make one safe local change | Start with a three-field Lite card, then escalate only if risk or scope grows | A goal, exact allowed effects, and focused verification instead of process overhead |
 | Turn a fuzzy goal into an executable plan | Map the outcome, boundaries, contracts, cases and decision points before coding | A task baseline, Spec and traceable acceptance cases |
+| Improve the architecture and agent workspace | Reuse canonical contracts and maps, select scoped host guides, and verify incremental enablement | Reachable context, durable task records and integrated scope evidence |
 | Split a long task across agents | Give each agent a bounded write set, role and stop condition; resize concurrency from live capacity signals | A shared execution ledger instead of scattered “done” messages |
 | Know whether a change is really ready | Separate source, build, runtime, business, release and cutover evidence | A release decision with explicit `P0/P1` gates and honest unknowns |
 | Ship across GitHub, GitLab or Jenkins | Select the repository's delivery profile and keep commits, reviews, tags and deployment proof separate | A reviewable branch/MR/PR path with rollback and evidence boundaries |
@@ -39,7 +42,7 @@ It is especially useful for service refactors, cross-repository changes, product
 
 1. Install or point your agent host at this repository's `SKILL.md`; the [AI operation guide](docs/ai-operation-guide.md) explains the smallest safe operating loop.
 2. For one safe local change, start with the [Lite task card](templates/lite-task-card.md): goal, allowed effects, and verification. For anything larger, ask for a baseline, user path, acceptance cases and the smallest safe write set.
-3. For a long-running or multi-agent task, copy the [execution ledger](templates/execution-ledger.md) and [task baseline](templates/task-baseline.md), then re-check capacity at each wave boundary.
+3. For nontrivial work, reuse a durable task record; use the [execution ledger](templates/execution-ledger.md) and [task baseline](templates/task-baseline.md) only for missing context. Re-anchor affected facts after compression, source changes or a scope switch; re-check capacity when delegating.
 4. Run the bilingual [install, upgrade, rollback, and uninstall guide](docs/quick-start.md) and the local validation commands below. Host discovery or runtime behavior remains `DOCUMENTED_ONLY` unless observed in that host.
 
 If the work is a one-line translation or a purely informational question, skip the full workflow and use the smallest tool that answers it. If it is a local code/doc fix with a focused check, use [Lite delivery](references/lite-delivery.md) rather than a full ledger.
@@ -82,8 +85,9 @@ were observed, what remains unknown, and why the candidate is or is not ready.
 
 - Scales from a one-file fix to cross-repository delivery without forcing heavyweight ceremony on small tasks.
 - Separates source, build, runtime, business, release, deployment, and cutover evidence.
-- Verifies repository guidance against current source, configuration, and runtime facts; asks when material evidence is missing instead of forcing a decision.
-- Decides whether a project or module truly needs AI guidance, then records a minimal project-owned guide only for distinct, verifiable boundaries instead of duplicating rules per folder.
+- Verifies guidance against current facts, reuses trustworthy context, and waits for necessary goal clarification while carrying on independent work.
+- Assesses module documentation separately from module AGENTS: canonical specs, decisions, code symbols and cases form a reference-based map; host entrypoints stay thin and scoped.
+- Proves a golden path, enables further entrypoints incrementally, and integrates the entire approved scope; a single slice does not close a P0 plus P1 task.
 - Preserves dirty worktrees and treats every external side effect as a distinct permission.
 - Connects requirement → contract → case → implementation → evidence → release gate.
 - Supports controller/implementer/reviewer agent teams without trusting delegated completion claims.
@@ -92,7 +96,7 @@ were observed, what remains unknown, and why the candidate is or is not ready.
 
 ## Companion projects
 
-- [Icarus AI Spring Scaffold](https://github.com/boomkalakasha/icarus-ai-spring-scaffold) — generate a safe, reviewable Java 17 service skeleton before handing implementation to collaborating agents.
+- [Icarus Harness Java Scaffold](https://github.com/boomkalakasha/Icarus-harness-java-scaffold) — the Java scaffold companion for an engineering harness; executable capabilities and verification status are owned by that repository.
 - [Icarus Open-source Governance](https://github.com/boomkalakasha/icarus-open-source-governance-skill) — scan provenance and privacy risks, then package the documentation and release evidence when the project is ready to go public.
 
 ## Installation
