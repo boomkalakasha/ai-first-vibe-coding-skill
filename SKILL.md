@@ -1,6 +1,6 @@
 ---
 name: ai-first-vibe-coding
-description: Use when a repository task needs implementation, refactoring, runtime or data-flow review, multi-agent delivery, or iterative acceptance; also use for 中文软件研发中的方案、实现、联调、复盘、验收、发版和 Skill/eval 沉淀. Skip simple translation, one-line commands, or purely informational questions.
+description: Use for repository implementation, refactoring, architecture and engineering-harness workflow optimization, project/module guidance and code maps, runtime or data-flow review, multi-agent delivery, and iterative acceptance; also use for 中文研发方案、联调、复盘、验收和 Skill/eval 沉淀. Skip simple translation, one-line commands, or purely informational questions.
 license: Apache-2.0
 metadata:
   version: "1.3.3"
@@ -25,7 +25,9 @@ Within clear boundaries, this Skill turns a complex goal into bounded agent work
 
 ## 上下文优先与按需路由
 
-先按[上下文与持续记录](references/workspace-records.md)读取当前请求、用户锚点和项目事实；规范化高置信语音/拼音错误。授权内低风险可逆工作，声明假设后自主继续；确认不是默认动作。当前用户明确执行请求可构成授权，范围未变不重复请示；实质歧义、缺失权限或不可逆决定仍需解决。
+先按[上下文与持续记录](references/workspace-records.md)建立必要基线、可信复用资料并在目标/来源变化或压缩后重新定位。目标明确时在授权内自主选择常规实现；不同解释会改变结果的实质歧义须等待必要答复，无答复或超时不代替确认，只继续独立工作。当前执行请求可构成对应授权，范围未变不重复请示。
+
+架构优化、资料职责和harness环境改造读[架构优化方法](references/architecture-optimization.md)：单一事实所有者、引用式代码地图、薄宿主入口与逐步启用。非简单任务复用持久记录，缺失时补最小内容，不只留聊天；该参考不拥有项目具体业务或运行值。
 
 按[主动能力路由](references/skill-routing.md)选择实际需要且可用的 Skill/插件，末尾简述实际使用项。Vibe Coding 的 0→1/重要任务路径使用[第一价值门禁](references/vibe-coding.md)和[任务契约](templates/vibe-task-contract.md)，覆盖 Web、后端、CLI、桌面、自动化和数据任务，先证明实际入口到结果再扩展功能；局部修复按风险缩小流程。
 
@@ -39,7 +41,7 @@ L1+ 交付按[验收矩阵](references/acceptance-matrix.md)与[四层完成门�
 4. 所有能力标记为 `REAL`、`HYBRID`、`DEMO` 或 `PLANNED`。没有事实依据就不虚构指标、成功率、进度或完成状态。
 5. 发现已有开发服务器、热更新或增量部署链路时优先复用，并核对构建产物、加载日志和运行实例；不自动重启用户已运行的服务。
 6. 保留脏工作区和用户改动；不使用破坏性 reset/checkout；敏感信息只做最小化、脱敏输出。凭据、密码、令牌、Cookie 和私有运行值不得写入受版本控制文件或最终交付内容。
-7. 复杂业务任务先建应用地图、详细 Spec、用户故事/测试和业务审查，再进入实现；这些文档是实现和回测的共同事实源。
+7. 复杂任务复用有效地图、Spec、Case和决策，补齐本次必要内容；逻辑职责明确，文件数量按影响决定。先接通黄金路径，再逐入口启用，最终闭合整个已批准范围，单切片或P0通过不代替P0加P1整体完成。
 8. 每个结论都要有证据等级：`RUNTIME_PASS`、`STATIC_PASS_PENDING_RUNTIME`、`OLD_RUNTIME`、`PARTIAL_PASS`、`BLOCKED`、`NOT_RUN` 或 `FAIL`；不能把源码改动、接口 200 或按钮可点击当成业务完成。
 9. 用需求追踪把“业务问题 → Spec 条款 → 用户故事/Case → 实现 → 回测证据 → 放行状态”串起来；每轮优化只处理已证实的问题，避免范围漂移。
 10. 用户要求“再迭代两遍”时，默认执行三轮闭环：第一轮建立基线，第二、三轮依据上一轮评估和优化方案继续收敛，并保留每轮证据。
@@ -55,9 +57,9 @@ L1+ 交付按[验收矩阵](references/acceptance-matrix.md)与[四层完成门�
 - `IMPLEMENTATION_DRIFT`：项目规范仍代表当前意图，但源码、配置、流水线或运行行为已经偏离；修实现或提出修复方案，不把缺陷反写成新规范。
 - `OLD_RUNTIME`：源码或构建物已更新，实际运行实例仍是旧版本；先核对提交、制品、镜像、部署目标和启动时间，不重复修改源码掩盖部署问题。
 - `VERSION_UNCERTAIN`：无法证明文档、源码、制品与运行实例属于同一版本；结论降级，继续收集身份与时间证据。
-- `INTENT_UNCLEAR`：现有规范、实现和用户记忆都不足以证明预期行为；保留冲突证据，低风险可逆步骤可声明假设后继续，影响业务语义、数据、权限、发布目标或不可逆结果时必须询问。
+- `INTENT_UNCLEAR`：现有规范、实现和用户记忆不足以证明预期行为；保留冲突证据，按[目标语义判断](references/workspace-records.md#授权与目标语义分别判断)等待必要答复，只继续不依赖它的工作。
 
-始终保持独立判断：项目文档、当前行为和用户记忆都可能不完整，任何一方都不能自动覆盖其他证据。证据不足时，如果缺口只影响可逆、低风险步骤，可以明确假设后继续；如果会改变业务语义、数据、权限、发布目标或不可逆结果，必须主动反馈并询问，不能基于不完整凭证强行下结论。
+始终保持独立判断：项目文档、当前行为和用户记忆都可能不完整，任何一方都不能自动覆盖其他证据。证据不足时保留未知；技术测试不能证明自行选择的目标符合用户意图。目标明确中的常规可逆选择自主完成，目标本身的实质歧义不由风险低或最新措辞消除。
 
 通用 Skill 只保留上述判断框架。项目特有的技术栈、命令、分支、环境、数据库和发布规则应沉淀在项目仓库自己的文档中，由仓库入口文件链接和维护。
 
@@ -70,11 +72,13 @@ L2/L3 建立基线时，除读取最近作用域的 `AGENTS.md` / README 外，�
 才创建；普通目录或包划分不得复制成重复 guide。具体事实始终由项目文档拥有，公共 Skill
 不携带它们。
 
+模块资料覆盖与是否新增AGENTS独立判断，具体归属见[引用式地图](references/architecture-optimization.md#one-owner-references-at-every-other-layer)。完整规格或共享工具的既有资料可引用复用，不为每目录复制一套三件套。
+
 ### 项目级、组织级与公共 Skill 的主动沉淀
 
 按[Skill 沉淀、迭代与反馈闭环](references/skill-promotion-and-feedback.md)工作。L1+ 任务启动、每个迭代 Wave 收口、用户纠正、重复失败模式和最终交付时，主动检查本轮是否产生了可复用规则、失败 Case、用户偏好或文档漂移。候选必须根据事实、Case 或明确反馈分层到 `USER_PREFERENCE`、`PROJECT_GUIDANCE`、`ORG_POLICY`、`PUBLIC_SKILL` 或 `LOCAL_ONLY`，并在 `skillUpdateSummary` 中记录证据、所有者、建议落点、状态、验证和下一次复核。
 
-项目特有事实只回写项目所有者，跨项目规则只回写获授权的私有组织策略，公共 Skill 只吸收脱敏且跨项目可复用的方法；没有授权时形成提案，不静默改公司策略或公共包。即使没有候选，也要明确记录 `skillUpdateSummary: none`，避免沉淀只留在对话里。
+项目特有事实只回写项目所有者，跨项目规则只回写获授权的私有组织策略，公共 Skill 只吸收脱敏且跨项目可复用的方法；没有授权时形成提案，不静默改公司策略或公共包。候选复用任务记录；没有候选也记 `skillUpdateSummary: none` 与扫描范围/原因。
 
 ## Git 分支与交付
 
@@ -95,12 +99,12 @@ L2/L3 建立基线时，除读取最近作用域的 `AGENTS.md` / README 外，�
 
 - 默认分支、分支命名、Issue/PR/MR 规则必须从当前项目或组织策略读取，公共 Skill 不猜测内部格式；Issue 未提供时不编造编号。
 - 先记录 `origin/main`、当前分支、脏文件和远端可达性；不要为对齐分支而 reset、checkout 或覆盖用户工作区。
-- 已有脏工作需要隔离时，只有用户明确授权才创建临时分支或 worktree；在交付前记录偏离原因并补齐项目要求的 Issue、测试、审核和命名。
+- 已有脏工作需要隔离时，按当前任务与项目规则判断临时分支/worktree是否已在授权内；记录原因，保留用户改动，补齐项目要求的真实Issue、测试、审核和命名。
 - Commit 主题遵循项目选定的约定；若项目选择 Conventional Commits，则使用 `<type>(<scope>): <实际变更摘要>`，绝不复制示例或编造编号。
 - 如果用户或组织已经声明了更具体的提交消息规范，先读取并在任务基线记录为 `commitConvention`，它优先于公共默认；生成提交前逐项核对类型、scope、语言、标题具体性、正文覆盖范围和拆分要求，不能静默退回泛化的英文或含糊标题。
 - 多项修改只有在同一目标、同一回滚边界下才能合并；否则拆分提交。合并时提交正文逐条写出修改对象、影响范围、行为结果和验证方式。
 - 文档在 `git add` 前先按[文档与 Git 边界](references/document-git-boundary.md)分类：`LOCAL_PROCESS` 默认留在本地，只有 `DELIVERY`、`TEAM_SYNC`、`PROJECT_SYNC` 在授权和项目规则允许时才进入 Git；不确定时保持 `PENDING`，禁止用 `git add .` 批量提交过程记录。
-- 只有用户已分别授权建分支、commit 或 push 时，才在功能分支执行对应动作；实现授权本身不包含 Git 写入。未授权时保留工作树变更、验证证据和建议 commit message。MR、main、标签和生产部署继续作为独立授权。
+- 建分支、commit、push按当前授权对象和动作执行；明确交付/同步请求已包含的同范围步骤不逐项再问，实现授权本身不自动包含提交或推送。未授权时保留变更、证据和候选消息；PR/MR、main、标签和部署仍按各自范围判断。
 - 交付时给出当前分支、基线 main、Issue/MR、提交、测试和未合并原因；不要把“feature 分支已验证”写成“main 已发布”。
 
 ## 执行协议
@@ -112,8 +116,8 @@ L2/L3 建立基线时，除读取最近作用域的 `AGENTS.md` / README 外，�
 - `READ_ONLY_REVIEW`：只读审查，禁止文件、数据库和业务状态写入；
 - `PLAN_ONLY`：只产出地图、Spec、Case、审查和计划，不实现；
 - `IMPLEMENT_AND_VERIFY`：允许在授权写集内实现，并按证据等级验证；
-- `FULL_ITERATIVE_DELIVERY`：允许完整执行 L3 流程和用户指定轮次；
-- `SKILL_REVIEW`：评估技能、参考文档、模板和评测，不把建议项目代码当作待修改对象。
+- 历史 `FULL_ITERATIVE_DELIVERY`：映射到获授权的实现模式加用户指定轮次；轮次不额外授权副作用。
+- `SKILL_REVIEW`描述任务领域，需另选只读、方案或实现模式；评估Skill不授权修改建议中的项目代码。
 
 非 LITE 任务开始时显式记录：`allowedWrites`、`allowedRestart`、`allowedDatabaseWrites`、`allowedExternalSideEffects` 和 `requestedIterations`；LITE 使用下述三项任务卡记录授权与验收。用户未授权的重启、写库、正式业务状态写入、外部同步、删除和 Git 提交默认禁止。
 
@@ -123,9 +127,9 @@ L2/L3 建立基线时，除读取最近作用域的 `AGENTS.md` / README 外，�
 - `L0`：单文件、低风险、无业务状态变化，采用短方案 → 修改 → 最小验证；
 - `L1`：单模块页面/API/组件，采用盘点 → Spec-lite → 实现 → 用户路径验证；
 - `L2`：多页面、多接口、数据状态、角色、对象边界或跨模块链路，执行完整研发闭环；
-- `L3`：任务本身达到 L2 且用户要求全面审查、多轮迭代、自动闭环或明确“再迭代两遍”；单独一句“先出方案”不会把 L0/L1 自动升级为 L3。
+- `L3`：L2影响范围并有长期/跨仓依赖协调需求；迭代次数独立记录。“全面”“详细Spec”或“再迭代两遍”不单独升级复杂度，也不产生实施授权。
 
-当任务是 `L2/L3`，先读取 [完整研发工作流](references/end-to-end-workflow.md)，并依次产出：
+当任务是 `L2/L3`，先读取 [完整研发工作流](references/end-to-end-workflow.md)，按实际影响复用或补齐：
 
 ```text
 应用地图与业务边界
@@ -158,12 +162,12 @@ L2/L3 建立基线时，除读取最近作用域的 `AGENTS.md` / README 外，�
 
 ### 0.6 分层模型执行与长上下文防漂移
 
-L3 任务同时满足“跨仓库/长周期、工作包可独立验收、平台有不同能力或成本模型”时，读取 [分层模型多 Agent 闭环](references/multi-model-orchestration.md)，并复制 [主执行台账](templates/execution-ledger.md) 作为唯一进度源。
+L3 任务同时满足“跨仓库/长周期、工作包可独立验收、平台有不同能力或成本模型”时，读取 [分层模型多 Agent 闭环](references/multi-model-orchestration.md)，复用主进度记录；缺失时参考[主执行台账](templates/execution-ledger.md)补齐。
 
 - 高判断力 Controller 负责目标、Spec、依赖、授权边界、跨仓契约、P0/P1 和最终放行；高吞吐 Implementer 只处理写集、Case 和停止条件明确的任务。
 - 模型名称不是规则。reasoning 档位不能替代模型能力分层；只有一个模型时仍用新上下文/独立 Agent 隔离实现与审查。
 - 子 Agent 的 DONE 是候选交付，必须依次经过 Spec Review、Quality Review 和主 Agent 当前环境复验，才能把台账推进为 VERIFIED/DONE。
-- 每个 Wave 开始和结束都重读 baseline、plan、decision log、台账、Git/运行事实；现场与文档冲突时先修计划，防止用旧上下文继续实施。
+- 每个 Wave 核对当前摘要与实际变更，按[上下文复用规则](references/workspace-records.md#必要基线与可信复用)补读受影响事实；现场与文档冲突时先修责任方，避免沿用旧写集或把缺陷改成规格。
 - 用户要求最终无 P0/P1 时，P0/P1 未清零、BLOCKED 未解除或旧失败 Case 未回归都不得放行。轮数、token 和时间耗尽不等于完成。
 - 并行调度不扩大 Git、Jenkins、部署、数据写入、删除和重启权限；同一外部目标只允许一个执行者。
 
@@ -191,7 +195,7 @@ L2/L3 用户要求“先方案”时，先写一份带日期的 Markdown 文档�
 
 L2/L3 不把一份“技术实现方案”当成完整需求。必须分别形成应用地图/边界、详细 Spec、用户故事/测试 Case 和业务角度审查，并在方案之间维护需求追踪关系。用户要求“再迭代两遍”时，每轮保留上一轮文档和回测，不覆盖历史结论。
 
-L0/L1 只在用户明确要求正式方案文档时落盘；否则在回复中给出短方案后直接实现，不要为了形式阻塞任务。
+L0/L1不默认新建正式方案文档；非简单任务仍复用或补齐持久任务记录。目标明确时给出短方案即可在授权内实现，不为格式阻塞工作。
 
 ### 3. 实现
 
@@ -242,7 +246,7 @@ L2/L3 额外必须分别评估：
 
 使用分层模型闭环时，额外交付主执行台账、各 Agent 交付登记、Context Re-anchor 记录、P0/P1 收敛历史和每个外部审批 Gate。完成百分比只作导航，不能替代 Gate。
 
-用户要求多轮时，只有 P0 证据真正闭合才能放行；“轮数完成”不等于“功能完成”。
+用户要求多轮时按当前批准范围放行；P0加P1范围须全部集成闭合，“轮数完成”或单切片通过不等于整体完成。
 
 ### 先汇总，再展开
 

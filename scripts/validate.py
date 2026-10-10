@@ -23,6 +23,7 @@ REQUIRED = [
     "CHANGELOG.md",
     "references/github-open-source-release-profile.md",
     "references/legacy-public-history.md",
+    "references/architecture-optimization.md",
     "evals/evals.json",
     "evals/trigger-evals.json",
     "evals/rubric.json",

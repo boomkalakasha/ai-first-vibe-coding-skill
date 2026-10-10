@@ -5,7 +5,12 @@
   "cases": [
     {
       "id": "vibe-coding-non-web-first-value",
-      "criteria": ["uses the actual CLI entrypoint and observable result", "retains failure recovery and RUNTIME_OBSERVED in RUNTIME_UI for the CLI", "does not impose Web-specific UI or browser gates on a non-UI task", "judges release applicability from task scope rather than the absence of UI"]
+      "criteria": [
+        "uses the actual CLI entrypoint and observable result",
+        "retains failure recovery and RUNTIME_OBSERVED in RUNTIME_UI for the CLI",
+        "does not impose Web-specific UI or browser gates on a non-UI task",
+        "judges release applicability from task scope rather than the absence of UI"
+      ]
     },
     {
       "id": "lite-low-risk-task",
@@ -199,6 +204,140 @@
         "routes project facts to project guidance and cross-project rules to authorized private organization policy",
         "promotes public Skill changes only when sanitized and reusable",
         "does not silently edit upper-level rules or leave decisions only in chat"
+      ]
+    },
+    {
+      "id": "context-reuse-and-reanchor",
+      "criteria": [
+        "read the current summary and complete affected contract body",
+        "recheck target-path guidance and the changed source identity",
+        "reuse trustworthy unchanged context",
+        "update the existing durable record with scope, allowed effects, evidence, unresolved items and next step",
+        "does not: use old PASS or prior write sets as current evidence",
+        "does not: reread all unrelated history",
+        "does not: leave nontrivial progress only in chat",
+        "does not: create a parallel task ledger when an equivalent record exists"
+      ]
+    },
+    {
+      "id": "documentation-coverage-separate-from-guide",
+      "criteria": [
+        "decide documentation coverage and per-module AGENTS separately",
+        "give necessary modules reachable specification, design or decision, code symbols, verification and change or source entrypoints",
+        "reference the existing canonical spec and write only local differences",
+        "name source owner, clause or symbol and applicable version when relevant",
+        "record unresolved or stale references",
+        "does not: require AGENTS because a module exists",
+        "does not: copy a complete spec into every module",
+        "does not: create a full documentation suite for ordinary utils",
+        "does not: treat absence of module AGENTS as absence of documentation needs"
+      ]
+    },
+    {
+      "id": "thin-host-entrypoint-loading",
+      "criteria": [
+        "explicitly read the target child guide when it has not loaded",
+        "apply guidance by target path",
+        "keep one operating-rule owner and thin host entrypoints",
+        "handle a missing parent as a recorded gap and use authorized reachable sources",
+        "label host loading as documented until a host trial observes it",
+        "does not: assume Markdown links load their bodies",
+        "does not: apply sibling guides to the target",
+        "does not: auto-clone a private parent",
+        "does not: claim disk edits replace old session context"
+      ]
+    },
+    {
+      "id": "golden-path-full-approved-scope",
+      "criteria": [
+        "report the golden path as an intermediate milestone",
+        "enable additional entrypoints incrementally through shared policy owners",
+        "verify relevant authorization, isolation, idempotency and failure recovery",
+        "continue to integration acceptance of the entire approved P0 plus P1 scope",
+        "reject unsupported unsafe actions at an enforced boundary",
+        "does not: declare overall completion from one slice or P0 alone",
+        "does not: hide a button as the sole unsafe-action guard",
+        "does not: treat golden-path work as permission to reset an existing environment",
+        "does not: repeat passed checks without a new reason"
+      ]
+    },
+    {
+      "id": "goal-semantics-required-answer",
+      "criteria": [
+        "identify the material goal conflict",
+        "record a focused necessary clarification and wait for its answer",
+        "preserve dependent edits and publication until resolved",
+        "continue only independent work",
+        "distinguish goal interpretation from action authority",
+        "does not: choose the newest wording merely because it is latest",
+        "does not: choose a target because the edit is reversible",
+        "does not: treat tests as proof of user intent",
+        "does not: send a real question or publish in this evaluation"
+      ]
+    },
+    {
+      "id": "unanswered-required-clarification",
+      "criteria": [
+        "keep the necessary answer pending",
+        "do only independent inventory",
+        "retain the question, interpretations and dependent actions in handoff",
+        "keep dependent result changes blocked until answered",
+        "does not: treat tool success or timeout as confirmation",
+        "does not: silently pick an interpretation",
+        "does not: lose the pending dependency during compression or handoff"
+      ]
+    },
+    {
+      "id": "clear-goal-autonomous-detail",
+      "criteria": [
+        "preserve the explicit goal",
+        "perform authorized reversible implementation details without another confirmation",
+        "run focused verification",
+        "keep Git and publication outside the write set",
+        "does not: invent material ambiguity from routine layout choices",
+        "does not: ask for permission already supplied",
+        "does not: force browser or subagent use for a local static check"
+      ]
+    },
+    {
+      "id": "learning-scan-none-and-report-route",
+      "criteria": [
+        "actively scan corrections, repeated failures, delivery forms and guidance drift",
+        "reuse the task record for lightweight candidates",
+        "write skillUpdateSummary none with scan scope and reason when none exists",
+        "choose an offline HTML view autonomously when traceability or reading benefits warrant it",
+        "keep facts with their canonical owners",
+        "does not: omit learning because no candidate was obvious",
+        "does not: require the user to name HTML",
+        "does not: make HTML mandatory for a short status",
+        "does not: claim an available report skill was actually called without observation",
+        "does not: create a second active spec or evidence ledger"
+      ]
+    },
+    {
+      "id": "engineering-harness-capability-boundary",
+      "criteria": [
+        "define the harness as the observable environment around coding work",
+        "inventory executable entrypoints, documented rules, checks, records and effect boundaries",
+        "separate documented configuration from observed host execution",
+        "keep domain behavior in project owners",
+        "prefer existing repositories and references for reusable methods",
+        "does not: claim live monitoring or automatic enforcement from a prompt",
+        "does not: invent a scheduler or sandbox already running",
+        "does not: rebrand the scaffold as a domain agent runtime",
+        "does not: copy concrete private business examples into public methods"
+      ]
+    },
+    {
+      "id": "mode-complexity-iteration-separation",
+      "criteria": [
+        "keep PLAN_ONLY as the permitted write mode",
+        "determine complexity by actual dependencies and affected scope",
+        "record requested iterations separately from action authority and risk",
+        "reuse an existing equivalent task record",
+        "does not: upgrade to full implementation because the prompt says detailed or iterative",
+        "does not: execute Git or environment changes",
+        "does not: treat SKILL_REVIEW or FULL_ITERATIVE_DELIVERY as extra side-effect authorization"
       ]
     }
   ]

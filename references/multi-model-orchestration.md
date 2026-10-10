@@ -23,7 +23,7 @@
 
 复杂任务只维护一份主执行台账。各仓库 README、Agent 回复和聊天进度都不是总状态源。
 
-复制 [执行台账模板](../templates/execution-ledger.md)，至少记录：
+复用主执行记录，缺失时参考[执行台账模板](../templates/execution-ledger.md)，至少记录：
 
     workPackageId, requirementId, priority, repository, branch, baseline,
     dependencies, assignedRole, agentId, allowedWrites, forbiddenActions,
@@ -126,13 +126,13 @@
 
 ## 5. 注意力漂移检查
 
-每个 Wave 开始和结束时做 Context Re-anchor：
+每个Wave核对当前摘要和变更，按[可信复用规则](workspace-records.md#必要基线与可信复用)做Context Re-anchor：
 
-1. 重读 task baseline、最新 plan、decision log、执行台账和受影响 Spec/Case；
+1. 在压缩、目标/来源变化或冲突后重读当前摘要及受影响Spec/Case，未变资料可信复用；
 2. 重新读取真实 Git HEAD、脏文件、运行版本和外部状态；
 3. 比较本轮拟执行项与原目标、非目标、授权写集；
 4. 把新事实写回 decision log 和台账，不只留在聊天消息；
-5. 若计划与现场冲突，先修计划，再继续实现；
+5. 若计划与现场冲突，区分文档过期与实现漂移，修责任方，不把缺陷反写成规格；
 6. 使用新上下文 Reviewer，避免实现者的确认偏误。
 
 以下是漂移信号：

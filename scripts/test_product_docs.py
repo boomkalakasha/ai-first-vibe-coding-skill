@@ -70,11 +70,11 @@ class ProductDocumentationTests(unittest.TestCase):
         chinese = (ROOT / "README.zh-CN.md").read_text(encoding="utf-8")
         self.assertIn("Let AI divide the work; let evidence earn the release.", english)
         self.assertIn("Within clear boundaries", english)
-        self.assertIn("https://github.com/boomkalakasha/icarus-ai-spring-scaffold", english)
+        self.assertIn("https://github.com/boomkalakasha/Icarus-harness-java-scaffold", english)
         self.assertIn("https://github.com/boomkalakasha/icarus-open-source-governance-skill", english)
         self.assertIn("让 AI 自主分工，把交付交给证据验收。", chinese)
         self.assertIn("在明确授权边界内", chinese)
-        self.assertIn("https://github.com/boomkalakasha/icarus-ai-spring-scaffold", chinese)
+        self.assertIn("https://github.com/boomkalakasha/Icarus-harness-java-scaffold", chinese)
         self.assertIn("https://github.com/boomkalakasha/icarus-open-source-governance-skill", chinese)
 
     def test_readmes_explain_core_features_and_first_task_path(self):

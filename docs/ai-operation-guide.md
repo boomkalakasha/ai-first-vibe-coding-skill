@@ -16,6 +16,12 @@ there are no local paths, credentials, internal addresses, customer records or
 host-specific defaults here. Adapt the examples to your repository and keep
 project-level rules above this guide.
 
+Architecture and harness evolution use the canonical
+[architecture optimization method](../references/architecture-optimization.md).
+Context reuse, durable records and necessary goal clarification are owned by
+[context and intent](../references/workspace-records.md); links are navigation,
+not evidence that their bodies have loaded.
+
 ## Start here
 
 Use the smallest path that matches the request:
