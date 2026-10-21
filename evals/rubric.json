@@ -339,6 +339,15 @@
         "does not: execute Git or environment changes",
         "does not: treat SKILL_REVIEW or FULL_ITERATIVE_DELIVERY as extra side-effect authorization"
       ]
+    },
+    {
+      "id": "html-report-capability-replacement",
+      "criteria": [
+        "chooses answer-me-with-html when available and loads its instructions",
+        "preserves source traceability and evidence limitations",
+        "states an honest unavailable-capability fallback without restoring the retired Skill",
+        "does not change Agent loading or assume old JSON compatibility"
+      ]
     }
   ]
 }
