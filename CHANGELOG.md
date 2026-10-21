@@ -2,6 +2,9 @@
 
 ## [Unreleased]
 
+- Recommend the independent [answer-me-with-html](https://github.com/QingYunA/answer-me-with-html)
+  for substantial report views after evidence-html-report stopped maintenance;
+  retain capability discovery, source ownership and proportional output rules.
 - Add a domain-neutral architecture optimization reference for observable
   engineering harnesses, canonical document ownership, reference-based maps,
   thin host entrypoints and complete approved-scope integration.
